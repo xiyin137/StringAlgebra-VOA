@@ -429,6 +429,27 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 22)
+
+1. Expanded three-point correlator vacuum-reduction API in `Correlators.lean`:
+   - piecewise reductions by insertion slot:
+     `threePointModes_vacuum_left_eq`,
+     `threePointModes_vacuum_middle_eq`,
+     `threePointModes_vacuum_right_eq`
+2. Added mode-`-1` simplification and off-`-1` vanishing corollaries:
+   - left slot:
+     `threePointModes_vacuum_left_minus_one`,
+     `threePointModes_vacuum_left_eq_zero_of_ne`
+   - middle slot:
+     `threePointModes_vacuum_middle_minus_one`,
+     `threePointModes_vacuum_middle_eq_zero_of_ne`
+   - right slot:
+     `threePointModes_vacuum_right_minus_one`,
+     `threePointModes_vacuum_right_eq_zero_of_ne`
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text
