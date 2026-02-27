@@ -401,6 +401,34 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 21)
+
+1. Expanded one-point correlator infrastructure in `Correlators.lean`:
+   - added mode/state specializations:
+     `onePointModes`, `onePointStateModes`
+   - added direct evaluation forms:
+     `onePointModes_eq`, `onePointStateModes_eq`
+2. Added one-point vacuum/creation consequences:
+   - positive-mode vanishing from creation:
+     `onePointStateModes_eq_zero_of_nat`
+   - mode `-1` extraction and vacuum Kronecker form:
+     `onePointStateModes_minus_one`,
+     `onePointVacuumModes_eq_ite`,
+     `onePointVacuumModes_minus_one`,
+     `onePointVacuumModes_eq_zero_of_ne`
+3. Added two-point reductions with vacuum insertions:
+   - piecewise reductions to one-point correlators:
+     `twoPointModes_vacuum_left_eq`,
+     `twoPointModes_vacuum_right_eq`
+   - mode-`-1` and off-`-1` simplifications:
+     `twoPointModes_vacuum_left_minus_one`,
+     `twoPointModes_vacuum_left_eq_zero_of_ne`,
+     `twoPointModes_vacuum_right_minus_one`,
+     `twoPointModes_vacuum_right_eq_zero_of_ne`
+4. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text

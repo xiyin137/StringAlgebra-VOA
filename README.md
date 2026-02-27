@@ -40,6 +40,7 @@ rg -n '^[[:space:]]*axiom\b|^[[:space:]]*admit\b|Classical\.choose|Classical\.ep
 2. No `axiom`/`admit`/`Classical.choose`/`Classical.epsilon` in `StringAlgebra/VOA/*.lean`.
 3. Super and correlator infrastructure (`SuperBasic`, `SuperFormalDistributions`, `Correlators`) is integrated in the root `StringAlgebra/VOA.lean` target.
 4. Free CFT development phases (boson/fermion/OPE/correlators) are tracked explicitly in `TODO.md`.
+5. Correlator baseline now includes one-point state-mode API and vacuum-insertion reductions from two-point to one-point mode correlators.
 
 ## Related Repositories
 
