@@ -1404,6 +1404,528 @@ theorem threePointAnticommutator23_eq_opeCoefficient_of_lt_n_ge_k
           rw [hleft, hright]
           simp
 
+/-- Three-point commutator in the first and third insertions:
+    `⟨c(k)b(n)a(m) - a(m)b(n)c(k)⟩`. -/
+def threePointCommutator13
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : FormalDistribution R V) (m n k : ℤ) : R :=
+  threePointModes (R := R) ω a b c m n k - threePointModes (R := R) ω c b a k n m
+
+/-- Three-point anticommutator in the first and third insertions:
+    `⟨c(k)b(n)a(m) + a(m)b(n)c(k)⟩`. -/
+def threePointAnticommutator13
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : FormalDistribution R V) (m n k : ℤ) : R :=
+  threePointModes (R := R) ω a b c m n k + threePointModes (R := R) ω c b a k n m
+
+@[simp] theorem threePointCommutator13_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : FormalDistribution R V) (m n k : ℤ) :
+    threePointCommutator13 (R := R) ω a b c m n k =
+      ω.epsilon
+        (((c k) ((b n) ((a m) (VertexAlgebra.vacuum (R := R)))) -
+          (a m) ((b n) ((c k) (VertexAlgebra.vacuum (R := R)))))) := by
+  simp [threePointCommutator13, threePointModes_eq, map_sub]
+
+@[simp] theorem threePointAnticommutator13_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : FormalDistribution R V) (m n k : ℤ) :
+    threePointAnticommutator13 (R := R) ω a b c m n k =
+      ω.epsilon
+        (((c k) ((b n) ((a m) (VertexAlgebra.vacuum (R := R)))) +
+          (a m) ((b n) ((c k) (VertexAlgebra.vacuum (R := R)))))) := by
+  simp [threePointAnticommutator13, threePointModes_eq, map_add]
+
+/-- Three-point commutator (first and third insertions), with finite-order OPE data
+    for `(b,a)` and `(b,c)`, expressed through `coefficientOrZero` fields. -/
+theorem threePointCommutator13_eq_coefficientOrZero_sub
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b c : FormalDistribution R V}
+    (Fba : OPEFiniteOrder (R := R) (V := V) b a)
+    (Fbc : OPEFiniteOrder (R := R) (V := V) b c)
+    (m : ℤ) (n : ℕ) (k : ℤ) :
+    threePointCommutator13 (R := R) ω a b c m (n : ℤ) k =
+      ω.epsilon
+        (((c k)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+              ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) -
+          (a m)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+              ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+  let t1 : V :=
+    (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+      ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))
+  let t2 : V :=
+    (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+      ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))
+  have hcomp1 :
+      (b (n : ℤ)) ((a m) (VertexAlgebra.vacuum (R := R))) = t1 := by
+    simpa [t1] using
+      OPEFiniteOrder.mode_comp_eq_coefficientOrZero_apply_mode_sum
+        (R := R) (V := V) (a := b) (b := a) Fba n m (VertexAlgebra.vacuum (R := R))
+  have hcomp2 :
+      (b (n : ℤ)) ((c k) (VertexAlgebra.vacuum (R := R))) = t2 := by
+    simpa [t2] using
+      OPEFiniteOrder.mode_comp_eq_coefficientOrZero_apply_mode_sum
+        (R := R) (V := V) (a := b) (b := c) Fbc n k (VertexAlgebra.vacuum (R := R))
+  have h1 :
+      threePointModes (R := R) ω a b c m (n : ℤ) k =
+        ω.epsilon ((c k) t1) := by
+    calc
+      threePointModes (R := R) ω a b c m (n : ℤ) k =
+          ω.epsilon ((c k) ((b (n : ℤ)) ((a m) (VertexAlgebra.vacuum (R := R))))) := by
+            simp [threePointModes_eq]
+      _ = ω.epsilon ((c k) t1) := by
+            simpa using congrArg (fun v => ω.epsilon ((c k) v)) hcomp1
+  have h2 :
+      threePointModes (R := R) ω c b a k (n : ℤ) m =
+        ω.epsilon ((a m) t2) := by
+    calc
+      threePointModes (R := R) ω c b a k (n : ℤ) m =
+          ω.epsilon ((a m) ((b (n : ℤ)) ((c k) (VertexAlgebra.vacuum (R := R))))) := by
+            simp [threePointModes_eq]
+      _ = ω.epsilon ((a m) t2) := by
+            simpa using congrArg (fun v => ω.epsilon ((a m) v)) hcomp2
+  calc
+    threePointCommutator13 (R := R) ω a b c m (n : ℤ) k =
+        threePointModes (R := R) ω a b c m (n : ℤ) k -
+          threePointModes (R := R) ω c b a k (n : ℤ) m := by
+          rfl
+    _ = ω.epsilon ((c k) t1) - ω.epsilon ((a m) t2) := by rw [h1, h2]
+    _ = ω.epsilon (((c k) t1) - ((a m) t2)) := by rw [map_sub]
+    _ = ω.epsilon
+        (((c k)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+              ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) -
+          (a m)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+              ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+          simp [t1, t2]
+
+/-- Three-point anticommutator (first and third insertions), with finite-order OPE
+    data for `(b,a)` and `(b,c)`, expressed through `coefficientOrZero` fields. -/
+theorem threePointAnticommutator13_eq_coefficientOrZero_add
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b c : FormalDistribution R V}
+    (Fba : OPEFiniteOrder (R := R) (V := V) b a)
+    (Fbc : OPEFiniteOrder (R := R) (V := V) b c)
+    (m : ℤ) (n : ℕ) (k : ℤ) :
+    threePointAnticommutator13 (R := R) ω a b c m (n : ℤ) k =
+      ω.epsilon
+        (((c k)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+              ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) +
+          (a m)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+              ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+  let t1 : V :=
+    (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+      ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))
+  let t2 : V :=
+    (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+      ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))
+  have hcomp1 :
+      (b (n : ℤ)) ((a m) (VertexAlgebra.vacuum (R := R))) = t1 := by
+    simpa [t1] using
+      OPEFiniteOrder.mode_comp_eq_coefficientOrZero_apply_mode_sum
+        (R := R) (V := V) (a := b) (b := a) Fba n m (VertexAlgebra.vacuum (R := R))
+  have hcomp2 :
+      (b (n : ℤ)) ((c k) (VertexAlgebra.vacuum (R := R))) = t2 := by
+    simpa [t2] using
+      OPEFiniteOrder.mode_comp_eq_coefficientOrZero_apply_mode_sum
+        (R := R) (V := V) (a := b) (b := c) Fbc n k (VertexAlgebra.vacuum (R := R))
+  have h1 :
+      threePointModes (R := R) ω a b c m (n : ℤ) k =
+        ω.epsilon ((c k) t1) := by
+    calc
+      threePointModes (R := R) ω a b c m (n : ℤ) k =
+          ω.epsilon ((c k) ((b (n : ℤ)) ((a m) (VertexAlgebra.vacuum (R := R))))) := by
+            simp [threePointModes_eq]
+      _ = ω.epsilon ((c k) t1) := by
+            simpa using congrArg (fun v => ω.epsilon ((c k) v)) hcomp1
+  have h2 :
+      threePointModes (R := R) ω c b a k (n : ℤ) m =
+        ω.epsilon ((a m) t2) := by
+    calc
+      threePointModes (R := R) ω c b a k (n : ℤ) m =
+          ω.epsilon ((a m) ((b (n : ℤ)) ((c k) (VertexAlgebra.vacuum (R := R))))) := by
+            simp [threePointModes_eq]
+      _ = ω.epsilon ((a m) t2) := by
+            simpa using congrArg (fun v => ω.epsilon ((a m) v)) hcomp2
+  calc
+    threePointAnticommutator13 (R := R) ω a b c m (n : ℤ) k =
+        threePointModes (R := R) ω a b c m (n : ℤ) k +
+          threePointModes (R := R) ω c b a k (n : ℤ) m := by
+          rfl
+    _ = ω.epsilon ((c k) t1) + ω.epsilon ((a m) t2) := by rw [h1, h2]
+    _ = ω.epsilon (((c k) t1) + ((a m) t2)) := by rw [map_add]
+    _ = ω.epsilon
+        (((c k)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+              ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) +
+          (a m)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+              ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+          simp [t1, t2]
+
+/-- If the middle mode index is above OPE orders for both `(b,a)` and `(b,c)`,
+    the three-point commutator (first and third insertions) vanishes. -/
+theorem threePointCommutator13_eq_zero_of_ge_opeOrders
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b c : FormalDistribution R V}
+    (Fba : OPEFiniteOrder (R := R) (V := V) b a)
+    (Fbc : OPEFiniteOrder (R := R) (V := V) b c)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : Fba.data.order ≤ n) (hn2 : Fbc.data.order ≤ n) :
+    threePointCommutator13 (R := R) ω a b c m (n : ℤ) k = 0 := by
+  have hzero1 :
+      (b (n : ℤ)) ((a m) (VertexAlgebra.vacuum (R := R))) = 0 :=
+    OPEFiniteOrder.mode_comp_eq_zero_of_ge_apply
+      (R := R) (V := V) (a := b) (b := a) Fba hn1 m (VertexAlgebra.vacuum (R := R))
+  have hzero2 :
+      (b (n : ℤ)) ((c k) (VertexAlgebra.vacuum (R := R))) = 0 :=
+    OPEFiniteOrder.mode_comp_eq_zero_of_ge_apply
+      (R := R) (V := V) (a := b) (b := c) Fbc hn2 k (VertexAlgebra.vacuum (R := R))
+  have h1 : threePointModes (R := R) ω a b c m (n : ℤ) k = 0 := by
+    calc
+      threePointModes (R := R) ω a b c m (n : ℤ) k =
+          ω.epsilon ((c k) ((b (n : ℤ)) ((a m) (VertexAlgebra.vacuum (R := R))))) := by
+            simp [threePointModes_eq]
+      _ = 0 := by
+            rw [hzero1]
+            simp
+  have h2 : threePointModes (R := R) ω c b a k (n : ℤ) m = 0 := by
+    calc
+      threePointModes (R := R) ω c b a k (n : ℤ) m =
+          ω.epsilon ((a m) ((b (n : ℤ)) ((c k) (VertexAlgebra.vacuum (R := R))))) := by
+            simp [threePointModes_eq]
+      _ = 0 := by
+            rw [hzero2]
+            simp
+  unfold threePointCommutator13
+  rw [h1, h2]
+  simp
+
+/-- If the middle mode index is above OPE orders for both `(b,a)` and `(b,c)`,
+    the three-point anticommutator (first and third insertions) vanishes. -/
+theorem threePointAnticommutator13_eq_zero_of_ge_opeOrders
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b c : FormalDistribution R V}
+    (Fba : OPEFiniteOrder (R := R) (V := V) b a)
+    (Fbc : OPEFiniteOrder (R := R) (V := V) b c)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : Fba.data.order ≤ n) (hn2 : Fbc.data.order ≤ n) :
+    threePointAnticommutator13 (R := R) ω a b c m (n : ℤ) k = 0 := by
+  have hzero1 :
+      (b (n : ℤ)) ((a m) (VertexAlgebra.vacuum (R := R))) = 0 :=
+    OPEFiniteOrder.mode_comp_eq_zero_of_ge_apply
+      (R := R) (V := V) (a := b) (b := a) Fba hn1 m (VertexAlgebra.vacuum (R := R))
+  have hzero2 :
+      (b (n : ℤ)) ((c k) (VertexAlgebra.vacuum (R := R))) = 0 :=
+    OPEFiniteOrder.mode_comp_eq_zero_of_ge_apply
+      (R := R) (V := V) (a := b) (b := c) Fbc hn2 k (VertexAlgebra.vacuum (R := R))
+  have h1 : threePointModes (R := R) ω a b c m (n : ℤ) k = 0 := by
+    calc
+      threePointModes (R := R) ω a b c m (n : ℤ) k =
+          ω.epsilon ((c k) ((b (n : ℤ)) ((a m) (VertexAlgebra.vacuum (R := R))))) := by
+            simp [threePointModes_eq]
+      _ = 0 := by
+            rw [hzero1]
+            simp
+  have h2 : threePointModes (R := R) ω c b a k (n : ℤ) m = 0 := by
+    calc
+      threePointModes (R := R) ω c b a k (n : ℤ) m =
+          ω.epsilon ((a m) ((b (n : ℤ)) ((c k) (VertexAlgebra.vacuum (R := R))))) := by
+            simp [threePointModes_eq]
+      _ = 0 := by
+            rw [hzero2]
+            simp
+  unfold threePointAnticommutator13
+  rw [h1, h2]
+  simp
+
+/-- If the middle mode index is strictly below OPE orders for both `(b,a)` and `(b,c)`,
+    the three-point commutator (first and third insertions) is the difference of
+    corresponding OPE coefficient correlators. -/
+theorem threePointCommutator13_eq_opeCoefficient_sub_of_lt
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b c : FormalDistribution R V}
+    (Fba : OPEFiniteOrder (R := R) (V := V) b a)
+    (Fbc : OPEFiniteOrder (R := R) (V := V) b c)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : n < Fba.data.order) (hn2 : n < Fbc.data.order) :
+    threePointCommutator13 (R := R) ω a b c m (n : ℤ) k =
+      ω.epsilon
+        (((c k)
+            (Fba.data.coefficients ⟨n, hn1⟩ ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) -
+          (a m)
+            (Fbc.data.coefficients ⟨n, hn2⟩ ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+  have hleft :
+      (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+        ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)) =
+        Fba.data.coefficients ⟨n, hn1⟩ ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)) := by
+    simp [OPEFiniteOrder.coefficientOrZero_of_lt
+      (R := R) (V := V) (a := b) (b := a) Fba hn1]
+  have hright :
+      (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+        ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)) =
+        Fbc.data.coefficients ⟨n, hn2⟩ ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)) := by
+    simp [OPEFiniteOrder.coefficientOrZero_of_lt
+      (R := R) (V := V) (a := b) (b := c) Fbc hn2]
+  calc
+    threePointCommutator13 (R := R) ω a b c m (n : ℤ) k =
+        ω.epsilon
+          (((c k)
+              ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+                ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) -
+            (a m)
+              ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+                ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) :=
+      threePointCommutator13_eq_coefficientOrZero_sub
+        (R := R) (ω := ω) (a := a) (b := b) (c := c) Fba Fbc m n k
+    _ = ω.epsilon
+          (((c k)
+              (Fba.data.coefficients ⟨n, hn1⟩ ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) -
+            (a m)
+              (Fbc.data.coefficients ⟨n, hn2⟩ ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+          rw [hleft, hright]
+
+/-- If the middle mode index is strictly below OPE orders for both `(b,a)` and `(b,c)`,
+    the three-point anticommutator (first and third insertions) is the sum of
+    corresponding OPE coefficient correlators. -/
+theorem threePointAnticommutator13_eq_opeCoefficient_add_of_lt
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b c : FormalDistribution R V}
+    (Fba : OPEFiniteOrder (R := R) (V := V) b a)
+    (Fbc : OPEFiniteOrder (R := R) (V := V) b c)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : n < Fba.data.order) (hn2 : n < Fbc.data.order) :
+    threePointAnticommutator13 (R := R) ω a b c m (n : ℤ) k =
+      ω.epsilon
+        (((c k)
+            (Fba.data.coefficients ⟨n, hn1⟩ ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) +
+          (a m)
+            (Fbc.data.coefficients ⟨n, hn2⟩ ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+  have hleft :
+      (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+        ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)) =
+        Fba.data.coefficients ⟨n, hn1⟩ ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)) := by
+    simp [OPEFiniteOrder.coefficientOrZero_of_lt
+      (R := R) (V := V) (a := b) (b := a) Fba hn1]
+  have hright :
+      (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+        ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)) =
+        Fbc.data.coefficients ⟨n, hn2⟩ ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)) := by
+    simp [OPEFiniteOrder.coefficientOrZero_of_lt
+      (R := R) (V := V) (a := b) (b := c) Fbc hn2]
+  calc
+    threePointAnticommutator13 (R := R) ω a b c m (n : ℤ) k =
+        ω.epsilon
+          (((c k)
+              ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+                ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) +
+            (a m)
+              ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+                ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) :=
+      threePointAnticommutator13_eq_coefficientOrZero_add
+        (R := R) (ω := ω) (a := a) (b := b) (c := c) Fba Fbc m n k
+    _ = ω.epsilon
+          (((c k)
+              (Fba.data.coefficients ⟨n, hn1⟩ ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) +
+            (a m)
+              (Fbc.data.coefficients ⟨n, hn2⟩ ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+          rw [hleft, hright]
+
+/-- Mixed regime: `n` is at/above OPE order for `(b,a)` but below OPE order for `(b,c)`.
+    The three-point commutator (first and third insertions) is minus the
+    `(b,c)` coefficient term. -/
+theorem threePointCommutator13_eq_neg_opeCoefficient_of_ge_ba_lt_bc
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b c : FormalDistribution R V}
+    (Fba : OPEFiniteOrder (R := R) (V := V) b a)
+    (Fbc : OPEFiniteOrder (R := R) (V := V) b c)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : Fba.data.order ≤ n) (hn2 : n < Fbc.data.order) :
+    threePointCommutator13 (R := R) ω a b c m (n : ℤ) k =
+      -ω.epsilon
+        ((a m) (Fbc.data.coefficients ⟨n, hn2⟩
+          ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)))) := by
+  have hleft :
+      (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+        ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)) = 0 := by
+    rw [OPEFiniteOrder.coefficientOrZero_of_ge
+      (R := R) (V := V) (a := b) (b := a) Fba hn1]
+    change ((0 : Module.End R V) (VertexAlgebra.vacuum (R := R))) = 0
+    simp
+  have hright :
+      (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+        ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)) =
+        Fbc.data.coefficients ⟨n, hn2⟩ ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)) := by
+    simp [OPEFiniteOrder.coefficientOrZero_of_lt
+      (R := R) (V := V) (a := b) (b := c) Fbc hn2]
+  calc
+    threePointCommutator13 (R := R) ω a b c m (n : ℤ) k =
+        ω.epsilon
+          (((c k)
+              ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+                ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) -
+            (a m)
+              ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+                ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) :=
+      threePointCommutator13_eq_coefficientOrZero_sub
+        (R := R) (ω := ω) (a := a) (b := b) (c := c) Fba Fbc m n k
+    _ = -ω.epsilon
+          ((a m) (Fbc.data.coefficients ⟨n, hn2⟩
+            ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)))) := by
+          rw [hleft, hright]
+          simp
+
+/-- Mixed regime: `n` is at/above OPE order for `(b,a)` but below OPE order for `(b,c)`.
+    The three-point anticommutator (first and third insertions) is the `(b,c)`
+    coefficient term. -/
+theorem threePointAnticommutator13_eq_opeCoefficient_of_ge_ba_lt_bc
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b c : FormalDistribution R V}
+    (Fba : OPEFiniteOrder (R := R) (V := V) b a)
+    (Fbc : OPEFiniteOrder (R := R) (V := V) b c)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : Fba.data.order ≤ n) (hn2 : n < Fbc.data.order) :
+    threePointAnticommutator13 (R := R) ω a b c m (n : ℤ) k =
+      ω.epsilon
+        ((a m) (Fbc.data.coefficients ⟨n, hn2⟩
+          ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)))) := by
+  have hleft :
+      (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+        ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)) = 0 := by
+    rw [OPEFiniteOrder.coefficientOrZero_of_ge
+      (R := R) (V := V) (a := b) (b := a) Fba hn1]
+    change ((0 : Module.End R V) (VertexAlgebra.vacuum (R := R))) = 0
+    simp
+  have hright :
+      (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+        ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)) =
+        Fbc.data.coefficients ⟨n, hn2⟩ ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)) := by
+    simp [OPEFiniteOrder.coefficientOrZero_of_lt
+      (R := R) (V := V) (a := b) (b := c) Fbc hn2]
+  calc
+    threePointAnticommutator13 (R := R) ω a b c m (n : ℤ) k =
+        ω.epsilon
+          (((c k)
+              ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+                ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) +
+            (a m)
+              ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+                ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) :=
+      threePointAnticommutator13_eq_coefficientOrZero_add
+        (R := R) (ω := ω) (a := a) (b := b) (c := c) Fba Fbc m n k
+    _ = ω.epsilon
+          ((a m) (Fbc.data.coefficients ⟨n, hn2⟩
+            ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)))) := by
+          rw [hleft, hright]
+          simp
+
+/-- Mixed regime: `n` is below OPE order for `(b,a)` but at/above OPE order for `(b,c)`.
+    The three-point commutator (first and third insertions) is the `(b,a)`
+    coefficient term. -/
+theorem threePointCommutator13_eq_opeCoefficient_of_lt_ba_ge_bc
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b c : FormalDistribution R V}
+    (Fba : OPEFiniteOrder (R := R) (V := V) b a)
+    (Fbc : OPEFiniteOrder (R := R) (V := V) b c)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : n < Fba.data.order) (hn2 : Fbc.data.order ≤ n) :
+    threePointCommutator13 (R := R) ω a b c m (n : ℤ) k =
+      ω.epsilon
+        ((c k) (Fba.data.coefficients ⟨n, hn1⟩
+          ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)))) := by
+  have hleft :
+      (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+        ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)) =
+        Fba.data.coefficients ⟨n, hn1⟩ ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)) := by
+    simp [OPEFiniteOrder.coefficientOrZero_of_lt
+      (R := R) (V := V) (a := b) (b := a) Fba hn1]
+  have hright :
+      (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+        ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)) = 0 := by
+    rw [OPEFiniteOrder.coefficientOrZero_of_ge
+      (R := R) (V := V) (a := b) (b := c) Fbc hn2]
+    change ((0 : Module.End R V) (VertexAlgebra.vacuum (R := R))) = 0
+    simp
+  calc
+    threePointCommutator13 (R := R) ω a b c m (n : ℤ) k =
+        ω.epsilon
+          (((c k)
+              ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+                ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) -
+            (a m)
+              ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+                ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) :=
+      threePointCommutator13_eq_coefficientOrZero_sub
+        (R := R) (ω := ω) (a := a) (b := b) (c := c) Fba Fbc m n k
+    _ = ω.epsilon
+          ((c k) (Fba.data.coefficients ⟨n, hn1⟩
+            ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)))) := by
+          rw [hleft, hright]
+          simp
+
+/-- Mixed regime: `n` is below OPE order for `(b,a)` but at/above OPE order for `(b,c)`.
+    The three-point anticommutator (first and third insertions) is the `(b,a)`
+    coefficient term. -/
+theorem threePointAnticommutator13_eq_opeCoefficient_of_lt_ba_ge_bc
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b c : FormalDistribution R V}
+    (Fba : OPEFiniteOrder (R := R) (V := V) b a)
+    (Fbc : OPEFiniteOrder (R := R) (V := V) b c)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : n < Fba.data.order) (hn2 : Fbc.data.order ≤ n) :
+    threePointAnticommutator13 (R := R) ω a b c m (n : ℤ) k =
+      ω.epsilon
+        ((c k) (Fba.data.coefficients ⟨n, hn1⟩
+          ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)))) := by
+  have hleft :
+      (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+        ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)) =
+        Fba.data.coefficients ⟨n, hn1⟩ ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)) := by
+    simp [OPEFiniteOrder.coefficientOrZero_of_lt
+      (R := R) (V := V) (a := b) (b := a) Fba hn1]
+  have hright :
+      (OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+        ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)) = 0 := by
+    rw [OPEFiniteOrder.coefficientOrZero_of_ge
+      (R := R) (V := V) (a := b) (b := c) Fbc hn2]
+    change ((0 : Module.End R V) (VertexAlgebra.vacuum (R := R))) = 0
+    simp
+  calc
+    threePointAnticommutator13 (R := R) ω a b c m (n : ℤ) k =
+        ω.epsilon
+          (((c k)
+              ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := a) Fba n)
+                ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) +
+            (a m)
+              ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V) (a := b) (b := c) Fbc n)
+                ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) :=
+      threePointAnticommutator13_eq_coefficientOrZero_add
+        (R := R) (ω := ω) (a := a) (b := b) (c := c) Fba Fbc m n k
+    _ = ω.epsilon
+          ((c k) (Fba.data.coefficients ⟨n, hn1⟩
+            ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)))) := by
+          rw [hleft, hright]
+          simp
+
 /-- Two-point commutator combination:
     `⟨b(n)a(m)⟩ - ⟨a(m)b(n)⟩` in mode-order convention. -/
 def twoPointCommutator

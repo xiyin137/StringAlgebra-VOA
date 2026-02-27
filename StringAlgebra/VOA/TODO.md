@@ -1169,6 +1169,43 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
      `rg -n "^[[:space:]]*axiom\\b|^[[:space:]]*admit\\b|Classical\\.choose|Classical\\.epsilon" StringAlgebra/VOA --glob '*.lean'`
      returns no matches
 
+## Infrastructure Expansion (2026-02-27, pass 50)
+
+1. Completed pairwise 3-point correlator core by adding the missing first/third
+   insertion family in `Correlators.lean`:
+   - new primitives:
+     `threePointCommutator13`,
+     `threePointAnticommutator13`
+   - canonical expansions:
+     `threePointCommutator13_eq`,
+     `threePointAnticommutator13_eq`
+2. Added finite-order OPE extraction for pair `(1,3)` using middle-field OPE
+   data in both channels `(b,a)` and `(b,c)`:
+   - `threePointCommutator13_eq_coefficientOrZero_sub`,
+   - `threePointAnticommutator13_eq_coefficientOrZero_add`.
+3. Added high-mode vanishing for pair `(1,3)` when the middle index is above
+   both relevant OPE orders:
+   - `threePointCommutator13_eq_zero_of_ge_opeOrders`,
+   - `threePointAnticommutator13_eq_zero_of_ge_opeOrders`.
+4. Added strict/mixed index extraction family for pair `(1,3)`:
+   - strict-below extraction:
+     `threePointCommutator13_eq_opeCoefficient_sub_of_lt`,
+     `threePointAnticommutator13_eq_opeCoefficient_add_of_lt`;
+   - mixed regimes:
+     `threePointCommutator13_eq_neg_opeCoefficient_of_ge_ba_lt_bc`,
+     `threePointAnticommutator13_eq_opeCoefficient_of_ge_ba_lt_bc`,
+     `threePointCommutator13_eq_opeCoefficient_of_lt_ba_ge_bc`,
+     `threePointAnticommutator13_eq_opeCoefficient_of_lt_ba_ge_bc`.
+5. Post-expansion check:
+   - `lake build StringAlgebra.VOA.Correlators` passes
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count command
+     `rg -n '^\\s*sorry\\b' StringAlgebra/VOA --glob '*.lean'`
+     returns no matches
+   - strict audit command
+     `rg -n "^[[:space:]]*axiom\\b|^[[:space:]]*admit\\b|Classical\\.choose|Classical\\.epsilon" StringAlgebra/VOA --glob '*.lean'`
+     returns no matches
+
 ## Free CFT Development Plan (2026-02-27)
 
 Goal: full rigorous free-boson and free-fermion CFT formalization at the OPE/correlator layer.
