@@ -50,6 +50,7 @@ rg -n '^[[:space:]]*axiom\b|^[[:space:]]*admit\b|Classical\.choose|Classical\.ep
    - state-level `nthProduct` wrappers for two-point commutator/anticommutator and all three-point pairs (`12/23/13`)
    - state-level two-point mode OPE extraction wrappers (`opeCoefficient`, cutoff-vanishing, piecewise, `coefficientOrZero`)
    - state-level two-point commutator/anticommutator wrappers in direct `coefficientOrZero` form
+   - state-level two-/three-point linearity wrappers (`add/smul/neg/sub`) and two-point state commutator/anticommutator linearity wrappers under explicit `Y`-compatibility hypotheses
 
 ## Related Repositories
 

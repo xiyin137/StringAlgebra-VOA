@@ -678,6 +678,207 @@ theorem threePointModes_sub_right
   rw [threePointModes_neg_right (R := R) (ω := ω) a b d m n k]
   simp [sub_eq_add_neg]
 
+/-- State-level three-point correlator linearity in the first inserted mode. -/
+theorem threePointStateModes_add_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYadd : VertexAlgebra.Y (R := R) (a + b) =
+      VertexAlgebra.Y (R := R) a + VertexAlgebra.Y (R := R) b)
+    (m n k : ℤ) :
+    threePointStateModes (R := R) ω (a + b) c d m n k =
+      threePointStateModes (R := R) ω a c d m n k +
+        threePointStateModes (R := R) ω b c d m n k := by
+  unfold threePointStateModes
+  simpa [hYadd] using
+    (threePointModes_add_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level three-point correlator linearity in the middle inserted mode. -/
+theorem threePointStateModes_add_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYadd : VertexAlgebra.Y (R := R) (b + c) =
+      VertexAlgebra.Y (R := R) b + VertexAlgebra.Y (R := R) c)
+    (m n k : ℤ) :
+    threePointStateModes (R := R) ω a (b + c) d m n k =
+      threePointStateModes (R := R) ω a b d m n k +
+        threePointStateModes (R := R) ω a c d m n k := by
+  unfold threePointStateModes
+  simpa [hYadd] using
+    (threePointModes_add_middle (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level three-point correlator linearity in the third inserted mode. -/
+theorem threePointStateModes_add_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYadd : VertexAlgebra.Y (R := R) (c + d) =
+      VertexAlgebra.Y (R := R) c + VertexAlgebra.Y (R := R) d)
+    (m n k : ℤ) :
+    threePointStateModes (R := R) ω a b (c + d) m n k =
+      threePointStateModes (R := R) ω a b c m n k +
+        threePointStateModes (R := R) ω a b d m n k := by
+  unfold threePointStateModes
+  simpa [hYadd] using
+    (threePointModes_add_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level three-point correlator linearity under scalar multiplication in
+    the first slot. -/
+theorem threePointStateModes_smul_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • a) = r • VertexAlgebra.Y (R := R) a)
+    (m n k : ℤ) :
+    threePointStateModes (R := R) ω (r • a) b c m n k =
+      r • threePointStateModes (R := R) ω a b c m n k := by
+  unfold threePointStateModes
+  simpa [hYsmul] using
+    (threePointModes_smul_left (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level three-point correlator linearity under scalar multiplication in
+    the middle slot. -/
+theorem threePointStateModes_smul_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • b) = r • VertexAlgebra.Y (R := R) b)
+    (m n k : ℤ) :
+    threePointStateModes (R := R) ω a (r • b) c m n k =
+      r • threePointStateModes (R := R) ω a b c m n k := by
+  unfold threePointStateModes
+  simpa [hYsmul] using
+    (threePointModes_smul_middle (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level three-point correlator linearity under scalar multiplication in
+    the third slot. -/
+theorem threePointStateModes_smul_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • c) = r • VertexAlgebra.Y (R := R) c)
+    (m n k : ℤ) :
+    threePointStateModes (R := R) ω a b (r • c) m n k =
+      r • threePointStateModes (R := R) ω a b c m n k := by
+  unfold threePointStateModes
+  simpa [hYsmul] using
+    (threePointModes_smul_right (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level negation linearity in the first field slot of three-point
+    correlators. -/
+theorem threePointStateModes_neg_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-a) = -VertexAlgebra.Y (R := R) a)
+    (m n k : ℤ) :
+    threePointStateModes (R := R) ω (-a) b c m n k =
+      -threePointStateModes (R := R) ω a b c m n k := by
+  unfold threePointStateModes
+  simpa [hYneg] using
+    (threePointModes_neg_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level negation linearity in the second field slot of three-point
+    correlators. -/
+theorem threePointStateModes_neg_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-b) = -VertexAlgebra.Y (R := R) b)
+    (m n k : ℤ) :
+    threePointStateModes (R := R) ω a (-b) c m n k =
+      -threePointStateModes (R := R) ω a b c m n k := by
+  unfold threePointStateModes
+  simpa [hYneg] using
+    (threePointModes_neg_middle (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level negation linearity in the third field slot of three-point
+    correlators. -/
+theorem threePointStateModes_neg_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-c) = -VertexAlgebra.Y (R := R) c)
+    (m n k : ℤ) :
+    threePointStateModes (R := R) ω a b (-c) m n k =
+      -threePointStateModes (R := R) ω a b c m n k := by
+  unfold threePointStateModes
+  simpa [hYneg] using
+    (threePointModes_neg_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level subtraction linearity in the first field slot of three-point
+    correlators. -/
+theorem threePointStateModes_sub_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYsub : VertexAlgebra.Y (R := R) (a - b) =
+      VertexAlgebra.Y (R := R) a - VertexAlgebra.Y (R := R) b)
+    (m n k : ℤ) :
+    threePointStateModes (R := R) ω (a - b) c d m n k =
+      threePointStateModes (R := R) ω a c d m n k -
+        threePointStateModes (R := R) ω b c d m n k := by
+  unfold threePointStateModes
+  simpa [hYsub] using
+    (threePointModes_sub_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level subtraction linearity in the middle field slot of three-point
+    correlators. -/
+theorem threePointStateModes_sub_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYsub : VertexAlgebra.Y (R := R) (b - c) =
+      VertexAlgebra.Y (R := R) b - VertexAlgebra.Y (R := R) c)
+    (m n k : ℤ) :
+    threePointStateModes (R := R) ω a (b - c) d m n k =
+      threePointStateModes (R := R) ω a b d m n k -
+        threePointStateModes (R := R) ω a c d m n k := by
+  unfold threePointStateModes
+  simpa [hYsub] using
+    (threePointModes_sub_middle (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level subtraction linearity in the third field slot of three-point
+    correlators. -/
+theorem threePointStateModes_sub_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYsub : VertexAlgebra.Y (R := R) (c - d) =
+      VertexAlgebra.Y (R := R) c - VertexAlgebra.Y (R := R) d)
+    (m n k : ℤ) :
+    threePointStateModes (R := R) ω a b (c - d) m n k =
+      threePointStateModes (R := R) ω a b c m n k -
+        threePointStateModes (R := R) ω a b d m n k := by
+  unfold threePointStateModes
+  simpa [hYsub] using
+    (threePointModes_sub_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
 /-- Three-point commutator in the first two insertions:
     `⟨c(k)(b(n)a(m) - a(m)b(n))⟩`. -/
 def threePointCommutator12
@@ -4320,6 +4521,132 @@ theorem twoPointModes_sub_right
   rw [twoPointModes_neg_right (R := R) (ω := ω) a c m n]
   simp [sub_eq_add_neg]
 
+/-- State-level two-point correlator linearity in the first inserted mode. -/
+theorem twoPointStateModes_add_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYadd : VertexAlgebra.Y (R := R) (a + b) =
+      VertexAlgebra.Y (R := R) a + VertexAlgebra.Y (R := R) b)
+    (m n : ℤ) :
+    twoPointStateModes (R := R) ω (a + b) c m n =
+      twoPointStateModes (R := R) ω a c m n +
+        twoPointStateModes (R := R) ω b c m n := by
+  unfold twoPointStateModes
+  simpa [hYadd] using
+    (twoPointModes_add_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n)
+
+/-- State-level two-point correlator linearity in the second inserted mode. -/
+theorem twoPointStateModes_add_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYadd : VertexAlgebra.Y (R := R) (b + c) =
+      VertexAlgebra.Y (R := R) b + VertexAlgebra.Y (R := R) c)
+    (m n : ℤ) :
+    twoPointStateModes (R := R) ω a (b + c) m n =
+      twoPointStateModes (R := R) ω a b m n +
+        twoPointStateModes (R := R) ω a c m n := by
+  unfold twoPointStateModes
+  simpa [hYadd] using
+    (twoPointModes_add_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n)
+
+/-- State-level two-point correlator linearity under scalar multiplication in
+    the first field slot. -/
+theorem twoPointStateModes_smul_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • a) = r • VertexAlgebra.Y (R := R) a)
+    (m n : ℤ) :
+    twoPointStateModes (R := R) ω (r • a) b m n =
+      r • twoPointStateModes (R := R) ω a b m n := by
+  unfold twoPointStateModes
+  simpa [hYsmul] using
+    (twoPointModes_smul_left (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n)
+
+/-- State-level two-point correlator linearity under scalar multiplication in
+    the second field slot. -/
+theorem twoPointStateModes_smul_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • b) = r • VertexAlgebra.Y (R := R) b)
+    (m n : ℤ) :
+    twoPointStateModes (R := R) ω a (r • b) m n =
+      r • twoPointStateModes (R := R) ω a b m n := by
+  unfold twoPointStateModes
+  simpa [hYsmul] using
+    (twoPointModes_smul_right (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n)
+
+/-- State-level negation linearity in the first field slot. -/
+theorem twoPointStateModes_neg_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-a) = -VertexAlgebra.Y (R := R) a)
+    (m n : ℤ) :
+    twoPointStateModes (R := R) ω (-a) b m n =
+      -twoPointStateModes (R := R) ω a b m n := by
+  unfold twoPointStateModes
+  simpa [hYneg] using
+    (twoPointModes_neg_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n)
+
+/-- State-level negation linearity in the second field slot. -/
+theorem twoPointStateModes_neg_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-b) = -VertexAlgebra.Y (R := R) b)
+    (m n : ℤ) :
+    twoPointStateModes (R := R) ω a (-b) m n =
+      -twoPointStateModes (R := R) ω a b m n := by
+  unfold twoPointStateModes
+  simpa [hYneg] using
+    (twoPointModes_neg_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n)
+
+/-- State-level subtraction linearity in the first field slot. -/
+theorem twoPointStateModes_sub_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYsub : VertexAlgebra.Y (R := R) (a - b) =
+      VertexAlgebra.Y (R := R) a - VertexAlgebra.Y (R := R) b)
+    (m n : ℤ) :
+    twoPointStateModes (R := R) ω (a - b) c m n =
+      twoPointStateModes (R := R) ω a c m n -
+        twoPointStateModes (R := R) ω b c m n := by
+  unfold twoPointStateModes
+  simpa [hYsub] using
+    (twoPointModes_sub_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n)
+
+/-- State-level subtraction linearity in the second field slot. -/
+theorem twoPointStateModes_sub_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYsub : VertexAlgebra.Y (R := R) (b - c) =
+      VertexAlgebra.Y (R := R) b - VertexAlgebra.Y (R := R) c)
+    (m n : ℤ) :
+    twoPointStateModes (R := R) ω a (b - c) m n =
+      twoPointStateModes (R := R) ω a b m n -
+        twoPointStateModes (R := R) ω a c m n := by
+  unfold twoPointStateModes
+  simpa [hYsub] using
+    (twoPointModes_sub_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n)
+
 /-- Commutator correlator is additive in the first field slot. -/
 theorem twoPointCommutator_add_left
     {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
@@ -4419,5 +4746,133 @@ theorem twoPointAnticommutator_smul_right
   rw [twoPointModes_smul_right (R := R) (ω := ω) r a b m n]
   rw [twoPointModes_smul_left (R := R) (ω := ω) r b a n m]
   simp [mul_add]
+
+/-- State-level commutator correlator is additive in the first field slot. -/
+theorem twoPointStateCommutator_add_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYadd : VertexAlgebra.Y (R := R) (a + b) =
+      VertexAlgebra.Y (R := R) a + VertexAlgebra.Y (R := R) b)
+    (m n : ℤ) :
+    twoPointStateCommutator (R := R) ω (a + b) c m n =
+      twoPointStateCommutator (R := R) ω a c m n +
+        twoPointStateCommutator (R := R) ω b c m n := by
+  unfold twoPointStateCommutator
+  simpa [hYadd] using
+    (twoPointCommutator_add_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n)
+
+/-- State-level commutator correlator is additive in the second field slot. -/
+theorem twoPointStateCommutator_add_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYadd : VertexAlgebra.Y (R := R) (b + c) =
+      VertexAlgebra.Y (R := R) b + VertexAlgebra.Y (R := R) c)
+    (m n : ℤ) :
+    twoPointStateCommutator (R := R) ω a (b + c) m n =
+      twoPointStateCommutator (R := R) ω a b m n +
+        twoPointStateCommutator (R := R) ω a c m n := by
+  unfold twoPointStateCommutator
+  simpa [hYadd] using
+    (twoPointCommutator_add_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n)
+
+/-- State-level commutator correlator is linear under scalar multiplication in
+    the first slot. -/
+theorem twoPointStateCommutator_smul_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • a) = r • VertexAlgebra.Y (R := R) a)
+    (m n : ℤ) :
+    twoPointStateCommutator (R := R) ω (r • a) b m n =
+      r • twoPointStateCommutator (R := R) ω a b m n := by
+  unfold twoPointStateCommutator
+  simpa [hYsmul] using
+    (twoPointCommutator_smul_left (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n)
+
+/-- State-level commutator correlator is linear under scalar multiplication in
+    the second slot. -/
+theorem twoPointStateCommutator_smul_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • b) = r • VertexAlgebra.Y (R := R) b)
+    (m n : ℤ) :
+    twoPointStateCommutator (R := R) ω a (r • b) m n =
+      r • twoPointStateCommutator (R := R) ω a b m n := by
+  unfold twoPointStateCommutator
+  simpa [hYsmul] using
+    (twoPointCommutator_smul_right (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n)
+
+/-- State-level anticommutator correlator is additive in the first field slot. -/
+theorem twoPointStateAnticommutator_add_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYadd : VertexAlgebra.Y (R := R) (a + b) =
+      VertexAlgebra.Y (R := R) a + VertexAlgebra.Y (R := R) b)
+    (m n : ℤ) :
+    twoPointStateAnticommutator (R := R) ω (a + b) c m n =
+      twoPointStateAnticommutator (R := R) ω a c m n +
+        twoPointStateAnticommutator (R := R) ω b c m n := by
+  unfold twoPointStateAnticommutator
+  simpa [hYadd] using
+    (twoPointAnticommutator_add_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n)
+
+/-- State-level anticommutator correlator is additive in the second field slot. -/
+theorem twoPointStateAnticommutator_add_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYadd : VertexAlgebra.Y (R := R) (b + c) =
+      VertexAlgebra.Y (R := R) b + VertexAlgebra.Y (R := R) c)
+    (m n : ℤ) :
+    twoPointStateAnticommutator (R := R) ω a (b + c) m n =
+      twoPointStateAnticommutator (R := R) ω a b m n +
+        twoPointStateAnticommutator (R := R) ω a c m n := by
+  unfold twoPointStateAnticommutator
+  simpa [hYadd] using
+    (twoPointAnticommutator_add_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n)
+
+/-- State-level anticommutator correlator is linear under scalar multiplication in
+    the first slot. -/
+theorem twoPointStateAnticommutator_smul_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • a) = r • VertexAlgebra.Y (R := R) a)
+    (m n : ℤ) :
+    twoPointStateAnticommutator (R := R) ω (r • a) b m n =
+      r • twoPointStateAnticommutator (R := R) ω a b m n := by
+  unfold twoPointStateAnticommutator
+  simpa [hYsmul] using
+    (twoPointAnticommutator_smul_left (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n)
+
+/-- State-level anticommutator correlator is linear under scalar multiplication in
+    the second slot. -/
+theorem twoPointStateAnticommutator_smul_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • b) = r • VertexAlgebra.Y (R := R) b)
+    (m n : ℤ) :
+    twoPointStateAnticommutator (R := R) ω a (r • b) m n =
+      r • twoPointStateAnticommutator (R := R) ω a b m n := by
+  unfold twoPointStateAnticommutator
+  simpa [hYsmul] using
+    (twoPointAnticommutator_smul_right (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n)
 
 end StringAlgebra.VOA

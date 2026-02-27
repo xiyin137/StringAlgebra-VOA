@@ -627,6 +627,49 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 30)
+
+1. Added state-level linearity wrappers for point correlators in `Correlators.lean`,
+   using explicit state-field compatibility hypotheses (`Y` preserving `add/smul/neg/sub`)
+   where required:
+   - three-point state-mode layer:
+     `threePointStateModes_add_left`,
+     `threePointStateModes_add_middle`,
+     `threePointStateModes_add_right`,
+     `threePointStateModes_smul_left`,
+     `threePointStateModes_smul_middle`,
+     `threePointStateModes_smul_right`,
+     `threePointStateModes_neg_left`,
+     `threePointStateModes_neg_middle`,
+     `threePointStateModes_neg_right`,
+     `threePointStateModes_sub_left`,
+     `threePointStateModes_sub_middle`,
+     `threePointStateModes_sub_right`
+   - two-point state-mode layer:
+     `twoPointStateModes_add_left`,
+     `twoPointStateModes_add_right`,
+     `twoPointStateModes_smul_left`,
+     `twoPointStateModes_smul_right`,
+     `twoPointStateModes_neg_left`,
+     `twoPointStateModes_neg_right`,
+     `twoPointStateModes_sub_left`,
+     `twoPointStateModes_sub_right`
+2. Added state-level two-point commutator/anticommutator linearity wrappers
+   under the same explicit `Y`-compatibility hypotheses:
+   - commutator:
+     `twoPointStateCommutator_add_left`,
+     `twoPointStateCommutator_add_right`,
+     `twoPointStateCommutator_smul_left`,
+     `twoPointStateCommutator_smul_right`
+   - anticommutator:
+     `twoPointStateAnticommutator_add_left`,
+     `twoPointStateAnticommutator_add_right`,
+     `twoPointStateAnticommutator_smul_left`,
+     `twoPointStateAnticommutator_smul_right`
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text
