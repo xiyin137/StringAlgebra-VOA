@@ -22,6 +22,10 @@ Lean 4 formalization of vertex operator algebra infrastructure.
 16. `StringAlgebra/VOA/Examples/AffineLattice.lean`
 17. `StringAlgebra/VOA/Examples/Fermion.lean`
 18. `StringAlgebra/VOA/Examples/Additional.lean`
+19. `StringAlgebra/VOA/Modules/Core.lean`
+20. `StringAlgebra/VOA/Modules/Intertwining.lean`
+21. `StringAlgebra/VOA/Modules/Fusion.lean`
+22. `StringAlgebra/VOA/Modules/Advanced.lean`
 
 ## Planning and Notes
 
@@ -51,7 +55,8 @@ rg -n '^[[:space:]]*axiom\b|^[[:space:]]*admit\b|Classical\.choose|Classical\.ep
 4. Free CFT development phases (boson/fermion/OPE/correlators) are tracked explicitly in `TODO.md`.
 5. Correlator code has been split into `StringAlgebra/VOA/Correlators/` submodules while keeping `StringAlgebra/VOA/Correlators.lean` as the stable facade import.
 6. Example code has been split into `StringAlgebra/VOA/Examples/` submodules while keeping `StringAlgebra/VOA/Examples.lean` as the stable facade import.
-7. Correlator baseline now includes one-point state-mode API plus vacuum-insertion reductions:
+7. Module theory code has been split into `StringAlgebra/VOA/Modules/` submodules while keeping `StringAlgebra/VOA/Modules.lean` as the stable facade import.
+8. Correlator baseline now includes one-point state-mode API plus vacuum-insertion reductions:
    - two-point to one-point mode correlators
    - three-point to two-point mode correlators
    - state-level two-/three-point wrappers with corresponding vacuum-reduction lemmas

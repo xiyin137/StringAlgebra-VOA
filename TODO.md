@@ -929,6 +929,20 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 45)
+
+1. Refactored `Modules.lean` into a dedicated subfolder layout:
+   - `StringAlgebra/VOA/Modules/Core.lean`
+   - `StringAlgebra/VOA/Modules/Intertwining.lean`
+   - `StringAlgebra/VOA/Modules/Fusion.lean`
+   - `StringAlgebra/VOA/Modules/Advanced.lean`
+2. Converted `StringAlgebra/VOA/Modules.lean` into a lightweight facade module
+   that imports and re-exports the split module-theory submodules, preserving
+   the existing root import path used by `StringAlgebra/VOA.lean`.
+3. Post-refactor check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text
