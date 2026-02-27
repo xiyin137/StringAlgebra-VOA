@@ -832,6 +832,24 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 39)
+
+1. Added `(1,2)` mixed-regime OPE extraction aliases in `Correlators.lean`
+   using explicit orientation naming (`ab/ba`):
+   - formal-distribution layer:
+     `threePointCommutator12_eq_opeCoefficient_of_ge_ab_lt_ba`,
+     `threePointAnticommutator12_eq_opeCoefficient_of_ge_ab_lt_ba`,
+     `threePointCommutator12_eq_neg_opeCoefficient_of_lt_ab_ge_ba`,
+     `threePointAnticommutator12_eq_opeCoefficient_of_lt_ab_ge_ba`
+2. Added matching state-level alias wrappers:
+   - `threePointStateCommutator12_eq_opeCoefficient_of_ge_ab_lt_ba`
+   - `threePointStateAnticommutator12_eq_opeCoefficient_of_ge_ab_lt_ba`
+   - `threePointStateCommutator12_eq_neg_opeCoefficient_of_lt_ab_ge_ba`
+   - `threePointStateAnticommutator12_eq_opeCoefficient_of_lt_ab_ge_ba`
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text
