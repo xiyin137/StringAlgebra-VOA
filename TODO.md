@@ -716,6 +716,31 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 33)
+
+1. Added three-point `(2,3)` commutator/anticommutator linearity core in
+   `Correlators.lean`:
+   - formal-distribution layer (`add/smul`, left/middle/right):
+     `threePointCommutator23_add_left`,
+     `threePointCommutator23_add_middle`,
+     `threePointCommutator23_add_right`,
+     `threePointCommutator23_smul_left`,
+     `threePointCommutator23_smul_middle`,
+     `threePointCommutator23_smul_right`,
+     `threePointAnticommutator23_add_left`,
+     `threePointAnticommutator23_add_middle`,
+     `threePointAnticommutator23_add_right`,
+     `threePointAnticommutator23_smul_left`,
+     `threePointAnticommutator23_smul_middle`,
+     `threePointAnticommutator23_smul_right`
+2. Added matching state-level `(2,3)` wrappers with explicit `Y`-compatibility
+   hypotheses:
+   - `threePointStateCommutator23_add_*` and `threePointStateCommutator23_smul_*`
+   - `threePointStateAnticommutator23_add_*` and `threePointStateAnticommutator23_smul_*`
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text
