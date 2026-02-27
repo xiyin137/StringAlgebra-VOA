@@ -2830,6 +2830,331 @@ theorem threePointStateAnticommutator23_smul_right
       (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
       (c := VertexAlgebra.Y (R := R) c) m n k)
 
+/-- `(2,3)` commutator is negation-linear in the first field slot. -/
+theorem threePointCommutator23_neg_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : FormalDistribution R V) (m n k : ℤ) :
+    threePointCommutator23 (R := R) ω (-a) b c m n k =
+      -threePointCommutator23 (R := R) ω a b c m n k := by
+  simpa using threePointCommutator23_smul_left (R := R) (ω := ω) (-1 : R) a b c m n k
+
+/-- `(2,3)` commutator is negation-linear in the middle field slot. -/
+theorem threePointCommutator23_neg_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : FormalDistribution R V) (m n k : ℤ) :
+    threePointCommutator23 (R := R) ω a (-b) c m n k =
+      -threePointCommutator23 (R := R) ω a b c m n k := by
+  simpa using threePointCommutator23_smul_middle (R := R) (ω := ω) (-1 : R) a b c m n k
+
+/-- `(2,3)` commutator is negation-linear in the third field slot. -/
+theorem threePointCommutator23_neg_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : FormalDistribution R V) (m n k : ℤ) :
+    threePointCommutator23 (R := R) ω a b (-c) m n k =
+      -threePointCommutator23 (R := R) ω a b c m n k := by
+  simpa using threePointCommutator23_smul_right (R := R) (ω := ω) (-1 : R) a b c m n k
+
+/-- `(2,3)` commutator is subtraction-linear in the first field slot. -/
+theorem threePointCommutator23_sub_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : FormalDistribution R V) (m n k : ℤ) :
+    threePointCommutator23 (R := R) ω (a - b) c d m n k =
+      threePointCommutator23 (R := R) ω a c d m n k -
+        threePointCommutator23 (R := R) ω b c d m n k := by
+  rw [sub_eq_add_neg]
+  rw [threePointCommutator23_add_left (R := R) (ω := ω) a (-b) c d m n k]
+  rw [threePointCommutator23_neg_left (R := R) (ω := ω) b c d m n k]
+  simp [sub_eq_add_neg]
+
+/-- `(2,3)` commutator is subtraction-linear in the middle field slot. -/
+theorem threePointCommutator23_sub_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : FormalDistribution R V) (m n k : ℤ) :
+    threePointCommutator23 (R := R) ω a (b - c) d m n k =
+      threePointCommutator23 (R := R) ω a b d m n k -
+        threePointCommutator23 (R := R) ω a c d m n k := by
+  rw [sub_eq_add_neg]
+  rw [threePointCommutator23_add_middle (R := R) (ω := ω) a b (-c) d m n k]
+  rw [threePointCommutator23_neg_middle (R := R) (ω := ω) a c d m n k]
+  simp [sub_eq_add_neg]
+
+/-- `(2,3)` commutator is subtraction-linear in the third field slot. -/
+theorem threePointCommutator23_sub_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : FormalDistribution R V) (m n k : ℤ) :
+    threePointCommutator23 (R := R) ω a b (c - d) m n k =
+      threePointCommutator23 (R := R) ω a b c m n k -
+        threePointCommutator23 (R := R) ω a b d m n k := by
+  rw [sub_eq_add_neg]
+  rw [threePointCommutator23_add_right (R := R) (ω := ω) a b c (-d) m n k]
+  rw [threePointCommutator23_neg_right (R := R) (ω := ω) a b d m n k]
+  simp [sub_eq_add_neg]
+
+/-- `(2,3)` anticommutator is negation-linear in the first field slot. -/
+theorem threePointAnticommutator23_neg_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : FormalDistribution R V) (m n k : ℤ) :
+    threePointAnticommutator23 (R := R) ω (-a) b c m n k =
+      -threePointAnticommutator23 (R := R) ω a b c m n k := by
+  simpa using threePointAnticommutator23_smul_left (R := R) (ω := ω) (-1 : R) a b c m n k
+
+/-- `(2,3)` anticommutator is negation-linear in the middle field slot. -/
+theorem threePointAnticommutator23_neg_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : FormalDistribution R V) (m n k : ℤ) :
+    threePointAnticommutator23 (R := R) ω a (-b) c m n k =
+      -threePointAnticommutator23 (R := R) ω a b c m n k := by
+  simpa using
+    threePointAnticommutator23_smul_middle (R := R) (ω := ω) (-1 : R) a b c m n k
+
+/-- `(2,3)` anticommutator is negation-linear in the third field slot. -/
+theorem threePointAnticommutator23_neg_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : FormalDistribution R V) (m n k : ℤ) :
+    threePointAnticommutator23 (R := R) ω a b (-c) m n k =
+      -threePointAnticommutator23 (R := R) ω a b c m n k := by
+  simpa using threePointAnticommutator23_smul_right (R := R) (ω := ω) (-1 : R) a b c m n k
+
+/-- `(2,3)` anticommutator is subtraction-linear in the first field slot. -/
+theorem threePointAnticommutator23_sub_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : FormalDistribution R V) (m n k : ℤ) :
+    threePointAnticommutator23 (R := R) ω (a - b) c d m n k =
+      threePointAnticommutator23 (R := R) ω a c d m n k -
+        threePointAnticommutator23 (R := R) ω b c d m n k := by
+  rw [sub_eq_add_neg]
+  rw [threePointAnticommutator23_add_left (R := R) (ω := ω) a (-b) c d m n k]
+  rw [threePointAnticommutator23_neg_left (R := R) (ω := ω) b c d m n k]
+  simp [sub_eq_add_neg]
+
+/-- `(2,3)` anticommutator is subtraction-linear in the middle field slot. -/
+theorem threePointAnticommutator23_sub_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : FormalDistribution R V) (m n k : ℤ) :
+    threePointAnticommutator23 (R := R) ω a (b - c) d m n k =
+      threePointAnticommutator23 (R := R) ω a b d m n k -
+        threePointAnticommutator23 (R := R) ω a c d m n k := by
+  rw [sub_eq_add_neg]
+  rw [threePointAnticommutator23_add_middle (R := R) (ω := ω) a b (-c) d m n k]
+  rw [threePointAnticommutator23_neg_middle (R := R) (ω := ω) a c d m n k]
+  simp [sub_eq_add_neg]
+
+/-- `(2,3)` anticommutator is subtraction-linear in the third field slot. -/
+theorem threePointAnticommutator23_sub_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : FormalDistribution R V) (m n k : ℤ) :
+    threePointAnticommutator23 (R := R) ω a b (c - d) m n k =
+      threePointAnticommutator23 (R := R) ω a b c m n k -
+        threePointAnticommutator23 (R := R) ω a b d m n k := by
+  rw [sub_eq_add_neg]
+  rw [threePointAnticommutator23_add_right (R := R) (ω := ω) a b c (-d) m n k]
+  rw [threePointAnticommutator23_neg_right (R := R) (ω := ω) a b d m n k]
+  simp [sub_eq_add_neg]
+
+/-- State-level `(2,3)` commutator is negation-linear in the first slot. -/
+theorem threePointStateCommutator23_neg_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-a) = -VertexAlgebra.Y (R := R) a)
+    (m n k : ℤ) :
+    threePointStateCommutator23 (R := R) ω (-a) b c m n k =
+      -threePointStateCommutator23 (R := R) ω a b c m n k := by
+  unfold threePointStateCommutator23
+  simpa [hYneg] using
+    (threePointCommutator23_neg_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level `(2,3)` commutator is negation-linear in the middle slot. -/
+theorem threePointStateCommutator23_neg_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-b) = -VertexAlgebra.Y (R := R) b)
+    (m n k : ℤ) :
+    threePointStateCommutator23 (R := R) ω a (-b) c m n k =
+      -threePointStateCommutator23 (R := R) ω a b c m n k := by
+  unfold threePointStateCommutator23
+  simpa [hYneg] using
+    (threePointCommutator23_neg_middle (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level `(2,3)` commutator is negation-linear in the third slot. -/
+theorem threePointStateCommutator23_neg_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-c) = -VertexAlgebra.Y (R := R) c)
+    (m n k : ℤ) :
+    threePointStateCommutator23 (R := R) ω a b (-c) m n k =
+      -threePointStateCommutator23 (R := R) ω a b c m n k := by
+  unfold threePointStateCommutator23
+  simpa [hYneg] using
+    (threePointCommutator23_neg_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level `(2,3)` commutator is subtraction-linear in the first slot. -/
+theorem threePointStateCommutator23_sub_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYsub : VertexAlgebra.Y (R := R) (a - b) =
+      VertexAlgebra.Y (R := R) a - VertexAlgebra.Y (R := R) b)
+    (m n k : ℤ) :
+    threePointStateCommutator23 (R := R) ω (a - b) c d m n k =
+      threePointStateCommutator23 (R := R) ω a c d m n k -
+        threePointStateCommutator23 (R := R) ω b c d m n k := by
+  unfold threePointStateCommutator23
+  simpa [hYsub] using
+    (threePointCommutator23_sub_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level `(2,3)` commutator is subtraction-linear in the middle slot. -/
+theorem threePointStateCommutator23_sub_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYsub : VertexAlgebra.Y (R := R) (b - c) =
+      VertexAlgebra.Y (R := R) b - VertexAlgebra.Y (R := R) c)
+    (m n k : ℤ) :
+    threePointStateCommutator23 (R := R) ω a (b - c) d m n k =
+      threePointStateCommutator23 (R := R) ω a b d m n k -
+        threePointStateCommutator23 (R := R) ω a c d m n k := by
+  unfold threePointStateCommutator23
+  simpa [hYsub] using
+    (threePointCommutator23_sub_middle (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level `(2,3)` commutator is subtraction-linear in the third slot. -/
+theorem threePointStateCommutator23_sub_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYsub : VertexAlgebra.Y (R := R) (c - d) =
+      VertexAlgebra.Y (R := R) c - VertexAlgebra.Y (R := R) d)
+    (m n k : ℤ) :
+    threePointStateCommutator23 (R := R) ω a b (c - d) m n k =
+      threePointStateCommutator23 (R := R) ω a b c m n k -
+        threePointStateCommutator23 (R := R) ω a b d m n k := by
+  unfold threePointStateCommutator23
+  simpa [hYsub] using
+    (threePointCommutator23_sub_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level `(2,3)` anticommutator is negation-linear in the first slot. -/
+theorem threePointStateAnticommutator23_neg_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-a) = -VertexAlgebra.Y (R := R) a)
+    (m n k : ℤ) :
+    threePointStateAnticommutator23 (R := R) ω (-a) b c m n k =
+      -threePointStateAnticommutator23 (R := R) ω a b c m n k := by
+  unfold threePointStateAnticommutator23
+  simpa [hYneg] using
+    (threePointAnticommutator23_neg_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level `(2,3)` anticommutator is negation-linear in the middle slot. -/
+theorem threePointStateAnticommutator23_neg_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-b) = -VertexAlgebra.Y (R := R) b)
+    (m n k : ℤ) :
+    threePointStateAnticommutator23 (R := R) ω a (-b) c m n k =
+      -threePointStateAnticommutator23 (R := R) ω a b c m n k := by
+  unfold threePointStateAnticommutator23
+  simpa [hYneg] using
+    (threePointAnticommutator23_neg_middle (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level `(2,3)` anticommutator is negation-linear in the third slot. -/
+theorem threePointStateAnticommutator23_neg_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-c) = -VertexAlgebra.Y (R := R) c)
+    (m n k : ℤ) :
+    threePointStateAnticommutator23 (R := R) ω a b (-c) m n k =
+      -threePointStateAnticommutator23 (R := R) ω a b c m n k := by
+  unfold threePointStateAnticommutator23
+  simpa [hYneg] using
+    (threePointAnticommutator23_neg_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level `(2,3)` anticommutator is subtraction-linear in the first slot. -/
+theorem threePointStateAnticommutator23_sub_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYsub : VertexAlgebra.Y (R := R) (a - b) =
+      VertexAlgebra.Y (R := R) a - VertexAlgebra.Y (R := R) b)
+    (m n k : ℤ) :
+    threePointStateAnticommutator23 (R := R) ω (a - b) c d m n k =
+      threePointStateAnticommutator23 (R := R) ω a c d m n k -
+        threePointStateAnticommutator23 (R := R) ω b c d m n k := by
+  unfold threePointStateAnticommutator23
+  simpa [hYsub] using
+    (threePointAnticommutator23_sub_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level `(2,3)` anticommutator is subtraction-linear in the middle slot. -/
+theorem threePointStateAnticommutator23_sub_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYsub : VertexAlgebra.Y (R := R) (b - c) =
+      VertexAlgebra.Y (R := R) b - VertexAlgebra.Y (R := R) c)
+    (m n k : ℤ) :
+    threePointStateAnticommutator23 (R := R) ω a (b - c) d m n k =
+      threePointStateAnticommutator23 (R := R) ω a b d m n k -
+        threePointStateAnticommutator23 (R := R) ω a c d m n k := by
+  unfold threePointStateAnticommutator23
+  simpa [hYsub] using
+    (threePointAnticommutator23_sub_middle (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level `(2,3)` anticommutator is subtraction-linear in the third slot. -/
+theorem threePointStateAnticommutator23_sub_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYsub : VertexAlgebra.Y (R := R) (c - d) =
+      VertexAlgebra.Y (R := R) c - VertexAlgebra.Y (R := R) d)
+    (m n k : ℤ) :
+    threePointStateAnticommutator23 (R := R) ω a b (c - d) m n k =
+      threePointStateAnticommutator23 (R := R) ω a b c m n k -
+        threePointStateAnticommutator23 (R := R) ω a b d m n k := by
+  unfold threePointStateAnticommutator23
+  simpa [hYsub] using
+    (threePointAnticommutator23_sub_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
 /-- Three-point commutator (last two insertions) expressed by `nthProduct` difference. -/
 theorem threePointCommutator23_eq_nthProduct_sub
     {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
