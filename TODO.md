@@ -540,6 +540,36 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 26)
+
+1. Completed state-level OPE-regime wrappers for the remaining three-point commutator families in `Correlators.lean`:
+   - pair `(2,3)` wrappers:
+     `threePointStateCommutator23_eq_coefficientOrZero_sub`,
+     `threePointStateAnticommutator23_eq_coefficientOrZero_add`,
+     `threePointStateCommutator23_eq_zero_of_ge_opeOrders`,
+     `threePointStateAnticommutator23_eq_zero_of_ge_opeOrders`,
+     `threePointStateCommutator23_eq_opeCoefficient_sub_of_lt`,
+     `threePointStateAnticommutator23_eq_opeCoefficient_add_of_lt`,
+     `threePointStateCommutator23_eq_opeCoefficient_of_ge_n_lt_k`,
+     `threePointStateAnticommutator23_eq_opeCoefficient_of_ge_n_lt_k`,
+     `threePointStateCommutator23_eq_neg_opeCoefficient_of_lt_n_ge_k`,
+     `threePointStateAnticommutator23_eq_opeCoefficient_of_lt_n_ge_k`
+   - pair `(1,3)` wrappers:
+     `threePointStateCommutator13_eq_coefficientOrZero_sub`,
+     `threePointStateAnticommutator13_eq_coefficientOrZero_add`,
+     `threePointStateCommutator13_eq_zero_of_ge_opeOrders`,
+     `threePointStateAnticommutator13_eq_zero_of_ge_opeOrders`,
+     `threePointStateCommutator13_eq_opeCoefficient_sub_of_lt`,
+     `threePointStateAnticommutator13_eq_opeCoefficient_add_of_lt`,
+     `threePointStateCommutator13_eq_neg_opeCoefficient_of_ge_ba_lt_bc`,
+     `threePointStateAnticommutator13_eq_opeCoefficient_of_ge_ba_lt_bc`,
+     `threePointStateCommutator13_eq_opeCoefficient_of_lt_ba_ge_bc`,
+     `threePointStateAnticommutator13_eq_opeCoefficient_of_lt_ba_ge_bc`
+2. With this pass, all three commutator pair families `(1,2)`, `(2,3)`, `(1,3)` now have state-level OPE-regime APIs mirroring the established mode-level theorem families.
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text
