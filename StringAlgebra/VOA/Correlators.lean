@@ -694,6 +694,22 @@ def threePointAnticommutator12
     (a b c : FormalDistribution R V) (m n k : ℤ) : R :=
   threePointModes (R := R) ω a b c m n k + threePointModes (R := R) ω b a c n m k
 
+/-- Three-point commutator in the first two insertions, with state inputs. -/
+def threePointStateCommutator12
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) : R :=
+  threePointCommutator12 (R := R) ω
+    (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) c) m n k
+
+/-- Three-point anticommutator in the first two insertions, with state inputs. -/
+def threePointStateAnticommutator12
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) : R :=
+  threePointAnticommutator12 (R := R) ω
+    (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) c) m n k
+
 @[simp] theorem threePointCommutator12_eq
     {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
     (ω : VacuumFunctional (R := R) V)
@@ -713,6 +729,52 @@ def threePointAnticommutator12
         ((c k) (((b n) ((a m) (VertexAlgebra.vacuum (R := R))) +
           (a m) ((b n) (VertexAlgebra.vacuum (R := R)))))) := by
   simp [threePointAnticommutator12, threePointModes_eq, map_add]
+
+@[simp] theorem threePointStateCommutator12_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) :
+    threePointStateCommutator12 (R := R) ω a b c m n k =
+      threePointStateModes (R := R) ω a b c m n k -
+        threePointStateModes (R := R) ω b a c n m k := by
+  rfl
+
+@[simp] theorem threePointStateAnticommutator12_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) :
+    threePointStateAnticommutator12 (R := R) ω a b c m n k =
+      threePointStateModes (R := R) ω a b c m n k +
+        threePointStateModes (R := R) ω b a c n m k := by
+  rfl
+
+@[simp] theorem threePointStateCommutator12_eq_apply
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) :
+    threePointStateCommutator12 (R := R) ω a b c m n k =
+      ω.epsilon
+        ((VertexAlgebra.Y (R := R) c k)
+          (((VertexAlgebra.Y (R := R) b n) ((VertexAlgebra.Y (R := R) a m) (VertexAlgebra.vacuum (R := R))) -
+            (VertexAlgebra.Y (R := R) a m) ((VertexAlgebra.Y (R := R) b n) (VertexAlgebra.vacuum (R := R)))))) := by
+  unfold threePointStateCommutator12
+  exact threePointCommutator12_eq (R := R) (ω := ω)
+    (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+    (c := VertexAlgebra.Y (R := R) c) m n k
+
+@[simp] theorem threePointStateAnticommutator12_eq_apply
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) :
+    threePointStateAnticommutator12 (R := R) ω a b c m n k =
+      ω.epsilon
+        ((VertexAlgebra.Y (R := R) c k)
+          (((VertexAlgebra.Y (R := R) b n) ((VertexAlgebra.Y (R := R) a m) (VertexAlgebra.vacuum (R := R))) +
+            (VertexAlgebra.Y (R := R) a m) ((VertexAlgebra.Y (R := R) b n) (VertexAlgebra.vacuum (R := R)))))) := by
+  unfold threePointStateAnticommutator12
+  exact threePointAnticommutator12_eq (R := R) (ω := ω)
+    (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+    (c := VertexAlgebra.Y (R := R) c) m n k
 
 /-- Three-point commutator (first two insertions) expressed by `nthProduct` difference. -/
 theorem threePointCommutator12_eq_nthProduct_sub
@@ -1234,6 +1296,190 @@ theorem threePointAnticommutator12_eq_opeCoefficient_of_lt_left_ge_right
           rw [hleft, hright]
           simp
 
+/-- State-level `12` commutator with coefficient-or-zero extraction. -/
+theorem threePointStateCommutator12_eq_coefficientOrZero_sub
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    (m n : ℕ) (k : ℤ) :
+    threePointStateCommutator12 (R := R) ω a b c (m : ℤ) (n : ℤ) k =
+      ω.epsilon
+        ((VertexAlgebra.Y (R := R) c k)
+          (((OPEFiniteOrder.coefficientOrZero (R := R) (V := V)
+                (a := VertexAlgebra.Y (R := R) b) (b := VertexAlgebra.Y (R := R) a) Fba n)
+              ((n : ℤ) + (m : ℤ)) (VertexAlgebra.vacuum (R := R))) -
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V)
+                (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab m)
+              ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R))))) := by
+  simpa [threePointStateCommutator12] using
+    (threePointCommutator12_eq_coefficientOrZero_sub (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) Fab Fba m n k)
+
+/-- State-level `12` anticommutator with coefficient-or-zero extraction. -/
+theorem threePointStateAnticommutator12_eq_coefficientOrZero_add
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    (m n : ℕ) (k : ℤ) :
+    threePointStateAnticommutator12 (R := R) ω a b c (m : ℤ) (n : ℤ) k =
+      ω.epsilon
+        ((VertexAlgebra.Y (R := R) c k)
+          (((OPEFiniteOrder.coefficientOrZero (R := R) (V := V)
+                (a := VertexAlgebra.Y (R := R) b) (b := VertexAlgebra.Y (R := R) a) Fba n)
+              ((n : ℤ) + (m : ℤ)) (VertexAlgebra.vacuum (R := R))) +
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V)
+                (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab m)
+              ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R))))) := by
+  simpa [threePointStateAnticommutator12] using
+    (threePointAnticommutator12_eq_coefficientOrZero_add (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) Fab Fba m n k)
+
+/-- State-level `12` commutator vanishing in the above-order regime. -/
+theorem threePointStateCommutator12_eq_zero_of_ge_opeOrders
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : Fab.data.order ≤ m) (hn : Fba.data.order ≤ n) (k : ℤ) :
+    threePointStateCommutator12 (R := R) ω a b c (m : ℤ) (n : ℤ) k = 0 := by
+  simpa [threePointStateCommutator12] using
+    (threePointCommutator12_eq_zero_of_ge_opeOrders (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) Fab Fba hm hn k)
+
+/-- State-level `12` anticommutator vanishing in the above-order regime. -/
+theorem threePointStateAnticommutator12_eq_zero_of_ge_opeOrders
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : Fab.data.order ≤ m) (hn : Fba.data.order ≤ n) (k : ℤ) :
+    threePointStateAnticommutator12 (R := R) ω a b c (m : ℤ) (n : ℤ) k = 0 := by
+  simpa [threePointStateAnticommutator12] using
+    (threePointAnticommutator12_eq_zero_of_ge_opeOrders (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) Fab Fba hm hn k)
+
+/-- State-level `12` commutator extraction in the strict-below regime. -/
+theorem threePointStateCommutator12_eq_opeCoefficient_sub_of_lt
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : m < Fab.data.order) (hn : n < Fba.data.order) (k : ℤ) :
+    threePointStateCommutator12 (R := R) ω a b c (m : ℤ) (n : ℤ) k =
+      ω.epsilon
+        ((VertexAlgebra.Y (R := R) c k)
+          ((Fba.data.coefficients ⟨n, hn⟩ ((n : ℤ) + (m : ℤ)) (VertexAlgebra.vacuum (R := R))) -
+            (Fab.data.coefficients ⟨m, hm⟩ ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R))))) := by
+  simpa [threePointStateCommutator12] using
+    (threePointCommutator12_eq_opeCoefficient_sub_of_lt (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) Fab Fba hm hn k)
+
+/-- State-level `12` anticommutator extraction in the strict-below regime. -/
+theorem threePointStateAnticommutator12_eq_opeCoefficient_add_of_lt
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : m < Fab.data.order) (hn : n < Fba.data.order) (k : ℤ) :
+    threePointStateAnticommutator12 (R := R) ω a b c (m : ℤ) (n : ℤ) k =
+      ω.epsilon
+        ((VertexAlgebra.Y (R := R) c k)
+          ((Fba.data.coefficients ⟨n, hn⟩ ((n : ℤ) + (m : ℤ)) (VertexAlgebra.vacuum (R := R))) +
+            (Fab.data.coefficients ⟨m, hm⟩ ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R))))) := by
+  simpa [threePointStateAnticommutator12] using
+    (threePointAnticommutator12_eq_opeCoefficient_add_of_lt (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) Fab Fba hm hn k)
+
+/-- State-level `12` commutator in mixed regime `(ge left, lt right)`. -/
+theorem threePointStateCommutator12_eq_opeCoefficient_of_ge_left_lt_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : Fab.data.order ≤ m) (hn : n < Fba.data.order) (k : ℤ) :
+    threePointStateCommutator12 (R := R) ω a b c (m : ℤ) (n : ℤ) k =
+      ω.epsilon
+        ((VertexAlgebra.Y (R := R) c k) (Fba.data.coefficients ⟨n, hn⟩
+          ((n : ℤ) + (m : ℤ)) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa [threePointStateCommutator12] using
+    (threePointCommutator12_eq_opeCoefficient_of_ge_left_lt_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) Fab Fba hm hn k)
+
+/-- State-level `12` anticommutator in mixed regime `(ge left, lt right)`. -/
+theorem threePointStateAnticommutator12_eq_opeCoefficient_of_ge_left_lt_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : Fab.data.order ≤ m) (hn : n < Fba.data.order) (k : ℤ) :
+    threePointStateAnticommutator12 (R := R) ω a b c (m : ℤ) (n : ℤ) k =
+      ω.epsilon
+        ((VertexAlgebra.Y (R := R) c k) (Fba.data.coefficients ⟨n, hn⟩
+          ((n : ℤ) + (m : ℤ)) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa [threePointStateAnticommutator12] using
+    (threePointAnticommutator12_eq_opeCoefficient_of_ge_left_lt_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) Fab Fba hm hn k)
+
+/-- State-level `12` commutator in mixed regime `(lt left, ge right)`. -/
+theorem threePointStateCommutator12_eq_neg_opeCoefficient_of_lt_left_ge_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : m < Fab.data.order) (hn : Fba.data.order ≤ n) (k : ℤ) :
+    threePointStateCommutator12 (R := R) ω a b c (m : ℤ) (n : ℤ) k =
+      -ω.epsilon
+        ((VertexAlgebra.Y (R := R) c k) (Fab.data.coefficients ⟨m, hm⟩
+          ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa [threePointStateCommutator12] using
+    (threePointCommutator12_eq_neg_opeCoefficient_of_lt_left_ge_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) Fab Fba hm hn k)
+
+/-- State-level `12` anticommutator in mixed regime `(lt left, ge right)`. -/
+theorem threePointStateAnticommutator12_eq_opeCoefficient_of_lt_left_ge_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : m < Fab.data.order) (hn : Fba.data.order ≤ n) (k : ℤ) :
+    threePointStateAnticommutator12 (R := R) ω a b c (m : ℤ) (n : ℤ) k =
+      ω.epsilon
+        ((VertexAlgebra.Y (R := R) c k) (Fab.data.coefficients ⟨m, hm⟩
+          ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa [threePointStateAnticommutator12] using
+    (threePointAnticommutator12_eq_opeCoefficient_of_lt_left_ge_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) Fab Fba hm hn k)
+
 /-- Three-point commutator in the last two insertions:
     `⟨c(k)b(n)a(m) - b(n)c(k)a(m)⟩`. -/
 def threePointCommutator23
@@ -1249,6 +1495,22 @@ def threePointAnticommutator23
     (ω : VacuumFunctional (R := R) V)
     (a b c : FormalDistribution R V) (m n k : ℤ) : R :=
   threePointModes (R := R) ω a b c m n k + threePointModes (R := R) ω a c b m k n
+
+/-- Three-point commutator in the last two insertions, with state inputs. -/
+def threePointStateCommutator23
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) : R :=
+  threePointCommutator23 (R := R) ω
+    (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) c) m n k
+
+/-- Three-point anticommutator in the last two insertions, with state inputs. -/
+def threePointStateAnticommutator23
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) : R :=
+  threePointAnticommutator23 (R := R) ω
+    (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) c) m n k
 
 @[simp] theorem threePointCommutator23_eq
     {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
@@ -1269,6 +1531,24 @@ def threePointAnticommutator23
         (((c k) ((b n) ((a m) (VertexAlgebra.vacuum (R := R)))) +
           (b n) ((c k) ((a m) (VertexAlgebra.vacuum (R := R)))))) := by
   simp [threePointAnticommutator23, threePointModes_eq, map_add]
+
+@[simp] theorem threePointStateCommutator23_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) :
+    threePointStateCommutator23 (R := R) ω a b c m n k =
+      threePointStateModes (R := R) ω a b c m n k -
+        threePointStateModes (R := R) ω a c b m k n := by
+  rfl
+
+@[simp] theorem threePointStateAnticommutator23_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) :
+    threePointStateAnticommutator23 (R := R) ω a b c m n k =
+      threePointStateModes (R := R) ω a b c m n k +
+        threePointStateModes (R := R) ω a c b m k n := by
+  rfl
 
 /-- Three-point commutator (last two insertions) expressed by `nthProduct` difference. -/
 theorem threePointCommutator23_eq_nthProduct_sub
@@ -1820,6 +2100,22 @@ def threePointAnticommutator13
     (a b c : FormalDistribution R V) (m n k : ℤ) : R :=
   threePointModes (R := R) ω a b c m n k + threePointModes (R := R) ω c b a k n m
 
+/-- Three-point commutator in the first and third insertions, with state inputs. -/
+def threePointStateCommutator13
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) : R :=
+  threePointCommutator13 (R := R) ω
+    (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) c) m n k
+
+/-- Three-point anticommutator in the first and third insertions, with state inputs. -/
+def threePointStateAnticommutator13
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) : R :=
+  threePointAnticommutator13 (R := R) ω
+    (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) c) m n k
+
 @[simp] theorem threePointCommutator13_eq
     {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
     (ω : VacuumFunctional (R := R) V)
@@ -1839,6 +2135,24 @@ def threePointAnticommutator13
         (((c k) ((b n) ((a m) (VertexAlgebra.vacuum (R := R)))) +
           (a m) ((b n) ((c k) (VertexAlgebra.vacuum (R := R)))))) := by
   simp [threePointAnticommutator13, threePointModes_eq, map_add]
+
+@[simp] theorem threePointStateCommutator13_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) :
+    threePointStateCommutator13 (R := R) ω a b c m n k =
+      threePointStateModes (R := R) ω a b c m n k -
+        threePointStateModes (R := R) ω c b a k n m := by
+  rfl
+
+@[simp] theorem threePointStateAnticommutator13_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) :
+    threePointStateAnticommutator13 (R := R) ω a b c m n k =
+      threePointStateModes (R := R) ω a b c m n k +
+        threePointStateModes (R := R) ω c b a k n m := by
+  rfl
 
 /-- Three-point commutator (first and third insertions), with finite-order OPE data
     for `(b,a)` and `(b,c)`, expressed through `coefficientOrZero` fields. -/

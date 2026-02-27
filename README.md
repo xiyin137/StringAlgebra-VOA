@@ -45,6 +45,7 @@ rg -n '^[[:space:]]*axiom\b|^[[:space:]]*admit\b|Classical\.choose|Classical\.ep
    - three-point to two-point mode correlators
    - state-level two-/three-point wrappers with corresponding vacuum-reduction lemmas
    - state-level two-point commutator/anticommutator wrappers with OPE-regime extraction lemmas
+   - state-level three-point commutator/anticommutator wrappers (pair `12/23/13`) with OPE-regime extraction for pair `12`
 
 ## Related Repositories
 
