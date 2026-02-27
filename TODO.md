@@ -473,6 +473,34 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 24)
+
+1. Added state-level two-point commutator/anticommutator definitions in `Correlators.lean`:
+   - `twoPointStateCommutator`, `twoPointStateAnticommutator`
+   - state-form expansion lemmas:
+     `twoPointStateCommutator_eq`,
+     `twoPointStateAnticommutator_eq`,
+     `twoPointStateCommutator_eq_apply`,
+     `twoPointStateAnticommutator_eq_apply`
+2. Added state-level OPE-regime wrappers for two-point commutator/anticommutator:
+   - at/above-order vanishing:
+     `twoPointStateCommutator_eq_zero_of_ge_opeOrders`,
+     `twoPointStateAnticommutator_eq_zero_of_ge_opeOrders`
+   - coefficient-or-zero forms:
+     `twoPointStateCommutator_eq_twoPointCoefficientOrZero_sub`,
+     `twoPointStateAnticommutator_eq_twoPointCoefficientOrZero_add`
+   - strict-below extraction:
+     `twoPointStateCommutator_eq_opeCoefficient_sub_of_lt`,
+     `twoPointStateAnticommutator_eq_opeCoefficient_add_of_lt`
+   - mixed-regime extraction:
+     `twoPointStateCommutator_eq_opeCoefficient_of_ge_left_lt_right`,
+     `twoPointStateAnticommutator_eq_opeCoefficient_of_ge_left_lt_right`,
+     `twoPointStateCommutator_eq_neg_opeCoefficient_of_lt_left_ge_right`,
+     `twoPointStateAnticommutator_eq_opeCoefficient_of_lt_left_ge_right`
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text

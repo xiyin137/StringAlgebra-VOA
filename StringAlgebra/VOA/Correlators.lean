@@ -2342,6 +2342,22 @@ def twoPointAnticommutator
     (a b : FormalDistribution R V) (m n : ℤ) : R :=
   twoPointModes (R := R) ω a b m n + twoPointModes (R := R) ω b a n m
 
+/-- Two-point commutator with state insertions via the state-field map. -/
+def twoPointStateCommutator
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n : ℤ) : R :=
+  twoPointCommutator (R := R) ω
+    (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b) m n
+
+/-- Two-point anticommutator with state insertions via the state-field map. -/
+def twoPointStateAnticommutator
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n : ℤ) : R :=
+  twoPointAnticommutator (R := R) ω
+    (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b) m n
+
 @[simp] theorem twoPointCommutator_eq
     {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
     (ω : VacuumFunctional (R := R) V)
@@ -2361,6 +2377,46 @@ def twoPointAnticommutator
         (((b n) ((a m) (VertexAlgebra.vacuum (R := R))) +
           (a m) ((b n) (VertexAlgebra.vacuum (R := R))))) := by
   simp [twoPointAnticommutator, twoPointModes_eq, map_add]
+
+@[simp] theorem twoPointStateCommutator_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n : ℤ) :
+    twoPointStateCommutator (R := R) ω a b m n =
+      twoPointStateModes (R := R) ω a b m n - twoPointStateModes (R := R) ω b a n m := by
+  rfl
+
+@[simp] theorem twoPointStateAnticommutator_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n : ℤ) :
+    twoPointStateAnticommutator (R := R) ω a b m n =
+      twoPointStateModes (R := R) ω a b m n + twoPointStateModes (R := R) ω b a n m := by
+  rfl
+
+@[simp] theorem twoPointStateCommutator_eq_apply
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n : ℤ) :
+    twoPointStateCommutator (R := R) ω a b m n =
+      ω.epsilon
+        (((VertexAlgebra.Y (R := R) b n) ((VertexAlgebra.Y (R := R) a m) (VertexAlgebra.vacuum (R := R))) -
+          (VertexAlgebra.Y (R := R) a m) ((VertexAlgebra.Y (R := R) b n) (VertexAlgebra.vacuum (R := R))))) := by
+  unfold twoPointStateCommutator
+  exact twoPointCommutator_eq (R := R) (ω := ω)
+    (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n
+
+@[simp] theorem twoPointStateAnticommutator_eq_apply
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n : ℤ) :
+    twoPointStateAnticommutator (R := R) ω a b m n =
+      ω.epsilon
+        (((VertexAlgebra.Y (R := R) b n) ((VertexAlgebra.Y (R := R) a m) (VertexAlgebra.vacuum (R := R))) +
+          (VertexAlgebra.Y (R := R) a m) ((VertexAlgebra.Y (R := R) b n) (VertexAlgebra.vacuum (R := R))))) := by
+  unfold twoPointStateAnticommutator
+  exact twoPointAnticommutator_eq (R := R) (ω := ω)
+    (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n
 
 /-- Two-point commutator expressed through `nthProduct` difference at mode `m+n`. -/
 theorem twoPointCommutator_eq_nthProduct_sub
@@ -2972,6 +3028,168 @@ theorem twoPointAnticommutator_eq_opeCoefficient_of_lt_left_ge_right
     _ = ω.epsilon (Fab.data.coefficients ⟨m, hm⟩ ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
           rw [hleft, hright]
           simp
+
+/-- State-level two-point commutator vanishes when both mode indices are at/above
+    OPE orders in both orientations. -/
+theorem twoPointStateCommutator_eq_zero_of_ge_opeOrders
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : Fab.data.order ≤ m) (hn : Fba.data.order ≤ n) :
+    twoPointStateCommutator (R := R) ω a b (m : ℤ) (n : ℤ) = 0 := by
+  simpa [twoPointStateCommutator] using
+    (twoPointCommutator_eq_zero_of_ge_opeOrders (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab Fba hm hn)
+
+/-- State-level two-point anticommutator vanishes when both mode indices are
+    at/above OPE orders in both orientations. -/
+theorem twoPointStateAnticommutator_eq_zero_of_ge_opeOrders
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : Fab.data.order ≤ m) (hn : Fba.data.order ≤ n) :
+    twoPointStateAnticommutator (R := R) ω a b (m : ℤ) (n : ℤ) = 0 := by
+  simpa [twoPointStateAnticommutator] using
+    (twoPointAnticommutator_eq_zero_of_ge_opeOrders (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab Fba hm hn)
+
+/-- State-level two-point commutator in terms of canonical coefficient-or-zero
+    values in both OPE orientations. -/
+theorem twoPointStateCommutator_eq_twoPointCoefficientOrZero_sub
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    (m n : ℕ) :
+    twoPointStateCommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      twoPointCoefficientOrZero (R := R) (ω := ω)
+        (a := VertexAlgebra.Y (R := R) b) (b := VertexAlgebra.Y (R := R) a) Fba n (m : ℤ) -
+      twoPointCoefficientOrZero (R := R) (ω := ω)
+        (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab m (n : ℤ) := by
+  simpa [twoPointStateCommutator] using
+    (twoPointCommutator_eq_twoPointCoefficientOrZero_sub (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab Fba m n)
+
+/-- State-level two-point anticommutator in terms of canonical coefficient-or-zero
+    values in both OPE orientations. -/
+theorem twoPointStateAnticommutator_eq_twoPointCoefficientOrZero_add
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    (m n : ℕ) :
+    twoPointStateAnticommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      twoPointCoefficientOrZero (R := R) (ω := ω)
+        (a := VertexAlgebra.Y (R := R) b) (b := VertexAlgebra.Y (R := R) a) Fba n (m : ℤ) +
+      twoPointCoefficientOrZero (R := R) (ω := ω)
+        (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab m (n : ℤ) := by
+  simpa [twoPointStateAnticommutator] using
+    (twoPointAnticommutator_eq_twoPointCoefficientOrZero_add (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab Fba m n)
+
+/-- Strict-below-order state-level commutator extraction by OPE coefficients. -/
+theorem twoPointStateCommutator_eq_opeCoefficient_sub_of_lt
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : m < Fab.data.order) (hn : n < Fba.data.order) :
+    twoPointStateCommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      ω.epsilon (Fba.data.coefficients ⟨n, hn⟩ ((n : ℤ) + (m : ℤ)) (VertexAlgebra.vacuum (R := R))) -
+      ω.epsilon (Fab.data.coefficients ⟨m, hm⟩ ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
+  simpa [twoPointStateCommutator] using
+    (twoPointCommutator_eq_opeCoefficient_sub_of_lt (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab Fba hm hn)
+
+/-- Strict-below-order state-level anticommutator extraction by OPE coefficients. -/
+theorem twoPointStateAnticommutator_eq_opeCoefficient_add_of_lt
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : m < Fab.data.order) (hn : n < Fba.data.order) :
+    twoPointStateAnticommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      ω.epsilon (Fba.data.coefficients ⟨n, hn⟩ ((n : ℤ) + (m : ℤ)) (VertexAlgebra.vacuum (R := R))) +
+      ω.epsilon (Fab.data.coefficients ⟨m, hm⟩ ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
+  simpa [twoPointStateAnticommutator] using
+    (twoPointAnticommutator_eq_opeCoefficient_add_of_lt (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab Fba hm hn)
+
+/-- Mixed regime (left above, right below): state-level commutator is the
+    right-oriented coefficient term. -/
+theorem twoPointStateCommutator_eq_opeCoefficient_of_ge_left_lt_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : Fab.data.order ≤ m) (hn : n < Fba.data.order) :
+    twoPointStateCommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      ω.epsilon (Fba.data.coefficients ⟨n, hn⟩ ((n : ℤ) + (m : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
+  simpa [twoPointStateCommutator] using
+    (twoPointCommutator_eq_opeCoefficient_of_ge_left_lt_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab Fba hm hn)
+
+/-- Mixed regime (left above, right below): state-level anticommutator is the
+    right-oriented coefficient term. -/
+theorem twoPointStateAnticommutator_eq_opeCoefficient_of_ge_left_lt_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : Fab.data.order ≤ m) (hn : n < Fba.data.order) :
+    twoPointStateAnticommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      ω.epsilon (Fba.data.coefficients ⟨n, hn⟩ ((n : ℤ) + (m : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
+  simpa [twoPointStateAnticommutator] using
+    (twoPointAnticommutator_eq_opeCoefficient_of_ge_left_lt_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab Fba hm hn)
+
+/-- Mixed regime (left below, right above): state-level commutator is minus the
+    left-oriented coefficient term. -/
+theorem twoPointStateCommutator_eq_neg_opeCoefficient_of_lt_left_ge_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : m < Fab.data.order) (hn : Fba.data.order ≤ n) :
+    twoPointStateCommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      -ω.epsilon (Fab.data.coefficients ⟨m, hm⟩ ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
+  simpa [twoPointStateCommutator] using
+    (twoPointCommutator_eq_neg_opeCoefficient_of_lt_left_ge_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab Fba hm hn)
+
+/-- Mixed regime (left below, right above): state-level anticommutator is the
+    left-oriented coefficient term. -/
+theorem twoPointStateAnticommutator_eq_opeCoefficient_of_lt_left_ge_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hm : m < Fab.data.order) (hn : Fba.data.order ≤ n) :
+    twoPointStateAnticommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      ω.epsilon (Fab.data.coefficients ⟨m, hm⟩ ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
+  simpa [twoPointStateAnticommutator] using
+    (twoPointAnticommutator_eq_opeCoefficient_of_lt_left_ge_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab Fba hm hn)
 
 /-- Correlator linearity in the first inserted field mode. -/
 theorem twoPointModes_add_left
