@@ -777,6 +777,25 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 36)
+
+1. Completed three-point `(1,3)` commutator/anticommutator linearity families in
+   `Correlators.lean` by adding the missing negation/subtraction layer:
+   - formal-distribution layer:
+     `threePointCommutator13_neg_*`, `threePointCommutator13_sub_*`,
+     `threePointAnticommutator13_neg_*`, `threePointAnticommutator13_sub_*`
+     (left/middle/right variants)
+2. Added matching state-level `(1,3)` negation/subtraction wrappers under explicit
+   `Y`-compatibility hypotheses (`Y` preserving `neg/sub`):
+   - `threePointStateCommutator13_neg_*`, `threePointStateCommutator13_sub_*`
+   - `threePointStateAnticommutator13_neg_*`, `threePointStateAnticommutator13_sub_*`
+   (left/middle/right variants)
+3. With passes 35-36 together, `(1,3)` now has full `add/smul/neg/sub` linearity
+   coverage at both formal and state levels.
+4. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text
