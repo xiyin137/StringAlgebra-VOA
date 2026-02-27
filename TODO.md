@@ -609,6 +609,24 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 29)
+
+1. Added state-level two-point mode OPE extraction wrappers in `Correlators.lean`:
+   - coefficient extraction / vanishing / piecewise:
+     `twoPointStateModes_eq_opeCoefficient`,
+     `twoPointStateModes_eq_zero_of_ge_opeOrder`,
+     `twoPointStateModes_eq_opeCoefficient_or_zero`
+   - `coefficientOrZero` and canonical-value forms:
+     `twoPointStateModes_eq_coefficientOrZero`,
+     `twoPointStateModes_eq_twoPointCoefficientOrZero`
+   - strict cutoff specializations:
+     `twoPointStateModes_eq_opeCoefficient_of_lt`,
+     `twoPointStateModes_eq_zero_of_ge_opeOrder'`
+2. With this pass, the two-point mode OPE API now has direct state-level wrappers parallel to the formal-distribution layer.
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text

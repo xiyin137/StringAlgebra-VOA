@@ -3565,6 +3565,105 @@ theorem twoPointModes_eq_zero_of_ge_opeOrder'
           change ω.epsilon ((0 : Module.End R V) (VertexAlgebra.vacuum (R := R))) = 0
           simp
 
+/-- State-level two-point mode correlator extracted from an OPE coefficient field. -/
+theorem twoPointStateModes_eq_opeCoefficient
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (F : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (j : Fin F.data.order) (n : ℤ) :
+    twoPointStateModes (R := R) ω b a n (j : ℤ) =
+      ω.epsilon (F.data.coefficients j ((j : ℤ) + n) (VertexAlgebra.vacuum (R := R))) := by
+  unfold twoPointStateModes
+  exact twoPointModes_eq_opeCoefficient (R := R) (ω := ω)
+    (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) F j n
+
+/-- State-level two-point mode correlator vanishes for natural mode indices
+    `j ≥ order`. -/
+theorem twoPointStateModes_eq_zero_of_ge_opeOrder
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (F : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    {j : ℕ} (hj : F.data.order ≤ j) (n : ℤ) :
+    twoPointStateModes (R := R) ω b a n (j : ℤ) = 0 := by
+  unfold twoPointStateModes
+  exact twoPointModes_eq_zero_of_ge_opeOrder (R := R) (ω := ω)
+    (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) F (j := j) hj n
+
+/-- State-level piecewise finite-order OPE extraction for two-point mode correlators:
+    coefficient below OPE order, zero at/above OPE order. -/
+theorem twoPointStateModes_eq_opeCoefficient_or_zero
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (F : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (j : ℕ) (n : ℤ) :
+    twoPointStateModes (R := R) ω b a n (j : ℤ) =
+      if h : j < F.data.order then
+        ω.epsilon (F.data.coefficients ⟨j, h⟩ ((j : ℤ) + n) (VertexAlgebra.vacuum (R := R)))
+      else 0 := by
+  unfold twoPointStateModes
+  exact twoPointModes_eq_opeCoefficient_or_zero (R := R) (ω := ω)
+    (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) F j n
+
+/-- State-level two-point mode correlator in terms of the extended OPE coefficient
+    field (`coefficientOrZero`) evaluated at mode `j+n`. -/
+theorem twoPointStateModes_eq_coefficientOrZero
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (F : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (j : ℕ) (n : ℤ) :
+    twoPointStateModes (R := R) ω b a n (j : ℤ) =
+      ω.epsilon
+        ((OPEFiniteOrder.coefficientOrZero (R := R) (V := V)
+            (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) F j)
+          ((j : ℤ) + n) (VertexAlgebra.vacuum (R := R))) := by
+  unfold twoPointStateModes
+  exact twoPointModes_eq_coefficientOrZero (R := R) (ω := ω)
+    (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) F j n
+
+/-- State-level two-point mode correlator equals the canonical coefficient-or-zero
+    value. -/
+theorem twoPointStateModes_eq_twoPointCoefficientOrZero
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (F : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (j : ℕ) (n : ℤ) :
+    twoPointStateModes (R := R) ω b a n (j : ℤ) =
+      twoPointCoefficientOrZero (R := R) (ω := ω)
+        (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) F j n := by
+  unfold twoPointStateModes
+  exact twoPointModes_eq_twoPointCoefficientOrZero (R := R) (ω := ω)
+    (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) F j n
+
+/-- State-level strict-below-order extraction through `coefficientOrZero`. -/
+theorem twoPointStateModes_eq_opeCoefficient_of_lt
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (F : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    {j : ℕ} (hj : j < F.data.order) (n : ℤ) :
+    twoPointStateModes (R := R) ω b a n (j : ℤ) =
+      ω.epsilon (F.data.coefficients ⟨j, hj⟩ ((j : ℤ) + n) (VertexAlgebra.vacuum (R := R))) := by
+  unfold twoPointStateModes
+  exact twoPointModes_eq_opeCoefficient_of_lt (R := R) (ω := ω)
+    (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) F hj n
+
+/-- State-level at/above-order vanishing through `coefficientOrZero`. -/
+theorem twoPointStateModes_eq_zero_of_ge_opeOrder'
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (F : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    {j : ℕ} (hj : F.data.order ≤ j) (n : ℤ) :
+    twoPointStateModes (R := R) ω b a n (j : ℤ) = 0 := by
+  unfold twoPointStateModes
+  exact twoPointModes_eq_zero_of_ge_opeOrder' (R := R) (ω := ω)
+    (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) F (j := j) hj n
+
 /-- If both mode indices are above OPE orders in both orientations, the two-point
     commutator correlator vanishes. -/
 theorem twoPointCommutator_eq_zero_of_ge_opeOrders
