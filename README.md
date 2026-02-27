@@ -47,7 +47,8 @@ rg -n '^[[:space:]]*axiom\b|^[[:space:]]*admit\b|Classical\.choose|Classical\.ep
    - state-level two-point commutator/anticommutator wrappers with OPE-regime extraction lemmas
    - state-level three-point commutator/anticommutator wrappers (pair `12/23/13`) with OPE-regime extraction for all pairs
    - state-level apply-form commutator/anticommutator simplifications for all three-point pairs (`12/23/13`)
-   - state-level `nthProduct` wrappers for two-point commutator/anticommutator and three-point pairs `(12)` and `(23)`
+   - state-level `nthProduct` wrappers for two-point commutator/anticommutator and all three-point pairs (`12/23/13`)
+   - state-level two-point commutator/anticommutator wrappers in direct `coefficientOrZero` form
 
 ## Related Repositories
 

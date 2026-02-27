@@ -593,6 +593,22 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 28)
+
+1. Completed `(1,3)` `nthProduct` commutator/anticommutator layer in `Correlators.lean`:
+   - mode-level middle-insertion `nthProduct` forms:
+     `threePointCommutator13_eq_nthProduct_sub`,
+     `threePointAnticommutator13_eq_nthProduct_add`
+   - state-level wrappers:
+     `threePointStateCommutator13_eq_nthProduct_sub`,
+     `threePointStateAnticommutator13_eq_nthProduct_add`
+2. Added state-level two-point extended-coefficient wrappers in `Correlators.lean`:
+   - `twoPointStateCommutator_eq_coefficientOrZero_sub`
+   - `twoPointStateAnticommutator_eq_coefficientOrZero_add`
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text
