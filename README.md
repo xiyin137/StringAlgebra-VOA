@@ -5,11 +5,20 @@ Lean 4 formalization of vertex operator algebra infrastructure.
 ## Scope
 
 1. `StringAlgebra/VOA/Basic.lean`
-2. `StringAlgebra/VOA/FormalDistributions.lean`
-3. `StringAlgebra/VOA/VertexAlgebra.lean`
-4. `StringAlgebra/VOA/Virasoro.lean`
-5. `StringAlgebra/VOA/Modules.lean`
-6. `StringAlgebra/VOA/Examples.lean`
+2. `StringAlgebra/VOA/SuperBasic.lean`
+3. `StringAlgebra/VOA/FormalDistributions.lean`
+4. `StringAlgebra/VOA/SuperFormalDistributions.lean`
+5. `StringAlgebra/VOA/VertexAlgebra.lean`
+6. `StringAlgebra/VOA/Virasoro.lean`
+7. `StringAlgebra/VOA/Modules.lean`
+8. `StringAlgebra/VOA/Correlators.lean`
+9. `StringAlgebra/VOA/Examples.lean`
+
+## Planning and Notes
+
+1. `TODO.md`: pass-by-pass log plus free CFT roadmap.
+2. `DEVELOPMENT_PLAN.md`: comprehensive plan for rigorous free boson/free fermion + OPE/correlator development.
+3. `RESEARCH_NOTES.md`: reference-backed notes used for theorem-family planning.
 
 ## Build
 
@@ -22,14 +31,15 @@ lake build StringAlgebra.VOA
 ```bash
 rg -n '^\s*sorry\b' StringAlgebra/VOA --glob '*.lean'
 rg -n '^\s*class\s+.*(Axiom|Axioms|Assumption|Assumptions)' StringAlgebra/VOA --glob '*.lean'
-rg -n '^\s*axiom\s|\badmit\b|Classical\.choose|Classical\.epsilon|^\s*unsafe\s' StringAlgebra/VOA --glob '*.lean'
+rg -n '^[[:space:]]*axiom\b|^[[:space:]]*admit\b|Classical\.choose|Classical\.epsilon|^[[:space:]]*unsafe\s' StringAlgebra/VOA --glob '*.lean'
 ```
 
-## Status (2026-02-26)
+## Status (2026-02-27)
 
 1. Theorem-level `sorry` count: `0`
-2. No assumption-bundle wrapper classes.
-3. No hidden-choice smuggling patterns.
+2. No `axiom`/`admit`/`Classical.choose`/`Classical.epsilon` in `StringAlgebra/VOA/*.lean`.
+3. Super and correlator infrastructure (`SuperBasic`, `SuperFormalDistributions`, `Correlators`) is integrated in the root `StringAlgebra/VOA.lean` target.
+4. Free CFT development phases (boson/fermion/OPE/correlators) are tracked explicitly in `TODO.md`.
 
 ## Related Repositories
 

@@ -1828,7 +1828,9 @@ theorem fusion_rules_bounded_pos_of_positiveDefinite
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))] :
     ∃ (bound : ℕ), 0 < bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₁) (M₂ := M₂) (M₃ := M₃) ≤ bound := by
   have _hcriterion : model.criterion.rational :=
@@ -1845,7 +1847,11 @@ theorem fusion_rules_bounded_pos_pair_of_positiveDefinite
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₂) (M₂ := M₁) (M₃ := M₃))] :
     ∃ (bound : ℕ), 0 < bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₁) (M₂ := M₂) (M₃ := M₃) ≤ bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₂) (M₂ := M₁) (M₃ := M₃) ≤ bound := by
@@ -1863,7 +1869,9 @@ theorem fusion_rules_bounded_pos_of_rational
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))] :
     ∃ (bound : ℕ), 0 < bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₁) (M₂ := M₂) (M₃ := M₃) ≤ bound := by
   have hpos : positiveDefinite V :=
@@ -1879,7 +1887,11 @@ theorem fusion_rules_bounded_pos_pair_of_rational
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₂) (M₂ := M₁) (M₃ := M₃))] :
     ∃ (bound : ℕ), 0 < bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₁) (M₂ := M₂) (M₃ := M₃) ≤ bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₂) (M₂ := M₁) (M₃ := M₃) ≤ bound := by
@@ -1896,7 +1908,11 @@ theorem fusion_rules_bounded_pos_pair_of_positiveDefinite_swapped
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₂) (M₂ := M₁) (M₃ := M₃))] :
     ∃ (bound : ℕ), 0 < bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₂) (M₂ := M₁) (M₃ := M₃) ≤ bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₁) (M₂ := M₂) (M₃ := M₃) ≤ bound := by
@@ -1913,7 +1929,11 @@ theorem fusion_rules_bounded_pos_pair_of_rational_swapped
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₂) (M₂ := M₁) (M₃ := M₃))] :
     ∃ (bound : ℕ), 0 < bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₂) (M₂ := M₁) (M₃ := M₃) ≤ bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₁) (M₂ := M₂) (M₃ := M₃) ≤ bound := by
@@ -1930,7 +1950,9 @@ theorem fusion_rules_finite_of_positiveDefinite
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))] :
     ∃ (bound : ℕ),
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₁) (M₂ := M₂) (M₃ := M₃) ≤ bound := by
   exact fusion_rules_finite_of_bounded_pos (R := R) (V := model.Carrier)
@@ -1945,7 +1967,9 @@ theorem fusion_rules_finite_of_rational
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))] :
     ∃ (bound : ℕ),
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₁) (M₂ := M₂) (M₃ := M₃) ≤ bound := by
   exact fusion_rules_finite_of_bounded_pos (R := R) (V := model.Carrier)
@@ -1961,7 +1985,11 @@ theorem fusion_rules_finite_pair_of_positiveDefinite
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₂) (M₂ := M₁) (M₃ := M₃))] :
     ∃ (bound : ℕ),
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₁) (M₂ := M₂) (M₃ := M₃) ≤ bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₂) (M₂ := M₁) (M₃ := M₃) ≤ bound := by
@@ -1979,7 +2007,11 @@ theorem fusion_rules_finite_pair_of_rational
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₂) (M₂ := M₁) (M₃ := M₃))] :
     ∃ (bound : ℕ),
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₁) (M₂ := M₂) (M₃ := M₃) ≤ bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₂) (M₂ := M₁) (M₃ := M₃) ≤ bound := by
@@ -1996,7 +2028,11 @@ theorem fusion_rules_finite_pair_of_positiveDefinite_swapped
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₂) (M₂ := M₁) (M₃ := M₃))] :
     ∃ (bound : ℕ),
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₂) (M₂ := M₁) (M₃ := M₃) ≤ bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₁) (M₂ := M₂) (M₃ := M₃) ≤ bound := by
@@ -2013,7 +2049,11 @@ theorem fusion_rules_finite_pair_of_rational_swapped
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₂) (M₂ := M₁) (M₃ := M₃))] :
     ∃ (bound : ℕ),
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₂) (M₂ := M₁) (M₃ := M₃) ≤ bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₁) (M₂ := M₂) (M₃ := M₃) ≤ bound := by
@@ -2029,7 +2069,11 @@ theorem fusion_rules_bounded_pos_of_positiveDefinite_swapped
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₂) (M₂ := M₁) (M₃ := M₃))] :
     ∃ (bound : ℕ), 0 < bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₂) (M₂ := M₁) (M₃ := M₃) ≤ bound := by
   exact fusion_rules_bounded_pos_of_pair_right (R := R) (V := model.Carrier)
@@ -2044,7 +2088,11 @@ theorem fusion_rules_finite_of_positiveDefinite_swapped
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₂) (M₂ := M₁) (M₃ := M₃))] :
     ∃ (bound : ℕ),
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₂) (M₂ := M₁) (M₃ := M₃) ≤ bound := by
   exact StringAlgebra.VOA.fusion_rules_finite_of_pair_bounded_pos_right
@@ -2059,7 +2107,11 @@ theorem fusion_rules_bounded_pos_of_rational_swapped
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₂) (M₂ := M₁) (M₃ := M₃))] :
     ∃ (bound : ℕ), 0 < bound ∧
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₂) (M₂ := M₁) (M₃ := M₃) ≤ bound := by
   exact fusion_rules_bounded_pos_of_pair_right (R := R) (V := model.Carrier)
@@ -2074,7 +2126,11 @@ theorem fusion_rules_finite_of_rational_swapped
     {M₁ M₂ M₃ : Type*}
     [AddCommGroup M₁] [Module R M₁] [VAModule R model.Carrier M₁]
     [AddCommGroup M₂] [Module R M₂] [VAModule R model.Carrier M₂]
-    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃] :
+    [AddCommGroup M₃] [Module R M₃] [VAModule R model.Carrier M₃]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₁) (M₂ := M₂) (M₃ := M₃))]
+    [Finite (IntertwiningOperator (R := R) (V := model.Carrier)
+      (M₁ := M₂) (M₂ := M₁) (M₃ := M₃))] :
     ∃ (bound : ℕ),
       fusionRules (R := R) (V := model.Carrier) (M₁ := M₂) (M₂ := M₁) (M₃ := M₃) ≤ bound := by
   exact StringAlgebra.VOA.fusion_rules_finite_of_pair_bounded_pos_right

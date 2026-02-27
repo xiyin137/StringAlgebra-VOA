@@ -15,6 +15,392 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
 7. Redundant field-projection theorem shells in `Examples.lean` were removed (including direct criterion-direction wrappers), keeping the example interface focused on substantive statements.
 8. Additional unused shell wrappers in `FormalDistributions.lean` (definitional and witness-projection helper theorems) were removed to reduce non-semantic interface noise.
 
+## Infrastructure Launch (2026-02-27)
+
+1. Added WS1 algebraic infrastructure in `FormalDistributions.lean`:
+   - field-property closure lemmas (`zero`, `add`, `smul`)
+   - locality closure lemmas (`zero`, `add`, `smul`, symmetry reuse)
+   - `nthProduct` algebra lemmas (`zero`, `add`, evaluation helpers)
+2. Added WS1/WS2 bridge lemmas in `VertexAlgebra.lean`:
+   - `nProduct` right-linearity helpers
+   - applied translation commutator theorem
+   - locality symmetry + vacuum locality forms
+   - Virasoro relation rewritten in `L` notation + explicit `L0Grading` existence packaging
+3. Added reference-driven planning artifact:
+   - `RESEARCH_NOTES.md` with formalization targets extracted from downloaded VOA references.
+4. Post-launch checks:
+   - `lake build StringAlgebra.VOA` passes
+   - `sorry`/`axiom`/`admit`/hidden-choice audit counts remain zero
+   - explicit assumption-package classes are now part of the intended interface surface
+
+## Infrastructure Expansion (2026-02-27, pass 2)
+
+1. Extended WS1 closure algebra in `FormalDistributions.lean`:
+   - derivative closure under `neg`/`sub`
+   - field-property closure under `neg`/`sub`
+   - locality closure under `neg`/`sub` (left/right forms)
+   - `nthProduct` bilinearity infrastructure under `smul`/`neg`/`sub`
+2. Extended WS1/WS2 bridge layer in `VertexAlgebra.lean`:
+   - `nProduct` `neg`/`sub` right-linearity lemmas
+   - rearranged translation commutator formula `translation_apply_nProduct`
+   - locality-closure bridge lemmas with explicit `Y`-compatibility hypotheses (`add`/`sub`)
+   - applied Virasoro relation theorem + derived `L(0)` commutator special cases
+3. Deep-sorry audit:
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean`: `0`
+   - no `axiom`/`admit`/`Classical.choose`/`Classical.epsilon` in VOA Lean files
+4. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+
+## Infrastructure Expansion (2026-02-27, pass 3)
+
+1. Added deeper WS1 `FormalDistributions` infrastructure:
+   - `derivative_identity`
+   - transfer of field property through fixed-mode products (`hasFieldProperty_nthProduct_right`)
+   - normal-ordered product closure (`zero`/`add` and field-property transfer lemmas)
+   - Dong witness accessors + normal-ordered specialization (`DongLemmaData.mutuallyLocal_*`)
+2. Added deeper WS2 bridge lemmas in `VertexAlgebra.lean`:
+   - derived vacuum-translation field identity `Y_translation_vacuum_eq_zero`
+   - independent derivation of `translation_vacuum` from derivative + creation axioms
+   - explicit `L(0)` action lemmas from grading witnesses (`L_zero_weight_spec`,
+     `L_zero_conformalWeight_spec`, `exists_weight_L0_action`)
+3. Added WS3/WS4 compatibility refinements:
+   - `FusionTensorProduct` canonical simplification lemmas (`hom_self_eq_id`, `iso_*` simp lemmas)
+   - lattice-model bridge theorem for pairwise fusion bounds
+     (`fusion_rules_bounded_pos_pair_of_positiveDefinite`)
+4. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 4)
+
+1. Added VOA-level WS1 bridge from lower truncation to field calculus:
+   - state-field field-property theorem (`Y_hasFieldProperty`)
+   - derived field-property transfer for state-level `nthProduct`/normal ordering
+2. Added explicit Dong-closure contract on state fields (`VertexAlgebra.DongClosed`) and
+   derived locality theorems:
+   - `locality_nthProduct`
+   - `locality_normalOrderedProduct`
+3. Extended WS2 Virasoro derivations:
+   - diagonal commutator specialization `[L(m),L(m)]` in scaled form
+     (`virasoro_relation_L_diag`, applied form)
+4. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 5)
+
+1. Added Dong-closure state-layer assumption hierarchy in `VertexAlgebra.lean`:
+   - `DongClosedData` (witness-driven closure package on state fields)
+   - canonical instance `DongClosedData -> DongClosed`
+2. Added symmetric/right-oriented locality derivations for Dong-closed operations:
+   - `locality_right_nthProduct`
+   - `locality_right_normalOrderedProduct`
+3. Added additional field-property bridges for state operations:
+   - `Y_nthProduct_hasFieldProperty_right`
+   - `Y_normalOrderedProduct_hasFieldProperty_right`
+4. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 6)
+
+1. Added module-level Dong/locality assumption hierarchy in `Modules.lean`:
+   - `ModuleLocality`
+   - `ModuleDongClosedData`
+   - `ModuleDongClosed`
+   - canonical instance `ModuleLocality + ModuleDongClosedData -> ModuleDongClosed`
+2. Added module-field Dong-closed locality derivations:
+   - `VAModule.locality_nthProduct`
+   - `VAModule.locality_right_nthProduct`
+   - `VAModule.locality_normalOrderedProduct`
+   - `VAModule.locality_right_normalOrderedProduct`
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 7)
+
+1. Added intertwiner compatibility contracts in `Modules.lean`:
+   - linear-map commutation forms of Jacobi at mode `-1`
+     (`jacobi_identity_action_comp`, symmetric variant)
+   - reusable proposition class + canonical instance:
+     `IntertwiningOperator.ModeMinusOneCompatible`
+2. Added module/intertwiner Dong-locality bridge theorems:
+   - `source_locality_nthProduct`
+   - `target_locality_nthProduct`
+   - `target_locality_normalOrderedProduct`
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 8)
+
+1. Added adjoint-module bridges in `Modules.lean` to connect state-level and module-level Dong/locality layers:
+   - `adjointModuleLocality`
+   - `adjointModuleDongClosedData` (from `VertexAlgebra.DongClosedData`)
+   - `adjointModuleDongClosed` (from `VertexAlgebra.DongClosed`)
+2. Added derived specialization theorem:
+   - `VAModule.adjoint_locality_nthProduct`
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 9)
+
+1. Expanded module-action and field-property infrastructure in `Modules.lean`:
+   - vacuum action mode API:
+     `action_vacuum_mode`, `action_vacuum_mode_ne`,
+     `action_vacuum_mode_minus_one`, `action_vacuum_mode_minus_one_apply`
+   - module-field property bridges:
+     `Y_M_hasFieldProperty`,
+     `Y_M_nthProduct_hasFieldProperty_right`,
+     `Y_M_normalOrderedProduct_hasFieldProperty_right`
+2. Added explicit module-locality bridges for both module and intertwiner layers:
+   - module state-field locality:
+     `stateField_locality`, `stateField_locality_symm`, `stateField_locality_self`
+   - intertwiner source/target locality transport:
+     `source_locality`, `target_locality`,
+     `source_locality_symm`, `target_locality_symm`
+3. Expanded fusion tensor-product universal API:
+   - `hom_unique`
+   - compositionality theorem `hom_comp`
+   - intertwiner-generator compatibility on canonical isomorphisms:
+     `iso_apply_incl`, `iso_symm_apply_incl`
+4. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 10)
+
+1. Extended intertwiner vacuum-mode simplification API in `Modules.lean`:
+   - linear-map composition simplifications at mode `-1`:
+     `action_comp_vacuum_minus_one_source`,
+     `action_comp_vacuum_minus_one_target`
+   - applied simplifications:
+     `action_apply_vacuum_minus_one_source`,
+     `action_apply_vacuum_minus_one_target`
+2. Strengthened universal fusion-product coherence lemmas:
+   - canonical self-composition simplifications:
+     `hom_comp_self_left`, `hom_comp_self_right`
+   - canonical isomorphism transitivity:
+     `iso_trans`
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 11)
+
+1. Extended fusion universal-map coherence in `Modules.lean`:
+   - higher associativity form over four realizations:
+     `FusionTensorProduct.hom_comp_assoc`
+   - opposite-side inverse identity:
+     `FusionTensorProduct.hom_comp_hom_eq_id_left`
+2. Added canonical fusion-isomorphism symmetry API:
+   - `FusionTensorProduct.iso_symm_eq_iso`
+3. Expanded lattice rationality bridge infrastructure in `Examples.lean`:
+   - criterion accessor:
+     `LatticeVOA.rational_iff_positiveDefinite`
+   - rationality-to-bounds bridges:
+     `LatticeVOA.fusion_rules_bounded_pos_of_rational`
+     `LatticeVOA.fusion_rules_bounded_pos_pair_of_rational`
+4. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 12)
+
+1. Expanded Virasoro algebra infrastructure in `Virasoro.lean`:
+   - bracket decomposition helpers:
+     `VirasoroAlgebra.bracket_of_sum_ne_zero`,
+     `VirasoroAlgebra.bracket_of_sum_eq_zero`,
+     `VirasoroAlgebra.bracket_zero_zero`,
+     `VirasoroAlgebra.bracket_zero_left`,
+     `VirasoroAlgebra.bracket_zero_right`
+2. Added representation-level Virasoro commutator specializations:
+   - vector-applied relation:
+     `VirasoroRep.virasoro_relation_apply`
+   - zero-mode specializations:
+     `VirasoroRep.virasoro_relation_zero_left`,
+     `VirasoroRep.virasoro_relation_zero_left_simplified`,
+     `VirasoroRep.virasoro_relation_zero_right`,
+     `VirasoroRep.virasoro_relation_zero_right_simplified`
+   - applied zero-mode forms:
+     `VirasoroRep.virasoro_relation_zero_left_apply`,
+     `VirasoroRep.virasoro_relation_zero_right_apply`
+3. Added highest-weight and Verma-module bridge utilities:
+   - `VirasoroRep.HighestWeightState` accessors:
+     `L0_apply_state`, `annihilation_of_pos`, `annihilation_one`
+   - canonical Verma-to-highest-weight packaging:
+     `VirasoroRep.VermaModule.highestWeightState`
+     plus projection/annihilation lemmas
+4. Added minimal-model and Sugawara convenience API:
+   - `MinimalModel.p_gt_q`, `MinimalModel.q_ge_two`, `MinimalModel.coprime_p_q`,
+     `MinimalModel.centralChargeQ`
+   - `sugawaraTensor_apply`, `sugawaraTensor_eq_zero`
+5. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 13)
+
+1. Expanded conformal-weight witness API in `VertexAlgebra.lean`:
+   - added explicit witness existence in conformal-weight notation:
+     `ConformalVertexAlgebra.exists_conformalWeight_action`
+   - added `PrimaryState` accessors:
+     `PrimaryState.weight_condition_apply`,
+     `PrimaryState.is_primary_of_pos`,
+     `PrimaryState.is_primary_one`
+2. Added morphism transport API for state/mode operations:
+   - vertex-algebra hom transport:
+     `VertexAlgebraHom.map_nProduct`,
+     `VertexAlgebraHom.map_nProduct_vacuum_left`,
+     `VertexAlgebraHom.map_vacuum_minus1_action`
+   - VOA hom transport:
+     `VOAHom.map_L`,
+     `VOAHom.map_translation`
+3. Added primary-state transport across VOA homomorphisms:
+   - `VOAHom.mapPrimaryState`
+   - projection lemmas:
+     `VOAHom.mapPrimaryState_state`,
+     `VOAHom.mapPrimaryState_weight`
+4. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 14)
+
+1. Expanded Dong-closure specialization API in `FormalDistributions.lean`:
+   - added mode-`0` specializations:
+     `DongLemmaData.mutuallyLocal_nthProduct_zero`,
+     `DongLemmaData.mutuallyLocal_right_nthProduct_zero`
+   - added right-oriented mode-`-1` specialization:
+     `DongLemmaData.mutuallyLocal_right_nthProduct_neg_one`
+2. Expanded normal-ordered algebraic API:
+   - linearity/scalar and sign/subtraction interfaces:
+     `normalOrderedProduct_smul_left`,
+     `normalOrderedProduct_smul_right`,
+     `normalOrderedProduct_neg_left`,
+     `normalOrderedProduct_neg_right`,
+     `normalOrderedProduct_sub_left`,
+     `normalOrderedProduct_sub_right`
+3. Added explicit normal-ordered re-expression lemmas through `nthProduct (-1)`:
+   - `DongLemmaData.mutuallyLocal_normalOrderedProduct_via_nthProduct_neg_one`
+   - `DongLemmaData.mutuallyLocal_right_normalOrderedProduct_via_nthProduct_neg_one`
+4. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 15)
+
+1. Expanded morphism-construction infrastructure in `VertexAlgebra.lean`:
+   - added identity and composition constructors for vertex-algebra morphisms:
+     `VertexAlgebraHom.idHom`, `VertexAlgebraHom.compHom`
+   - added identity/composition projection simp lemmas:
+     `VertexAlgebraHom.idHom_toLinearMap`,
+     `VertexAlgebraHom.compHom_toLinearMap`,
+     `VertexAlgebraHom.compHom_apply`
+2. Expanded VOA-level morphism-construction infrastructure:
+   - added identity and composition constructors:
+     `VOAHom.idHom`, `VOAHom.compHom`
+   - added projection simp lemmas:
+     `VOAHom.idHom_toLinearMap`,
+     `VOAHom.compHom_toLinearMap`,
+     `VOAHom.compHom_apply`
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 16)
+
+1. Expanded morphism-coherence API in `VertexAlgebra.lean` for vertex-algebra homs:
+   - added apply-level identity/composition simplifications:
+     `VertexAlgebraHom.idHom_apply`,
+     `VertexAlgebraHom.compHom_id_right_apply`,
+     `VertexAlgebraHom.compHom_id_left_apply`,
+     `VertexAlgebraHom.compHom_assoc_apply`
+   - added composition transport on `n`-products:
+     `VertexAlgebraHom.map_nProduct_compHom`
+2. Expanded apply-level coherence for VOA homs:
+   - `VOAHom.idHom_apply`,
+     `VOAHom.compHom_id_right_apply`,
+     `VOAHom.compHom_id_left_apply`,
+     `VOAHom.compHom_assoc_apply`
+3. Added composition-aware primary-state transport projections:
+   - `VOAHom.mapPrimaryState_comp_state`
+   - `VOAHom.mapPrimaryState_comp_weight`
+4. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 17)
+
+1. Added extensional/compositional coherence for morphism constructions in `VertexAlgebra.lean`:
+   - `VertexAlgebraHom.ext` (extensional equality via underlying linear map)
+   - structure-level identity/associativity laws:
+     `VertexAlgebraHom.compHom_id_right`,
+     `VertexAlgebraHom.compHom_id_left`,
+     `VertexAlgebraHom.compHom_assoc`
+2. Added apply-level coherence and transport enrichments:
+   - `VertexAlgebraHom.map_nProduct_compHom`
+   - `VOAHom.map_L_compHom`
+   - `VOAHom.map_translation_compHom`
+3. Added VOA-level structure equalities for composition constructors:
+   - `VOAHom.compHom_id_right`,
+     `VOAHom.compHom_id_left`,
+     `VOAHom.compHom_assoc`
+4. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 18)
+
+1. Expanded `VertexOperatorAlgebra` derived API in `VertexAlgebra.lean`:
+   - structural wrappers:
+     `VertexOperatorAlgebra.exists_decomposition`,
+     `VertexOperatorAlgebra.finite_component`,
+     `VertexOperatorAlgebra.lower_truncated_exists`
+2. Added canonical component-membership bridges:
+   - `VertexOperatorAlgebra.vacuum_mem_component_zero`
+   - `VertexOperatorAlgebra.conformalVector_mem_component_two`
+3. Added grading-to-`L(0)` action specializations:
+   - `VertexOperatorAlgebra.L0_action_on_component`
+   - `VertexOperatorAlgebra.L0_vacuum`
+   - `VertexOperatorAlgebra.L0_conformalVector`
+4. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 19)
+
+1. Expanded rational/fusion bridge layer in `Modules.lean`:
+   - positivity-to-finiteness projection:
+     `fusion_rules_finite_of_bounded_pos`
+   - pair-bound projections:
+     `fusion_rules_bounded_pos_of_pair_left`,
+     `fusion_rules_bounded_pos_of_pair_right`
+2. Added generic pair-bound constructor:
+   - `fusion_rules_bounded_pos_pair_of_bounds`
+   which combines two ordered positive bounds into one common positive bound.
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 20)
+
+1. Expanded lattice-fusion bridge layer in `Examples.lean`:
+   - finite-bound projections:
+     `LatticeVOA.fusion_rules_finite_of_positiveDefinite`,
+     `LatticeVOA.fusion_rules_finite_of_rational`
+   - swapped-order positive bound projections:
+     `LatticeVOA.fusion_rules_bounded_pos_of_positiveDefinite_swapped`,
+     `LatticeVOA.fusion_rules_bounded_pos_of_rational_swapped`
+2. These bridges now connect lattice criteria directly to both:
+   - non-positive finite bounds (`fusion_rules_finite_of_bounded_pos` path)
+   - swapped ordered pair bounds (`fusion_rules_bounded_pos_of_pair_right` path)
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text

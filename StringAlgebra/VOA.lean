@@ -5,10 +5,13 @@ Authors: ModularPhysics Contributors
 -/
 
 import StringAlgebra.VOA.Basic
+import StringAlgebra.VOA.SuperBasic
 import StringAlgebra.VOA.FormalDistributions
+import StringAlgebra.VOA.SuperFormalDistributions
 import StringAlgebra.VOA.VertexAlgebra
 import StringAlgebra.VOA.Virasoro
 import StringAlgebra.VOA.Modules
+import StringAlgebra.VOA.Correlators
 import StringAlgebra.VOA.Examples
 
 /-!
@@ -31,10 +34,13 @@ theory and string theory. It consists of:
 ## Main Files
 
 * `Basic.lean` - Formal Laurent series, graded spaces
+* `SuperBasic.lean` - Parity/Koszul signs and CAR mode interfaces
 * `FormalDistributions.lean` - Quantum fields, locality, OPE
+* `SuperFormalDistributions.lean` - Super-locality bridge for parity-labeled fields
 * `VertexAlgebra.lean` - Main VOA definition and axioms
 * `Virasoro.lean` - Virasoro algebra, minimal models
 * `Modules.lean` - V-modules, intertwining operators, fusion rules
+* `Correlators.lean` - Algebraic vacuum expectation and n-point mode correlators
 * `Examples.lean` - Heisenberg, affine, lattice VOAs
 
 ## Key Axioms
