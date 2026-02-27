@@ -4183,6 +4183,146 @@ theorem threePointStateAnticommutator23_eq_opeCoefficient_of_lt_left_ge_right
     (threePointStateAnticommutator23_eq_opeCoefficient_of_lt_n_ge_k
       (R := R) (ω := ω) a b c Fbc Fcb m hnLeft hkRight)
 
+/-- Alias with explicit orientation naming:
+    left orientation is `(b,c)`, right orientation is `(c,b)`. -/
+theorem threePointCommutator23_eq_opeCoefficient_of_ge_bc_lt_cb
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b c : FormalDistribution R V}
+    (Fbc : OPEFiniteOrder (R := R) (V := V) b c)
+    (Fcb : OPEFiniteOrder (R := R) (V := V) c b)
+    (m : ℤ) {n k : ℕ}
+    (hnBC : Fbc.data.order ≤ n) (hkCB : k < Fcb.data.order) :
+    threePointCommutator23 (R := R) ω a b c m (n : ℤ) (k : ℤ) =
+      ω.epsilon
+        (Fcb.data.coefficients ⟨k, hkCB⟩
+          ((k : ℤ) + (n : ℤ)) ((a m) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    (threePointCommutator23_eq_opeCoefficient_of_ge_left_lt_right
+      (R := R) (ω := ω) (a := a) (b := b) (c := c) Fbc Fcb m hnBC hkCB)
+
+/-- Alias with explicit orientation naming:
+    left orientation is `(b,c)`, right orientation is `(c,b)`. -/
+theorem threePointAnticommutator23_eq_opeCoefficient_of_ge_bc_lt_cb
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b c : FormalDistribution R V}
+    (Fbc : OPEFiniteOrder (R := R) (V := V) b c)
+    (Fcb : OPEFiniteOrder (R := R) (V := V) c b)
+    (m : ℤ) {n k : ℕ}
+    (hnBC : Fbc.data.order ≤ n) (hkCB : k < Fcb.data.order) :
+    threePointAnticommutator23 (R := R) ω a b c m (n : ℤ) (k : ℤ) =
+      ω.epsilon
+        (Fcb.data.coefficients ⟨k, hkCB⟩
+          ((k : ℤ) + (n : ℤ)) ((a m) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    (threePointAnticommutator23_eq_opeCoefficient_of_ge_left_lt_right
+      (R := R) (ω := ω) (a := a) (b := b) (c := c) Fbc Fcb m hnBC hkCB)
+
+/-- Alias with explicit orientation naming:
+    left orientation is `(b,c)`, right orientation is `(c,b)`. -/
+theorem threePointCommutator23_eq_neg_opeCoefficient_of_lt_bc_ge_cb
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b c : FormalDistribution R V}
+    (Fbc : OPEFiniteOrder (R := R) (V := V) b c)
+    (Fcb : OPEFiniteOrder (R := R) (V := V) c b)
+    (m : ℤ) {n k : ℕ}
+    (hnBC : n < Fbc.data.order) (hkCB : Fcb.data.order ≤ k) :
+    threePointCommutator23 (R := R) ω a b c m (n : ℤ) (k : ℤ) =
+      -ω.epsilon
+        (Fbc.data.coefficients ⟨n, hnBC⟩
+          ((n : ℤ) + (k : ℤ)) ((a m) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    (threePointCommutator23_eq_neg_opeCoefficient_of_lt_left_ge_right
+      (R := R) (ω := ω) (a := a) (b := b) (c := c) Fbc Fcb m hnBC hkCB)
+
+/-- Alias with explicit orientation naming:
+    left orientation is `(b,c)`, right orientation is `(c,b)`. -/
+theorem threePointAnticommutator23_eq_opeCoefficient_of_lt_bc_ge_cb
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b c : FormalDistribution R V}
+    (Fbc : OPEFiniteOrder (R := R) (V := V) b c)
+    (Fcb : OPEFiniteOrder (R := R) (V := V) c b)
+    (m : ℤ) {n k : ℕ}
+    (hnBC : n < Fbc.data.order) (hkCB : Fcb.data.order ≤ k) :
+    threePointAnticommutator23 (R := R) ω a b c m (n : ℤ) (k : ℤ) =
+      ω.epsilon
+        (Fbc.data.coefficients ⟨n, hnBC⟩
+          ((n : ℤ) + (k : ℤ)) ((a m) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    (threePointAnticommutator23_eq_opeCoefficient_of_lt_left_ge_right
+      (R := R) (ω := ω) (a := a) (b := b) (c := c) Fbc Fcb m hnBC hkCB)
+
+/-- State-level alias with explicit orientation naming for mixed regime `(ge bc, lt cb)`. -/
+theorem threePointStateCommutator23_eq_opeCoefficient_of_ge_bc_lt_cb
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (Fbc : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) c))
+    (Fcb : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) c) (VertexAlgebra.Y (R := R) b))
+    (m : ℤ) {n k : ℕ}
+    (hnBC : Fbc.data.order ≤ n) (hkCB : k < Fcb.data.order) :
+    threePointStateCommutator23 (R := R) ω a b c m (n : ℤ) (k : ℤ) =
+      ω.epsilon
+        (Fcb.data.coefficients ⟨k, hkCB⟩
+          ((k : ℤ) + (n : ℤ)) ((VertexAlgebra.Y (R := R) a m) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    (threePointStateCommutator23_eq_opeCoefficient_of_ge_left_lt_right
+      (R := R) (ω := ω) a b c Fbc Fcb m hnBC hkCB)
+
+/-- State-level alias with explicit orientation naming for mixed regime `(ge bc, lt cb)`. -/
+theorem threePointStateAnticommutator23_eq_opeCoefficient_of_ge_bc_lt_cb
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (Fbc : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) c))
+    (Fcb : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) c) (VertexAlgebra.Y (R := R) b))
+    (m : ℤ) {n k : ℕ}
+    (hnBC : Fbc.data.order ≤ n) (hkCB : k < Fcb.data.order) :
+    threePointStateAnticommutator23 (R := R) ω a b c m (n : ℤ) (k : ℤ) =
+      ω.epsilon
+        (Fcb.data.coefficients ⟨k, hkCB⟩
+          ((k : ℤ) + (n : ℤ)) ((VertexAlgebra.Y (R := R) a m) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    (threePointStateAnticommutator23_eq_opeCoefficient_of_ge_left_lt_right
+      (R := R) (ω := ω) a b c Fbc Fcb m hnBC hkCB)
+
+/-- State-level alias with explicit orientation naming for mixed regime `(lt bc, ge cb)`. -/
+theorem threePointStateCommutator23_eq_neg_opeCoefficient_of_lt_bc_ge_cb
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (Fbc : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) c))
+    (Fcb : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) c) (VertexAlgebra.Y (R := R) b))
+    (m : ℤ) {n k : ℕ}
+    (hnBC : n < Fbc.data.order) (hkCB : Fcb.data.order ≤ k) :
+    threePointStateCommutator23 (R := R) ω a b c m (n : ℤ) (k : ℤ) =
+      -ω.epsilon
+        (Fbc.data.coefficients ⟨n, hnBC⟩
+          ((n : ℤ) + (k : ℤ)) ((VertexAlgebra.Y (R := R) a m) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    (threePointStateCommutator23_eq_neg_opeCoefficient_of_lt_left_ge_right
+      (R := R) (ω := ω) a b c Fbc Fcb m hnBC hkCB)
+
+/-- State-level alias with explicit orientation naming for mixed regime `(lt bc, ge cb)`. -/
+theorem threePointStateAnticommutator23_eq_opeCoefficient_of_lt_bc_ge_cb
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (Fbc : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) c))
+    (Fcb : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) c) (VertexAlgebra.Y (R := R) b))
+    (m : ℤ) {n k : ℕ}
+    (hnBC : n < Fbc.data.order) (hkCB : Fcb.data.order ≤ k) :
+    threePointStateAnticommutator23 (R := R) ω a b c m (n : ℤ) (k : ℤ) =
+      ω.epsilon
+        (Fbc.data.coefficients ⟨n, hnBC⟩
+          ((n : ℤ) + (k : ℤ)) ((VertexAlgebra.Y (R := R) a m) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    (threePointStateAnticommutator23_eq_opeCoefficient_of_lt_left_ge_right
+      (R := R) (ω := ω) a b c Fbc Fcb m hnBC hkCB)
+
 /-- Three-point commutator in the first and third insertions:
     `⟨c(k)b(n)a(m) - a(m)b(n)c(k)⟩`. -/
 def threePointCommutator13
