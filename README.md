@@ -30,6 +30,9 @@ Lean 4 formalization of vertex operator algebra infrastructure.
 24. `StringAlgebra/VOA/VertexAlgebra/Conformal.lean`
 25. `StringAlgebra/VOA/VertexAlgebra/VOA.lean`
 26. `StringAlgebra/VOA/VertexAlgebra/Hom.lean`
+27. `StringAlgebra/VOA/Virasoro/Core.lean`
+28. `StringAlgebra/VOA/Virasoro/Representation.lean`
+29. `StringAlgebra/VOA/Virasoro/Models.lean`
 
 ## Planning and Notes
 
@@ -63,7 +66,9 @@ rg -n '^[[:space:]]*axiom\b|^[[:space:]]*admit\b|Classical\.choose|Classical\.ep
 8. Vertex-algebra code has been split into `StringAlgebra/VOA/VertexAlgebra/`
    submodules while keeping `StringAlgebra/VOA/VertexAlgebra.lean` as the stable
    facade import.
-9. Correlator baseline now includes one-point state-mode API plus vacuum-insertion reductions:
+9. Virasoro code has been split into `StringAlgebra/VOA/Virasoro/` submodules
+   while keeping `StringAlgebra/VOA/Virasoro.lean` as the stable facade import.
+10. Correlator baseline now includes one-point state-mode API plus vacuum-insertion reductions:
    - two-point to one-point mode correlators
    - three-point to two-point mode correlators
    - state-level two-/three-point wrappers with corresponding vacuum-reduction lemmas

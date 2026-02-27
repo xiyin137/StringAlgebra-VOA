@@ -1263,6 +1263,28 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
      `rg -n "^[[:space:]]*axiom\\b|^[[:space:]]*admit\\b|Classical\\.choose|Classical\\.epsilon" StringAlgebra/VOA --glob '*.lean'`
      returns no matches
 
+## Infrastructure Expansion (2026-02-27, pass 53)
+
+1. Refactored `Virasoro.lean` into a dedicated subfolder layout:
+   - `StringAlgebra/VOA/Virasoro/Core.lean`
+   - `StringAlgebra/VOA/Virasoro/Representation.lean`
+   - `StringAlgebra/VOA/Virasoro/Models.lean`
+2. Converted `StringAlgebra/VOA/Virasoro.lean` into a lightweight facade module
+   that imports and re-exports the split Virasoro submodules, preserving the
+   existing root import path used by `StringAlgebra/VOA.lean`.
+3. Kept the Virasoro layer boundaries explicit:
+   - `Core`: `VirasoroAlgebra` generators/bracket/Lie-axiom predicate
+   - `Representation`: `VirasoroRep`, highest-weight states, Verma modules
+   - `Models`: minimal-model parameter package and Sugawara placeholders
+4. Post-refactor check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count command
+     `rg -n '^\\s*sorry\\b' StringAlgebra/VOA --glob '*.lean'`
+     returns no matches
+   - strict audit command
+     `rg -n "^[[:space:]]*axiom\\b|^[[:space:]]*admit\\b|Classical\\.choose|Classical\\.epsilon" StringAlgebra/VOA --glob '*.lean'`
+     returns no matches
+
 ## Free CFT Development Plan (2026-02-27)
 
 Goal: full rigorous free-boson and free-fermion CFT formalization at the OPE/correlator layer.
