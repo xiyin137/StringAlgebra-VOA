@@ -4747,6 +4747,94 @@ theorem twoPointAnticommutator_smul_right
   rw [twoPointModes_smul_left (R := R) (ω := ω) r b a n m]
   simp [mul_add]
 
+/-- Commutator correlator is negation-linear in the first field slot. -/
+theorem twoPointCommutator_neg_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : FormalDistribution R V) (m n : ℤ) :
+    twoPointCommutator (R := R) ω (-a) b m n =
+      -twoPointCommutator (R := R) ω a b m n := by
+  simpa using twoPointCommutator_smul_left (R := R) (ω := ω) (-1 : R) a b m n
+
+/-- Commutator correlator is negation-linear in the second field slot. -/
+theorem twoPointCommutator_neg_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : FormalDistribution R V) (m n : ℤ) :
+    twoPointCommutator (R := R) ω a (-b) m n =
+      -twoPointCommutator (R := R) ω a b m n := by
+  simpa using twoPointCommutator_smul_right (R := R) (ω := ω) (-1 : R) a b m n
+
+/-- Commutator correlator is subtraction-linear in the first field slot. -/
+theorem twoPointCommutator_sub_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : FormalDistribution R V) (m n : ℤ) :
+    twoPointCommutator (R := R) ω (a - b) c m n =
+      twoPointCommutator (R := R) ω a c m n -
+        twoPointCommutator (R := R) ω b c m n := by
+  rw [sub_eq_add_neg]
+  rw [twoPointCommutator_add_left (R := R) (ω := ω) a (-b) c m n]
+  rw [twoPointCommutator_neg_left (R := R) (ω := ω) b c m n]
+  simp [sub_eq_add_neg]
+
+/-- Commutator correlator is subtraction-linear in the second field slot. -/
+theorem twoPointCommutator_sub_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : FormalDistribution R V) (m n : ℤ) :
+    twoPointCommutator (R := R) ω a (b - c) m n =
+      twoPointCommutator (R := R) ω a b m n -
+        twoPointCommutator (R := R) ω a c m n := by
+  rw [sub_eq_add_neg]
+  rw [twoPointCommutator_add_right (R := R) (ω := ω) a b (-c) m n]
+  rw [twoPointCommutator_neg_right (R := R) (ω := ω) a c m n]
+  simp [sub_eq_add_neg]
+
+/-- Anticommutator correlator is negation-linear in the first field slot. -/
+theorem twoPointAnticommutator_neg_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : FormalDistribution R V) (m n : ℤ) :
+    twoPointAnticommutator (R := R) ω (-a) b m n =
+      -twoPointAnticommutator (R := R) ω a b m n := by
+  simpa using twoPointAnticommutator_smul_left (R := R) (ω := ω) (-1 : R) a b m n
+
+/-- Anticommutator correlator is negation-linear in the second field slot. -/
+theorem twoPointAnticommutator_neg_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : FormalDistribution R V) (m n : ℤ) :
+    twoPointAnticommutator (R := R) ω a (-b) m n =
+      -twoPointAnticommutator (R := R) ω a b m n := by
+  simpa using twoPointAnticommutator_smul_right (R := R) (ω := ω) (-1 : R) a b m n
+
+/-- Anticommutator correlator is subtraction-linear in the first field slot. -/
+theorem twoPointAnticommutator_sub_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : FormalDistribution R V) (m n : ℤ) :
+    twoPointAnticommutator (R := R) ω (a - b) c m n =
+      twoPointAnticommutator (R := R) ω a c m n -
+        twoPointAnticommutator (R := R) ω b c m n := by
+  rw [sub_eq_add_neg]
+  rw [twoPointAnticommutator_add_left (R := R) (ω := ω) a (-b) c m n]
+  rw [twoPointAnticommutator_neg_left (R := R) (ω := ω) b c m n]
+  simp [sub_eq_add_neg]
+
+/-- Anticommutator correlator is subtraction-linear in the second field slot. -/
+theorem twoPointAnticommutator_sub_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : FormalDistribution R V) (m n : ℤ) :
+    twoPointAnticommutator (R := R) ω a (b - c) m n =
+      twoPointAnticommutator (R := R) ω a b m n -
+        twoPointAnticommutator (R := R) ω a c m n := by
+  rw [sub_eq_add_neg]
+  rw [twoPointAnticommutator_add_right (R := R) (ω := ω) a b (-c) m n]
+  rw [twoPointAnticommutator_neg_right (R := R) (ω := ω) a c m n]
+  simp [sub_eq_add_neg]
+
 /-- State-level commutator correlator is additive in the first field slot. -/
 theorem twoPointStateCommutator_add_left
     {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
@@ -4811,6 +4899,72 @@ theorem twoPointStateCommutator_smul_right
     (twoPointCommutator_smul_right (R := R) (ω := ω) r
       (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n)
 
+/-- State-level commutator correlator is negation-linear in the first field
+    slot. -/
+theorem twoPointStateCommutator_neg_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-a) = -VertexAlgebra.Y (R := R) a)
+    (m n : ℤ) :
+    twoPointStateCommutator (R := R) ω (-a) b m n =
+      -twoPointStateCommutator (R := R) ω a b m n := by
+  unfold twoPointStateCommutator
+  simpa [hYneg] using
+    (twoPointCommutator_neg_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n)
+
+/-- State-level commutator correlator is negation-linear in the second field
+    slot. -/
+theorem twoPointStateCommutator_neg_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-b) = -VertexAlgebra.Y (R := R) b)
+    (m n : ℤ) :
+    twoPointStateCommutator (R := R) ω a (-b) m n =
+      -twoPointStateCommutator (R := R) ω a b m n := by
+  unfold twoPointStateCommutator
+  simpa [hYneg] using
+    (twoPointCommutator_neg_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n)
+
+/-- State-level commutator correlator is subtraction-linear in the first field
+    slot. -/
+theorem twoPointStateCommutator_sub_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYsub : VertexAlgebra.Y (R := R) (a - b) =
+      VertexAlgebra.Y (R := R) a - VertexAlgebra.Y (R := R) b)
+    (m n : ℤ) :
+    twoPointStateCommutator (R := R) ω (a - b) c m n =
+      twoPointStateCommutator (R := R) ω a c m n -
+        twoPointStateCommutator (R := R) ω b c m n := by
+  unfold twoPointStateCommutator
+  simpa [hYsub] using
+    (twoPointCommutator_sub_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n)
+
+/-- State-level commutator correlator is subtraction-linear in the second field
+    slot. -/
+theorem twoPointStateCommutator_sub_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYsub : VertexAlgebra.Y (R := R) (b - c) =
+      VertexAlgebra.Y (R := R) b - VertexAlgebra.Y (R := R) c)
+    (m n : ℤ) :
+    twoPointStateCommutator (R := R) ω a (b - c) m n =
+      twoPointStateCommutator (R := R) ω a b m n -
+        twoPointStateCommutator (R := R) ω a c m n := by
+  unfold twoPointStateCommutator
+  simpa [hYsub] using
+    (twoPointCommutator_sub_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n)
+
 /-- State-level anticommutator correlator is additive in the first field slot. -/
 theorem twoPointStateAnticommutator_add_left
     {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
@@ -4874,5 +5028,71 @@ theorem twoPointStateAnticommutator_smul_right
   simpa [hYsmul] using
     (twoPointAnticommutator_smul_right (R := R) (ω := ω) r
       (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n)
+
+/-- State-level anticommutator correlator is negation-linear in the first field
+    slot. -/
+theorem twoPointStateAnticommutator_neg_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-a) = -VertexAlgebra.Y (R := R) a)
+    (m n : ℤ) :
+    twoPointStateAnticommutator (R := R) ω (-a) b m n =
+      -twoPointStateAnticommutator (R := R) ω a b m n := by
+  unfold twoPointStateAnticommutator
+  simpa [hYneg] using
+    (twoPointAnticommutator_neg_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n)
+
+/-- State-level anticommutator correlator is negation-linear in the second field
+    slot. -/
+theorem twoPointStateAnticommutator_neg_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (hYneg : VertexAlgebra.Y (R := R) (-b) = -VertexAlgebra.Y (R := R) b)
+    (m n : ℤ) :
+    twoPointStateAnticommutator (R := R) ω a (-b) m n =
+      -twoPointStateAnticommutator (R := R) ω a b m n := by
+  unfold twoPointStateAnticommutator
+  simpa [hYneg] using
+    (twoPointAnticommutator_neg_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n)
+
+/-- State-level anticommutator correlator is subtraction-linear in the first
+    field slot. -/
+theorem twoPointStateAnticommutator_sub_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYsub : VertexAlgebra.Y (R := R) (a - b) =
+      VertexAlgebra.Y (R := R) a - VertexAlgebra.Y (R := R) b)
+    (m n : ℤ) :
+    twoPointStateAnticommutator (R := R) ω (a - b) c m n =
+      twoPointStateAnticommutator (R := R) ω a c m n -
+        twoPointStateAnticommutator (R := R) ω b c m n := by
+  unfold twoPointStateAnticommutator
+  simpa [hYsub] using
+    (twoPointAnticommutator_sub_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n)
+
+/-- State-level anticommutator correlator is subtraction-linear in the second
+    field slot. -/
+theorem twoPointStateAnticommutator_sub_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V)
+    (hYsub : VertexAlgebra.Y (R := R) (b - c) =
+      VertexAlgebra.Y (R := R) b - VertexAlgebra.Y (R := R) c)
+    (m n : ℤ) :
+    twoPointStateAnticommutator (R := R) ω a (b - c) m n =
+      twoPointStateAnticommutator (R := R) ω a b m n -
+        twoPointStateAnticommutator (R := R) ω a c m n := by
+  unfold twoPointStateAnticommutator
+  simpa [hYsub] using
+    (twoPointAnticommutator_sub_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n)
 
 end StringAlgebra.VOA

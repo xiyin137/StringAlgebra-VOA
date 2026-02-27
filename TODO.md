@@ -670,6 +670,36 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 31)
+
+1. Completed two-point commutator/anticommutator linearity families in `Correlators.lean`
+   by adding missing negation/subtraction lemmas at the formal-distribution level:
+   - commutator:
+     `twoPointCommutator_neg_left`,
+     `twoPointCommutator_neg_right`,
+     `twoPointCommutator_sub_left`,
+     `twoPointCommutator_sub_right`
+   - anticommutator:
+     `twoPointAnticommutator_neg_left`,
+     `twoPointAnticommutator_neg_right`,
+     `twoPointAnticommutator_sub_left`,
+     `twoPointAnticommutator_sub_right`
+2. Added matching state-level wrappers under explicit state-field compatibility hypotheses
+   (`Y` preserving `neg/sub`):
+   - commutator:
+     `twoPointStateCommutator_neg_left`,
+     `twoPointStateCommutator_neg_right`,
+     `twoPointStateCommutator_sub_left`,
+     `twoPointStateCommutator_sub_right`
+   - anticommutator:
+     `twoPointStateAnticommutator_neg_left`,
+     `twoPointStateAnticommutator_neg_right`,
+     `twoPointStateAnticommutator_sub_left`,
+     `twoPointStateAnticommutator_sub_right`
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text
