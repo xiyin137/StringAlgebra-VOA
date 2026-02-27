@@ -211,6 +211,21 @@ def threePointModes
     (a b c : FormalDistribution R V) (m n k : ℤ) : R :=
   nPointModes (R := R) ω [(a, m), (b, n), (c, k)]
 
+/-- Two-point correlator with state insertions via the state-field map. -/
+def twoPointStateModes
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n : ℤ) : R :=
+  twoPointModes (R := R) ω (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b) m n
+
+/-- Three-point correlator with state insertions via the state-field map. -/
+def threePointStateModes
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) : R :=
+  threePointModes (R := R) ω
+    (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) c) m n k
+
 @[simp] theorem twoPointModes_eq
     {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
     (ω : VacuumFunctional (R := R) V)
@@ -218,6 +233,24 @@ def threePointModes
     twoPointModes (R := R) ω a b m n =
       ω.epsilon ((b n) ((a m) (VertexAlgebra.vacuum (R := R)))) := by
   simp [twoPointModes, nPointModes, modeWordEnd]
+
+@[simp] theorem twoPointStateModes_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n : ℤ) :
+    twoPointStateModes (R := R) ω a b m n =
+      ω.epsilon
+        ((VertexAlgebra.Y (R := R) b n)
+          ((VertexAlgebra.Y (R := R) a m) (VertexAlgebra.vacuum (R := R)))) := by
+  simp [twoPointStateModes, twoPointModes_eq]
+
+/-- Positive first mode annihilates the vacuum in two-point state correlators. -/
+theorem twoPointStateModes_eq_zero_of_nat_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m : ℕ) (n : ℤ) :
+    twoPointStateModes (R := R) ω a b (m : ℤ) n = 0 := by
+  simp [twoPointStateModes, twoPointModes_eq, VertexAlgebra.creation_axiom_annihilation]
 
 /-- Two-point correlator with vacuum inserted first, reduced to one-point data. -/
 theorem twoPointModes_vacuum_left_eq
@@ -277,6 +310,56 @@ theorem twoPointModes_vacuum_right_eq_zero_of_ne
       (VertexAlgebra.Y (R := R) (VertexAlgebra.vacuum (R := R))) m n = 0 := by
   simpa [hn] using twoPointModes_vacuum_right_eq (R := R) (ω := ω) a m n
 
+/-- State-level two-point correlator with vacuum in the first slot. -/
+theorem twoPointStateModes_vacuum_left_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a : V) (m n : ℤ) :
+    twoPointStateModes (R := R) ω (VertexAlgebra.vacuum (R := R)) a m n =
+      if m = -1 then onePointStateModes (R := R) ω a n else 0 := by
+  simpa [twoPointStateModes, onePointStateModes] using
+    (twoPointModes_vacuum_left_eq (R := R) (ω := ω) (a := VertexAlgebra.Y (R := R) a) m n)
+
+/-- State-level two-point correlator with vacuum in the second slot. -/
+theorem twoPointStateModes_vacuum_right_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a : V) (m n : ℤ) :
+    twoPointStateModes (R := R) ω a (VertexAlgebra.vacuum (R := R)) m n =
+      if n = -1 then onePointStateModes (R := R) ω a m else 0 := by
+  simpa [twoPointStateModes, onePointStateModes] using
+    (twoPointModes_vacuum_right_eq (R := R) (ω := ω) (a := VertexAlgebra.Y (R := R) a) m n)
+
+@[simp] theorem twoPointStateModes_vacuum_left_minus_one
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a : V) (n : ℤ) :
+    twoPointStateModes (R := R) ω (VertexAlgebra.vacuum (R := R)) a (-1) n =
+      onePointStateModes (R := R) ω a n := by
+  simpa using twoPointStateModes_vacuum_left_eq (R := R) (ω := ω) a (-1) n
+
+theorem twoPointStateModes_vacuum_left_eq_zero_of_ne
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a : V) (m n : ℤ) (hm : m ≠ -1) :
+    twoPointStateModes (R := R) ω (VertexAlgebra.vacuum (R := R)) a m n = 0 := by
+  simpa [hm] using twoPointStateModes_vacuum_left_eq (R := R) (ω := ω) a m n
+
+@[simp] theorem twoPointStateModes_vacuum_right_minus_one
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a : V) (m : ℤ) :
+    twoPointStateModes (R := R) ω a (VertexAlgebra.vacuum (R := R)) m (-1) =
+      onePointStateModes (R := R) ω a m := by
+  simpa using twoPointStateModes_vacuum_right_eq (R := R) (ω := ω) a m (-1)
+
+theorem twoPointStateModes_vacuum_right_eq_zero_of_ne
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a : V) (m n : ℤ) (hn : n ≠ -1) :
+    twoPointStateModes (R := R) ω a (VertexAlgebra.vacuum (R := R)) m n = 0 := by
+  simpa [hn] using twoPointStateModes_vacuum_right_eq (R := R) (ω := ω) a m n
+
 @[simp] theorem threePointModes_eq
     {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
     (ω : VacuumFunctional (R := R) V)
@@ -284,6 +367,25 @@ theorem twoPointModes_vacuum_right_eq_zero_of_ne
     threePointModes (R := R) ω a b c m n k =
       ω.epsilon ((c k) ((b n) ((a m) (VertexAlgebra.vacuum (R := R))))) := by
   simp [threePointModes, nPointModes, modeWordEnd]
+
+@[simp] theorem threePointStateModes_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m n k : ℤ) :
+    threePointStateModes (R := R) ω a b c m n k =
+      ω.epsilon
+        ((VertexAlgebra.Y (R := R) c k)
+          ((VertexAlgebra.Y (R := R) b n)
+            ((VertexAlgebra.Y (R := R) a m) (VertexAlgebra.vacuum (R := R))))) := by
+  simp [threePointStateModes, threePointModes_eq]
+
+/-- Positive first mode annihilates the vacuum in three-point state correlators. -/
+theorem threePointStateModes_eq_zero_of_nat_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c : V) (m : ℕ) (n k : ℤ) :
+    threePointStateModes (R := R) ω a b c (m : ℤ) n k = 0 := by
+  simp [threePointStateModes, threePointModes_eq, VertexAlgebra.creation_axiom_annihilation]
 
 /-- Three-point correlator with vacuum inserted first, reduced to a two-point correlator. -/
 theorem threePointModes_vacuum_left_eq
@@ -374,6 +476,84 @@ theorem threePointModes_vacuum_right_eq_zero_of_ne
     threePointModes (R := R) ω
       a b (VertexAlgebra.Y (R := R) (VertexAlgebra.vacuum (R := R))) m n k = 0 := by
   simpa [hk] using threePointModes_vacuum_right_eq (R := R) (ω := ω) a b m n k
+
+/-- State-level three-point correlator with vacuum in the first slot. -/
+theorem threePointStateModes_vacuum_left_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n k : ℤ) :
+    threePointStateModes (R := R) ω (VertexAlgebra.vacuum (R := R)) a b m n k =
+      if m = -1 then twoPointStateModes (R := R) ω a b n k else 0 := by
+  simpa [threePointStateModes, twoPointStateModes] using
+    (threePointModes_vacuum_left_eq (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n k)
+
+/-- State-level three-point correlator with vacuum in the second slot. -/
+theorem threePointStateModes_vacuum_middle_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n k : ℤ) :
+    threePointStateModes (R := R) ω a (VertexAlgebra.vacuum (R := R)) b m n k =
+      if n = -1 then twoPointStateModes (R := R) ω a b m k else 0 := by
+  simpa [threePointStateModes, twoPointStateModes] using
+    (threePointModes_vacuum_middle_eq (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n k)
+
+/-- State-level three-point correlator with vacuum in the third slot. -/
+theorem threePointStateModes_vacuum_right_eq
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n k : ℤ) :
+    threePointStateModes (R := R) ω a b (VertexAlgebra.vacuum (R := R)) m n k =
+      if k = -1 then twoPointStateModes (R := R) ω a b m n else 0 := by
+  simpa [threePointStateModes, twoPointStateModes] using
+    (threePointModes_vacuum_right_eq (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) m n k)
+
+@[simp] theorem threePointStateModes_vacuum_left_minus_one
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (n k : ℤ) :
+    threePointStateModes (R := R) ω (VertexAlgebra.vacuum (R := R)) a b (-1) n k =
+      twoPointStateModes (R := R) ω a b n k := by
+  simpa using threePointStateModes_vacuum_left_eq (R := R) (ω := ω) a b (-1) n k
+
+theorem threePointStateModes_vacuum_left_eq_zero_of_ne
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n k : ℤ) (hm : m ≠ -1) :
+    threePointStateModes (R := R) ω (VertexAlgebra.vacuum (R := R)) a b m n k = 0 := by
+  simpa [hm] using threePointStateModes_vacuum_left_eq (R := R) (ω := ω) a b m n k
+
+@[simp] theorem threePointStateModes_vacuum_middle_minus_one
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m k : ℤ) :
+    threePointStateModes (R := R) ω a (VertexAlgebra.vacuum (R := R)) b m (-1) k =
+      twoPointStateModes (R := R) ω a b m k := by
+  simpa using threePointStateModes_vacuum_middle_eq (R := R) (ω := ω) a b m (-1) k
+
+theorem threePointStateModes_vacuum_middle_eq_zero_of_ne
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n k : ℤ) (hn : n ≠ -1) :
+    threePointStateModes (R := R) ω a (VertexAlgebra.vacuum (R := R)) b m n k = 0 := by
+  simpa [hn] using threePointStateModes_vacuum_middle_eq (R := R) (ω := ω) a b m n k
+
+@[simp] theorem threePointStateModes_vacuum_right_minus_one
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n : ℤ) :
+    threePointStateModes (R := R) ω a b (VertexAlgebra.vacuum (R := R)) m n (-1) =
+      twoPointStateModes (R := R) ω a b m n := by
+  simpa using threePointStateModes_vacuum_right_eq (R := R) (ω := ω) a b m n (-1)
+
+theorem threePointStateModes_vacuum_right_eq_zero_of_ne
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V) (m n k : ℤ) (hk : k ≠ -1) :
+    threePointStateModes (R := R) ω a b (VertexAlgebra.vacuum (R := R)) m n k = 0 := by
+  simpa [hk] using threePointStateModes_vacuum_right_eq (R := R) (ω := ω) a b m n k
 
 /-- Three-point correlator linearity in the first inserted field mode. -/
 theorem threePointModes_add_left

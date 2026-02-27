@@ -43,6 +43,7 @@ rg -n '^[[:space:]]*axiom\b|^[[:space:]]*admit\b|Classical\.choose|Classical\.ep
 5. Correlator baseline now includes one-point state-mode API plus vacuum-insertion reductions:
    - two-point to one-point mode correlators
    - three-point to two-point mode correlators
+   - state-level two-/three-point wrappers with corresponding vacuum-reduction lemmas
 
 ## Related Repositories
 
