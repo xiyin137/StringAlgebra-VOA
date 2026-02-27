@@ -1239,6 +1239,30 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
      `rg -n "^[[:space:]]*axiom\\b|^[[:space:]]*admit\\b|Classical\\.choose|Classical\\.epsilon" StringAlgebra/VOA --glob '*.lean'`
      returns no matches
 
+## Infrastructure Expansion (2026-02-27, pass 52)
+
+1. Refactored `VertexAlgebra.lean` into a dedicated subfolder layout:
+   - `StringAlgebra/VOA/VertexAlgebra/Core.lean`
+   - `StringAlgebra/VOA/VertexAlgebra/Conformal.lean`
+   - `StringAlgebra/VOA/VertexAlgebra/VOA.lean`
+   - `StringAlgebra/VOA/VertexAlgebra/Hom.lean`
+2. Converted `StringAlgebra/VOA/VertexAlgebra.lean` into a lightweight facade
+   module that imports and re-exports the split vertex-algebra submodules,
+   preserving the existing root import path used by `StringAlgebra/VOA.lean`.
+3. Kept the internal boundary between algebraic layers explicit:
+   - `Core`: `VertexAlgebra` class + foundational lemmas
+   - `Conformal`: `ConformalVertexAlgebra`, Virasoro-mode identities, `PrimaryState`
+   - `VOA`: `VertexOperatorAlgebra` grading/component layer
+   - `Hom`: `VertexAlgebraHom`/`VOAHom` composition and transport lemmas
+4. Post-refactor check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count command
+     `rg -n '^\\s*sorry\\b' StringAlgebra/VOA --glob '*.lean'`
+     returns no matches
+   - strict audit command
+     `rg -n "^[[:space:]]*axiom\\b|^[[:space:]]*admit\\b|Classical\\.choose|Classical\\.epsilon" StringAlgebra/VOA --glob '*.lean'`
+     returns no matches
+
 ## Free CFT Development Plan (2026-02-27)
 
 Goal: full rigorous free-boson and free-fermion CFT formalization at the OPE/correlator layer.

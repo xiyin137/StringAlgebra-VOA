@@ -943,6 +943,25 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 46)
+
+1. Refactored `VertexAlgebra.lean` into a dedicated subfolder layout:
+   - `StringAlgebra/VOA/VertexAlgebra/Core.lean`
+   - `StringAlgebra/VOA/VertexAlgebra/Conformal.lean`
+   - `StringAlgebra/VOA/VertexAlgebra/VOA.lean`
+   - `StringAlgebra/VOA/VertexAlgebra/Hom.lean`
+2. Converted `StringAlgebra/VOA/VertexAlgebra.lean` into a lightweight facade
+   module that imports and re-exports the split vertex-algebra submodules,
+   preserving the existing root import path used by `StringAlgebra/VOA.lean`.
+3. Post-refactor check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count command
+     `rg -n '^\\s*sorry\\b' StringAlgebra/VOA --glob '*.lean'`
+     returns no matches
+   - strict audit command
+     `rg -n "^[[:space:]]*axiom\\b|^[[:space:]]*admit\\b|Classical\\.choose|Classical\\.epsilon" StringAlgebra/VOA --glob '*.lean'`
+     returns no matches
+
 ## VOA Dependency Graph
 
 ```text

@@ -26,6 +26,10 @@ Lean 4 formalization of vertex operator algebra infrastructure.
 20. `StringAlgebra/VOA/Modules/Intertwining.lean`
 21. `StringAlgebra/VOA/Modules/Fusion.lean`
 22. `StringAlgebra/VOA/Modules/Advanced.lean`
+23. `StringAlgebra/VOA/VertexAlgebra/Core.lean`
+24. `StringAlgebra/VOA/VertexAlgebra/Conformal.lean`
+25. `StringAlgebra/VOA/VertexAlgebra/VOA.lean`
+26. `StringAlgebra/VOA/VertexAlgebra/Hom.lean`
 
 ## Planning and Notes
 
@@ -56,7 +60,10 @@ rg -n '^[[:space:]]*axiom\b|^[[:space:]]*admit\b|Classical\.choose|Classical\.ep
 5. Correlator code has been split into `StringAlgebra/VOA/Correlators/` submodules while keeping `StringAlgebra/VOA/Correlators.lean` as the stable facade import.
 6. Example code has been split into `StringAlgebra/VOA/Examples/` submodules while keeping `StringAlgebra/VOA/Examples.lean` as the stable facade import.
 7. Module theory code has been split into `StringAlgebra/VOA/Modules/` submodules while keeping `StringAlgebra/VOA/Modules.lean` as the stable facade import.
-8. Correlator baseline now includes one-point state-mode API plus vacuum-insertion reductions:
+8. Vertex-algebra code has been split into `StringAlgebra/VOA/VertexAlgebra/`
+   submodules while keeping `StringAlgebra/VOA/VertexAlgebra.lean` as the stable
+   facade import.
+9. Correlator baseline now includes one-point state-mode API plus vacuum-insertion reductions:
    - two-point to one-point mode correlators
    - three-point to two-point mode correlators
    - state-level two-/three-point wrappers with corresponding vacuum-reduction lemmas
