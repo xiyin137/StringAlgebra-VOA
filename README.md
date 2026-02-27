@@ -54,6 +54,7 @@ rg -n '^[[:space:]]*axiom\b|^[[:space:]]*admit\b|Classical\.choose|Classical\.ep
    - complete two-point commutator/anticommutator linearity families (`add/smul/neg/sub`) at formal level plus state-level wrappers (explicit `Y`-compatibility for state formulas)
    - complete three-point `(1,2)` commutator/anticommutator linearity families (`add/smul/neg/sub`) at formal level plus state-level wrappers (explicit `Y`-compatibility for state formulas)
    - complete three-point `(2,3)` commutator/anticommutator linearity families (`add/smul/neg/sub`) at formal level plus state-level wrappers (explicit `Y`-compatibility for state formulas)
+   - three-point `(1,3)` commutator/anticommutator `add/smul` linearity families at formal level plus state-level wrappers (explicit `Y`-compatibility for state formulas)
 
 ## Related Repositories
 

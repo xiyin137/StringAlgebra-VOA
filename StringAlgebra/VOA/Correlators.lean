@@ -3999,6 +3999,354 @@ def threePointStateAnticommutator13
     (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
     (c := VertexAlgebra.Y (R := R) c) m n k
 
+/-- `(1,3)` commutator is additive in the first field slot. -/
+theorem threePointCommutator13_add_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : FormalDistribution R V) (m n k : ℤ) :
+    threePointCommutator13 (R := R) ω (a + b) c d m n k =
+      threePointCommutator13 (R := R) ω a c d m n k +
+        threePointCommutator13 (R := R) ω b c d m n k := by
+  unfold threePointCommutator13
+  rw [threePointModes_add_left (R := R) (ω := ω) a b c d m n k]
+  rw [threePointModes_add_right (R := R) (ω := ω) d c a b k n m]
+  abel_nf
+
+/-- `(1,3)` commutator is additive in the middle field slot. -/
+theorem threePointCommutator13_add_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : FormalDistribution R V) (m n k : ℤ) :
+    threePointCommutator13 (R := R) ω a (b + c) d m n k =
+      threePointCommutator13 (R := R) ω a b d m n k +
+        threePointCommutator13 (R := R) ω a c d m n k := by
+  unfold threePointCommutator13
+  rw [threePointModes_add_middle (R := R) (ω := ω) a b c d m n k]
+  rw [threePointModes_add_middle (R := R) (ω := ω) d b c a k n m]
+  abel_nf
+
+/-- `(1,3)` commutator is additive in the third field slot. -/
+theorem threePointCommutator13_add_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : FormalDistribution R V) (m n k : ℤ) :
+    threePointCommutator13 (R := R) ω a b (c + d) m n k =
+      threePointCommutator13 (R := R) ω a b c m n k +
+        threePointCommutator13 (R := R) ω a b d m n k := by
+  unfold threePointCommutator13
+  rw [threePointModes_add_right (R := R) (ω := ω) a b c d m n k]
+  rw [threePointModes_add_left (R := R) (ω := ω) c d b a k n m]
+  abel_nf
+
+/-- `(1,3)` commutator is linear under scalar multiplication in the first slot. -/
+theorem threePointCommutator13_smul_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : FormalDistribution R V) (m n k : ℤ) :
+    threePointCommutator13 (R := R) ω (r • a) b c m n k =
+      r • threePointCommutator13 (R := R) ω a b c m n k := by
+  unfold threePointCommutator13
+  rw [threePointModes_smul_left (R := R) (ω := ω) r a b c m n k]
+  rw [threePointModes_smul_right (R := R) (ω := ω) r c b a k n m]
+  simp [mul_sub]
+
+/-- `(1,3)` commutator is linear under scalar multiplication in the middle slot. -/
+theorem threePointCommutator13_smul_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : FormalDistribution R V) (m n k : ℤ) :
+    threePointCommutator13 (R := R) ω a (r • b) c m n k =
+      r • threePointCommutator13 (R := R) ω a b c m n k := by
+  unfold threePointCommutator13
+  rw [threePointModes_smul_middle (R := R) (ω := ω) r a b c m n k]
+  rw [threePointModes_smul_middle (R := R) (ω := ω) r c b a k n m]
+  simp [mul_sub]
+
+/-- `(1,3)` commutator is linear under scalar multiplication in the third slot. -/
+theorem threePointCommutator13_smul_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : FormalDistribution R V) (m n k : ℤ) :
+    threePointCommutator13 (R := R) ω a b (r • c) m n k =
+      r • threePointCommutator13 (R := R) ω a b c m n k := by
+  unfold threePointCommutator13
+  rw [threePointModes_smul_right (R := R) (ω := ω) r a b c m n k]
+  rw [threePointModes_smul_left (R := R) (ω := ω) r c b a k n m]
+  simp [mul_sub]
+
+/-- `(1,3)` anticommutator is additive in the first field slot. -/
+theorem threePointAnticommutator13_add_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : FormalDistribution R V) (m n k : ℤ) :
+    threePointAnticommutator13 (R := R) ω (a + b) c d m n k =
+      threePointAnticommutator13 (R := R) ω a c d m n k +
+        threePointAnticommutator13 (R := R) ω b c d m n k := by
+  unfold threePointAnticommutator13
+  rw [threePointModes_add_left (R := R) (ω := ω) a b c d m n k]
+  rw [threePointModes_add_right (R := R) (ω := ω) d c a b k n m]
+  abel_nf
+
+/-- `(1,3)` anticommutator is additive in the middle field slot. -/
+theorem threePointAnticommutator13_add_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : FormalDistribution R V) (m n k : ℤ) :
+    threePointAnticommutator13 (R := R) ω a (b + c) d m n k =
+      threePointAnticommutator13 (R := R) ω a b d m n k +
+        threePointAnticommutator13 (R := R) ω a c d m n k := by
+  unfold threePointAnticommutator13
+  rw [threePointModes_add_middle (R := R) (ω := ω) a b c d m n k]
+  rw [threePointModes_add_middle (R := R) (ω := ω) d b c a k n m]
+  abel_nf
+
+/-- `(1,3)` anticommutator is additive in the third field slot. -/
+theorem threePointAnticommutator13_add_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : FormalDistribution R V) (m n k : ℤ) :
+    threePointAnticommutator13 (R := R) ω a b (c + d) m n k =
+      threePointAnticommutator13 (R := R) ω a b c m n k +
+        threePointAnticommutator13 (R := R) ω a b d m n k := by
+  unfold threePointAnticommutator13
+  rw [threePointModes_add_right (R := R) (ω := ω) a b c d m n k]
+  rw [threePointModes_add_left (R := R) (ω := ω) c d b a k n m]
+  abel_nf
+
+/-- `(1,3)` anticommutator is linear under scalar multiplication in the first slot. -/
+theorem threePointAnticommutator13_smul_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : FormalDistribution R V) (m n k : ℤ) :
+    threePointAnticommutator13 (R := R) ω (r • a) b c m n k =
+      r • threePointAnticommutator13 (R := R) ω a b c m n k := by
+  unfold threePointAnticommutator13
+  rw [threePointModes_smul_left (R := R) (ω := ω) r a b c m n k]
+  rw [threePointModes_smul_right (R := R) (ω := ω) r c b a k n m]
+  simp [mul_add]
+
+/-- `(1,3)` anticommutator is linear under scalar multiplication in the middle slot. -/
+theorem threePointAnticommutator13_smul_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : FormalDistribution R V) (m n k : ℤ) :
+    threePointAnticommutator13 (R := R) ω a (r • b) c m n k =
+      r • threePointAnticommutator13 (R := R) ω a b c m n k := by
+  unfold threePointAnticommutator13
+  rw [threePointModes_smul_middle (R := R) (ω := ω) r a b c m n k]
+  rw [threePointModes_smul_middle (R := R) (ω := ω) r c b a k n m]
+  simp [mul_add]
+
+/-- `(1,3)` anticommutator is linear under scalar multiplication in the third slot. -/
+theorem threePointAnticommutator13_smul_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : FormalDistribution R V) (m n k : ℤ) :
+    threePointAnticommutator13 (R := R) ω a b (r • c) m n k =
+      r • threePointAnticommutator13 (R := R) ω a b c m n k := by
+  unfold threePointAnticommutator13
+  rw [threePointModes_smul_right (R := R) (ω := ω) r a b c m n k]
+  rw [threePointModes_smul_left (R := R) (ω := ω) r c b a k n m]
+  simp [mul_add]
+
+/-- State-level `(1,3)` commutator is additive in the first field slot. -/
+theorem threePointStateCommutator13_add_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYadd : VertexAlgebra.Y (R := R) (a + b) =
+      VertexAlgebra.Y (R := R) a + VertexAlgebra.Y (R := R) b)
+    (m n k : ℤ) :
+    threePointStateCommutator13 (R := R) ω (a + b) c d m n k =
+      threePointStateCommutator13 (R := R) ω a c d m n k +
+        threePointStateCommutator13 (R := R) ω b c d m n k := by
+  unfold threePointStateCommutator13
+  simpa [hYadd] using
+    (threePointCommutator13_add_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level `(1,3)` commutator is additive in the middle field slot. -/
+theorem threePointStateCommutator13_add_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYadd : VertexAlgebra.Y (R := R) (b + c) =
+      VertexAlgebra.Y (R := R) b + VertexAlgebra.Y (R := R) c)
+    (m n k : ℤ) :
+    threePointStateCommutator13 (R := R) ω a (b + c) d m n k =
+      threePointStateCommutator13 (R := R) ω a b d m n k +
+        threePointStateCommutator13 (R := R) ω a c d m n k := by
+  unfold threePointStateCommutator13
+  simpa [hYadd] using
+    (threePointCommutator13_add_middle (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level `(1,3)` commutator is additive in the third field slot. -/
+theorem threePointStateCommutator13_add_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYadd : VertexAlgebra.Y (R := R) (c + d) =
+      VertexAlgebra.Y (R := R) c + VertexAlgebra.Y (R := R) d)
+    (m n k : ℤ) :
+    threePointStateCommutator13 (R := R) ω a b (c + d) m n k =
+      threePointStateCommutator13 (R := R) ω a b c m n k +
+        threePointStateCommutator13 (R := R) ω a b d m n k := by
+  unfold threePointStateCommutator13
+  simpa [hYadd] using
+    (threePointCommutator13_add_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level `(1,3)` commutator is linear under scalar multiplication in the
+    first slot. -/
+theorem threePointStateCommutator13_smul_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • a) = r • VertexAlgebra.Y (R := R) a)
+    (m n k : ℤ) :
+    threePointStateCommutator13 (R := R) ω (r • a) b c m n k =
+      r • threePointStateCommutator13 (R := R) ω a b c m n k := by
+  unfold threePointStateCommutator13
+  simpa [hYsmul] using
+    (threePointCommutator13_smul_left (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level `(1,3)` commutator is linear under scalar multiplication in the
+    middle slot. -/
+theorem threePointStateCommutator13_smul_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • b) = r • VertexAlgebra.Y (R := R) b)
+    (m n k : ℤ) :
+    threePointStateCommutator13 (R := R) ω a (r • b) c m n k =
+      r • threePointStateCommutator13 (R := R) ω a b c m n k := by
+  unfold threePointStateCommutator13
+  simpa [hYsmul] using
+    (threePointCommutator13_smul_middle (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level `(1,3)` commutator is linear under scalar multiplication in the
+    third slot. -/
+theorem threePointStateCommutator13_smul_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • c) = r • VertexAlgebra.Y (R := R) c)
+    (m n k : ℤ) :
+    threePointStateCommutator13 (R := R) ω a b (r • c) m n k =
+      r • threePointStateCommutator13 (R := R) ω a b c m n k := by
+  unfold threePointStateCommutator13
+  simpa [hYsmul] using
+    (threePointCommutator13_smul_right (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level `(1,3)` anticommutator is additive in the first field slot. -/
+theorem threePointStateAnticommutator13_add_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYadd : VertexAlgebra.Y (R := R) (a + b) =
+      VertexAlgebra.Y (R := R) a + VertexAlgebra.Y (R := R) b)
+    (m n k : ℤ) :
+    threePointStateAnticommutator13 (R := R) ω (a + b) c d m n k =
+      threePointStateAnticommutator13 (R := R) ω a c d m n k +
+        threePointStateAnticommutator13 (R := R) ω b c d m n k := by
+  unfold threePointStateAnticommutator13
+  simpa [hYadd] using
+    (threePointAnticommutator13_add_left (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level `(1,3)` anticommutator is additive in the middle field slot. -/
+theorem threePointStateAnticommutator13_add_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYadd : VertexAlgebra.Y (R := R) (b + c) =
+      VertexAlgebra.Y (R := R) b + VertexAlgebra.Y (R := R) c)
+    (m n k : ℤ) :
+    threePointStateAnticommutator13 (R := R) ω a (b + c) d m n k =
+      threePointStateAnticommutator13 (R := R) ω a b d m n k +
+        threePointStateAnticommutator13 (R := R) ω a c d m n k := by
+  unfold threePointStateAnticommutator13
+  simpa [hYadd] using
+    (threePointAnticommutator13_add_middle (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level `(1,3)` anticommutator is additive in the third field slot. -/
+theorem threePointStateAnticommutator13_add_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b c d : V)
+    (hYadd : VertexAlgebra.Y (R := R) (c + d) =
+      VertexAlgebra.Y (R := R) c + VertexAlgebra.Y (R := R) d)
+    (m n k : ℤ) :
+    threePointStateAnticommutator13 (R := R) ω a b (c + d) m n k =
+      threePointStateAnticommutator13 (R := R) ω a b c m n k +
+        threePointStateAnticommutator13 (R := R) ω a b d m n k := by
+  unfold threePointStateAnticommutator13
+  simpa [hYadd] using
+    (threePointAnticommutator13_add_right (R := R) (ω := ω)
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) (d := VertexAlgebra.Y (R := R) d) m n k)
+
+/-- State-level `(1,3)` anticommutator is linear under scalar multiplication in
+    the first slot. -/
+theorem threePointStateAnticommutator13_smul_left
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • a) = r • VertexAlgebra.Y (R := R) a)
+    (m n k : ℤ) :
+    threePointStateAnticommutator13 (R := R) ω (r • a) b c m n k =
+      r • threePointStateAnticommutator13 (R := R) ω a b c m n k := by
+  unfold threePointStateAnticommutator13
+  simpa [hYsmul] using
+    (threePointAnticommutator13_smul_left (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level `(1,3)` anticommutator is linear under scalar multiplication in
+    the middle slot. -/
+theorem threePointStateAnticommutator13_smul_middle
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • b) = r • VertexAlgebra.Y (R := R) b)
+    (m n k : ℤ) :
+    threePointStateAnticommutator13 (R := R) ω a (r • b) c m n k =
+      r • threePointStateAnticommutator13 (R := R) ω a b c m n k := by
+  unfold threePointStateAnticommutator13
+  simpa [hYsmul] using
+    (threePointAnticommutator13_smul_middle (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
+/-- State-level `(1,3)` anticommutator is linear under scalar multiplication in
+    the third slot. -/
+theorem threePointStateAnticommutator13_smul_right
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (r : R) (a b c : V)
+    (hYsmul : VertexAlgebra.Y (R := R) (r • c) = r • VertexAlgebra.Y (R := R) c)
+    (m n k : ℤ) :
+    threePointStateAnticommutator13 (R := R) ω a b (r • c) m n k =
+      r • threePointStateAnticommutator13 (R := R) ω a b c m n k := by
+  unfold threePointStateAnticommutator13
+  simpa [hYsmul] using
+    (threePointAnticommutator13_smul_right (R := R) (ω := ω) r
+      (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b)
+      (c := VertexAlgebra.Y (R := R) c) m n k)
+
 /-- Three-point commutator (first and third insertions) expressed by
     `nthProduct` difference in the middle insertion. -/
 theorem threePointCommutator13_eq_nthProduct_sub
