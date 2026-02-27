@@ -6878,6 +6878,130 @@ theorem twoPointStateAnticommutator_eq_opeCoefficient_of_lt_left_ge_right
     (twoPointAnticommutator_eq_opeCoefficient_of_lt_left_ge_right (R := R) (ω := ω)
       (a := VertexAlgebra.Y (R := R) a) (b := VertexAlgebra.Y (R := R) b) Fab Fba hm hn)
 
+/-- Alias with explicit orientation naming:
+    left orientation is `(a,b)`, right orientation is `(b,a)`. -/
+theorem twoPointCommutator_eq_opeCoefficient_of_ge_ab_lt_ba
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b : FormalDistribution R V}
+    (Fab : OPEFiniteOrder (R := R) (V := V) a b)
+    (Fba : OPEFiniteOrder (R := R) (V := V) b a)
+    {m n : ℕ}
+    (hmLeft : Fab.data.order ≤ m) (hnRight : n < Fba.data.order) :
+    twoPointCommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      ω.epsilon (Fba.data.coefficients ⟨n, hnRight⟩ ((n : ℤ) + (m : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
+  simpa using
+    (twoPointCommutator_eq_opeCoefficient_of_ge_left_lt_right
+      (R := R) (ω := ω) (a := a) (b := b) Fab Fba hmLeft hnRight)
+
+/-- Alias with explicit orientation naming:
+    left orientation is `(a,b)`, right orientation is `(b,a)`. -/
+theorem twoPointAnticommutator_eq_opeCoefficient_of_ge_ab_lt_ba
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b : FormalDistribution R V}
+    (Fab : OPEFiniteOrder (R := R) (V := V) a b)
+    (Fba : OPEFiniteOrder (R := R) (V := V) b a)
+    {m n : ℕ}
+    (hmLeft : Fab.data.order ≤ m) (hnRight : n < Fba.data.order) :
+    twoPointAnticommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      ω.epsilon (Fba.data.coefficients ⟨n, hnRight⟩ ((n : ℤ) + (m : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
+  simpa using
+    (twoPointAnticommutator_eq_opeCoefficient_of_ge_left_lt_right
+      (R := R) (ω := ω) (a := a) (b := b) Fab Fba hmLeft hnRight)
+
+/-- Alias with explicit orientation naming:
+    left orientation is `(a,b)`, right orientation is `(b,a)`. -/
+theorem twoPointCommutator_eq_neg_opeCoefficient_of_lt_ab_ge_ba
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b : FormalDistribution R V}
+    (Fab : OPEFiniteOrder (R := R) (V := V) a b)
+    (Fba : OPEFiniteOrder (R := R) (V := V) b a)
+    {m n : ℕ}
+    (hmLeft : m < Fab.data.order) (hnRight : Fba.data.order ≤ n) :
+    twoPointCommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      -ω.epsilon (Fab.data.coefficients ⟨m, hmLeft⟩ ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
+  simpa using
+    (twoPointCommutator_eq_neg_opeCoefficient_of_lt_left_ge_right
+      (R := R) (ω := ω) (a := a) (b := b) Fab Fba hmLeft hnRight)
+
+/-- Alias with explicit orientation naming:
+    left orientation is `(a,b)`, right orientation is `(b,a)`. -/
+theorem twoPointAnticommutator_eq_opeCoefficient_of_lt_ab_ge_ba
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    {a b : FormalDistribution R V}
+    (Fab : OPEFiniteOrder (R := R) (V := V) a b)
+    (Fba : OPEFiniteOrder (R := R) (V := V) b a)
+    {m n : ℕ}
+    (hmLeft : m < Fab.data.order) (hnRight : Fba.data.order ≤ n) :
+    twoPointAnticommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      ω.epsilon (Fab.data.coefficients ⟨m, hmLeft⟩ ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
+  simpa using
+    (twoPointAnticommutator_eq_opeCoefficient_of_lt_left_ge_right
+      (R := R) (ω := ω) (a := a) (b := b) Fab Fba hmLeft hnRight)
+
+/-- State-level alias with explicit orientation naming for mixed regime `(ge ab, lt ba)`. -/
+theorem twoPointStateCommutator_eq_opeCoefficient_of_ge_ab_lt_ba
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hmLeft : Fab.data.order ≤ m) (hnRight : n < Fba.data.order) :
+    twoPointStateCommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      ω.epsilon (Fba.data.coefficients ⟨n, hnRight⟩ ((n : ℤ) + (m : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
+  simpa using
+    (twoPointStateCommutator_eq_opeCoefficient_of_ge_left_lt_right
+      (R := R) (ω := ω) a b Fab Fba hmLeft hnRight)
+
+/-- State-level alias with explicit orientation naming for mixed regime `(ge ab, lt ba)`. -/
+theorem twoPointStateAnticommutator_eq_opeCoefficient_of_ge_ab_lt_ba
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hmLeft : Fab.data.order ≤ m) (hnRight : n < Fba.data.order) :
+    twoPointStateAnticommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      ω.epsilon (Fba.data.coefficients ⟨n, hnRight⟩ ((n : ℤ) + (m : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
+  simpa using
+    (twoPointStateAnticommutator_eq_opeCoefficient_of_ge_left_lt_right
+      (R := R) (ω := ω) a b Fab Fba hmLeft hnRight)
+
+/-- State-level alias with explicit orientation naming for mixed regime `(lt ab, ge ba)`. -/
+theorem twoPointStateCommutator_eq_neg_opeCoefficient_of_lt_ab_ge_ba
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hmLeft : m < Fab.data.order) (hnRight : Fba.data.order ≤ n) :
+    twoPointStateCommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      -ω.epsilon (Fab.data.coefficients ⟨m, hmLeft⟩ ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
+  simpa using
+    (twoPointStateCommutator_eq_neg_opeCoefficient_of_lt_left_ge_right
+      (R := R) (ω := ω) a b Fab Fba hmLeft hnRight)
+
+/-- State-level alias with explicit orientation naming for mixed regime `(lt ab, ge ba)`. -/
+theorem twoPointStateAnticommutator_eq_opeCoefficient_of_lt_ab_ge_ba
+    {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
+    (ω : VacuumFunctional (R := R) V)
+    (a b : V)
+    (Fab : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) a) (VertexAlgebra.Y (R := R) b))
+    (Fba : OPEFiniteOrder (R := R) (V := V) (VertexAlgebra.Y (R := R) b) (VertexAlgebra.Y (R := R) a))
+    {m n : ℕ}
+    (hmLeft : m < Fab.data.order) (hnRight : Fba.data.order ≤ n) :
+    twoPointStateAnticommutator (R := R) ω a b (m : ℤ) (n : ℤ) =
+      ω.epsilon (Fab.data.coefficients ⟨m, hmLeft⟩ ((m : ℤ) + (n : ℤ)) (VertexAlgebra.vacuum (R := R))) := by
+  simpa using
+    (twoPointStateAnticommutator_eq_opeCoefficient_of_lt_left_ge_right
+      (R := R) (ω := ω) a b Fab Fba hmLeft hnRight)
+
 /-- Correlator linearity in the first inserted field mode. -/
 theorem twoPointModes_add_left
     {V : Type*} [AddCommGroup V] [Module R V] [VertexAlgebra R V]
