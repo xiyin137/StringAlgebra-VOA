@@ -13,6 +13,11 @@ Lean 4 formalization of vertex operator algebra infrastructure.
 7. `StringAlgebra/VOA/Modules.lean`
 8. `StringAlgebra/VOA/Correlators.lean`
 9. `StringAlgebra/VOA/Examples.lean`
+10. `StringAlgebra/VOA/Correlators/Basics.lean`
+11. `StringAlgebra/VOA/Correlators/ThreePoint12.lean`
+12. `StringAlgebra/VOA/Correlators/ThreePoint23.lean`
+13. `StringAlgebra/VOA/Correlators/ThreePoint13.lean`
+14. `StringAlgebra/VOA/Correlators/TwoPoint.lean`
 
 ## Planning and Notes
 
@@ -40,7 +45,8 @@ rg -n '^[[:space:]]*axiom\b|^[[:space:]]*admit\b|Classical\.choose|Classical\.ep
 2. No `axiom`/`admit`/`Classical.choose`/`Classical.epsilon` in `StringAlgebra/VOA/*.lean`.
 3. Super and correlator infrastructure (`SuperBasic`, `SuperFormalDistributions`, `Correlators`) is integrated in the root `StringAlgebra/VOA.lean` target.
 4. Free CFT development phases (boson/fermion/OPE/correlators) are tracked explicitly in `TODO.md`.
-5. Correlator baseline now includes one-point state-mode API plus vacuum-insertion reductions:
+5. Correlator code has been split into `StringAlgebra/VOA/Correlators/` submodules while keeping `StringAlgebra/VOA/Correlators.lean` as the stable facade import.
+6. Correlator baseline now includes one-point state-mode API plus vacuum-insertion reductions:
    - two-point to one-point mode correlators
    - three-point to two-point mode correlators
    - state-level two-/three-point wrappers with corresponding vacuum-reduction lemmas
@@ -60,6 +66,7 @@ rg -n '^[[:space:]]*axiom\b|^[[:space:]]*admit\b|Classical\.choose|Classical\.ep
    - complete three-point `(1,3)` commutator/anticommutator linearity families (`add/smul/neg/sub`) at formal level plus state-level wrappers (explicit `Y`-compatibility for state formulas)
    - normalized three-point `(2,3)` mixed-regime OPE extraction aliases with `left/right` naming (left = `(b,c)`, right = `(c,b)`) at formal and state levels
    - normalized three-point `(1,3)` mixed-regime OPE extraction aliases with `left/right` naming (left = `(b,a)`, right = `(b,c)`) at formal and state levels
+   - normalized three-point `(1,3)` strict-below OPE extraction aliases with explicit `ba/bc` orientation naming at formal and state levels
 
 ## Related Repositories
 

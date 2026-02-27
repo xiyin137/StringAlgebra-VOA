@@ -886,6 +886,35 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 42)
+
+1. Added `(1,3)` strict-below OPE extraction aliases in `Correlators.lean`
+   using explicit orientation naming (`ba/bc`):
+   - formal-distribution layer:
+     `threePointCommutator13_eq_opeCoefficient_sub_of_lt_ba_lt_bc`,
+     `threePointAnticommutator13_eq_opeCoefficient_add_of_lt_ba_lt_bc`
+2. Added matching state-level alias wrappers:
+   - `threePointStateCommutator13_eq_opeCoefficient_sub_of_lt_ba_lt_bc`
+   - `threePointStateAnticommutator13_eq_opeCoefficient_add_of_lt_ba_lt_bc`
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
+## Infrastructure Expansion (2026-02-27, pass 43)
+
+1. Refactored correlator infrastructure into a dedicated subfolder layout:
+   - `StringAlgebra/VOA/Correlators/Basics.lean`
+   - `StringAlgebra/VOA/Correlators/ThreePoint12.lean`
+   - `StringAlgebra/VOA/Correlators/ThreePoint23.lean`
+   - `StringAlgebra/VOA/Correlators/ThreePoint13.lean`
+   - `StringAlgebra/VOA/Correlators/TwoPoint.lean`
+2. Converted `StringAlgebra/VOA/Correlators.lean` into a lightweight facade module
+   that imports and re-exports the split correlator submodules, preserving the
+   existing root import path used by `StringAlgebra/VOA.lean`.
+3. Post-refactor check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text
