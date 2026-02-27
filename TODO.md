@@ -570,6 +570,29 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
    - `lake build StringAlgebra.VOA` passes
    - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
 
+## Infrastructure Expansion (2026-02-27, pass 27)
+
+1. Expanded state-level commutator/anticommutator simplification API in `Correlators.lean`:
+   - three-point pair `(2,3)` apply forms:
+     `threePointStateCommutator23_eq_apply`,
+     `threePointStateAnticommutator23_eq_apply`
+   - three-point pair `(1,3)` apply forms:
+     `threePointStateCommutator13_eq_apply`,
+     `threePointStateAnticommutator13_eq_apply`
+2. Added state-level `nthProduct` wrappers in `Correlators.lean`:
+   - three-point pair `(1,2)`:
+     `threePointStateCommutator12_eq_nthProduct_sub`,
+     `threePointStateAnticommutator12_eq_nthProduct_add`
+   - three-point pair `(2,3)`:
+     `threePointStateCommutator23_eq_nthProduct_sub`,
+     `threePointStateAnticommutator23_eq_nthProduct_add`
+   - two-point commutator/anticommutator:
+     `twoPointStateCommutator_eq_nthProduct_sub`,
+     `twoPointStateAnticommutator_eq_nthProduct_add`
+3. Post-expansion check:
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count in `StringAlgebra/VOA/*.lean` remains `0`
+
 ## VOA Dependency Graph
 
 ```text
