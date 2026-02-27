@@ -967,6 +967,230 @@ theorem threePointAnticommutator23_eq_opeCoefficient_of_lt_n_ge_k
       (R := R) (ω := ω.toVacuumFunctional hVac)
       (a := x) (b := F.bosonField) (c := F.bosonField) O O m hn hk
 
+/-- Bosonic three-point commutator (first and third insertions) via extended coefficients,
+    with explicit OPE data for the middle-to-first and middle-to-third channels. -/
+theorem threePointCommutator13_eq_coefficientOrZero_sub
+    (F : FreeBosonVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (m : ℤ) (n : ℕ) (k : ℤ) :
+    StringAlgebra.VOA.threePointCommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.bosonField x F.bosonField m (n : ℤ) k =
+      (ω.toVacuumFunctional hVac).epsilon
+        (((F.bosonField k)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := F.Carrier)
+              (a := x) (b := F.bosonField) Oba n)
+              ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) -
+          (F.bosonField m)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := F.Carrier)
+              (a := x) (b := F.bosonField) Obc n)
+              ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+  simpa using
+    StringAlgebra.VOA.threePointCommutator13_eq_coefficientOrZero_sub
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.bosonField) (b := x) (c := F.bosonField) Oba Obc m n k
+
+/-- Bosonic three-point anticommutator (first and third insertions) via extended coefficients,
+    with explicit OPE data for the middle-to-first and middle-to-third channels. -/
+theorem threePointAnticommutator13_eq_coefficientOrZero_add
+    (F : FreeBosonVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (m : ℤ) (n : ℕ) (k : ℤ) :
+    StringAlgebra.VOA.threePointAnticommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.bosonField x F.bosonField m (n : ℤ) k =
+      (ω.toVacuumFunctional hVac).epsilon
+        (((F.bosonField k)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := F.Carrier)
+              (a := x) (b := F.bosonField) Oba n)
+              ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) +
+          (F.bosonField m)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := F.Carrier)
+              (a := x) (b := F.bosonField) Obc n)
+              ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+  simpa using
+    StringAlgebra.VOA.threePointAnticommutator13_eq_coefficientOrZero_add
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.bosonField) (b := x) (c := F.bosonField) Oba Obc m n k
+
+/-- High-middle-mode vanishing for bosonic first/third three-point commutator,
+    with explicit middle-channel OPE assumptions. -/
+theorem threePointCommutator13_eq_zero_of_ge_opeOrders
+    (F : FreeBosonVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : Oba.data.order ≤ n) (hn2 : Obc.data.order ≤ n) :
+    StringAlgebra.VOA.threePointCommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.bosonField x F.bosonField m (n : ℤ) k = 0 := by
+  exact StringAlgebra.VOA.threePointCommutator13_eq_zero_of_ge_opeOrders
+    (R := R) (ω := ω.toVacuumFunctional hVac)
+    (a := F.bosonField) (b := x) (c := F.bosonField) Oba Obc m k hn1 hn2
+
+/-- High-middle-mode vanishing for bosonic first/third three-point anticommutator,
+    with explicit middle-channel OPE assumptions. -/
+theorem threePointAnticommutator13_eq_zero_of_ge_opeOrders
+    (F : FreeBosonVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : Oba.data.order ≤ n) (hn2 : Obc.data.order ≤ n) :
+    StringAlgebra.VOA.threePointAnticommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.bosonField x F.bosonField m (n : ℤ) k = 0 := by
+  exact StringAlgebra.VOA.threePointAnticommutator13_eq_zero_of_ge_opeOrders
+    (R := R) (ω := ω.toVacuumFunctional hVac)
+    (a := F.bosonField) (b := x) (c := F.bosonField) Oba Obc m k hn1 hn2
+
+/-- Strict-below-order extraction for bosonic first/third three-point commutator. -/
+theorem threePointCommutator13_eq_opeCoefficient_sub_of_lt
+    (F : FreeBosonVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : n < Oba.data.order) (hn2 : n < Obc.data.order) :
+    StringAlgebra.VOA.threePointCommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.bosonField x F.bosonField m (n : ℤ) k =
+      (ω.toVacuumFunctional hVac).epsilon
+        (((F.bosonField k)
+            (Oba.data.coefficients ⟨n, hn1⟩ ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) -
+          (F.bosonField m)
+            (Obc.data.coefficients ⟨n, hn2⟩ ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+  simpa using
+    StringAlgebra.VOA.threePointCommutator13_eq_opeCoefficient_sub_of_lt
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.bosonField) (b := x) (c := F.bosonField) Oba Obc m k hn1 hn2
+
+/-- Strict-below-order extraction for bosonic first/third three-point anticommutator. -/
+theorem threePointAnticommutator13_eq_opeCoefficient_add_of_lt
+    (F : FreeBosonVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : n < Oba.data.order) (hn2 : n < Obc.data.order) :
+    StringAlgebra.VOA.threePointAnticommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.bosonField x F.bosonField m (n : ℤ) k =
+      (ω.toVacuumFunctional hVac).epsilon
+        (((F.bosonField k)
+            (Oba.data.coefficients ⟨n, hn1⟩ ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) +
+          (F.bosonField m)
+            (Obc.data.coefficients ⟨n, hn2⟩ ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+  simpa using
+    StringAlgebra.VOA.threePointAnticommutator13_eq_opeCoefficient_add_of_lt
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.bosonField) (b := x) (c := F.bosonField) Oba Obc m k hn1 hn2
+
+/-- Mixed regime (`(b,a)` at/above order, `(b,c)` below order) for bosonic
+    first/third commutator extraction. -/
+theorem threePointCommutator13_eq_neg_opeCoefficient_of_ge_ba_lt_bc
+    (F : FreeBosonVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : Oba.data.order ≤ n) (hn2 : n < Obc.data.order) :
+    StringAlgebra.VOA.threePointCommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.bosonField x F.bosonField m (n : ℤ) k =
+      -(ω.toVacuumFunctional hVac).epsilon
+        ((F.bosonField m) (Obc.data.coefficients ⟨n, hn2⟩
+          ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    StringAlgebra.VOA.threePointCommutator13_eq_neg_opeCoefficient_of_ge_ba_lt_bc
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.bosonField) (b := x) (c := F.bosonField) Oba Obc m k hn1 hn2
+
+/-- Mixed regime (`(b,a)` at/above order, `(b,c)` below order) for bosonic
+    first/third anticommutator extraction. -/
+theorem threePointAnticommutator13_eq_opeCoefficient_of_ge_ba_lt_bc
+    (F : FreeBosonVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : Oba.data.order ≤ n) (hn2 : n < Obc.data.order) :
+    StringAlgebra.VOA.threePointAnticommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.bosonField x F.bosonField m (n : ℤ) k =
+      (ω.toVacuumFunctional hVac).epsilon
+        ((F.bosonField m) (Obc.data.coefficients ⟨n, hn2⟩
+          ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    StringAlgebra.VOA.threePointAnticommutator13_eq_opeCoefficient_of_ge_ba_lt_bc
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.bosonField) (b := x) (c := F.bosonField) Oba Obc m k hn1 hn2
+
+/-- Mixed regime (`(b,a)` below order, `(b,c)` at/above order) for bosonic
+    first/third commutator extraction. -/
+theorem threePointCommutator13_eq_opeCoefficient_of_lt_ba_ge_bc
+    (F : FreeBosonVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : n < Oba.data.order) (hn2 : Obc.data.order ≤ n) :
+    StringAlgebra.VOA.threePointCommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.bosonField x F.bosonField m (n : ℤ) k =
+      (ω.toVacuumFunctional hVac).epsilon
+        ((F.bosonField k) (Oba.data.coefficients ⟨n, hn1⟩
+          ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    StringAlgebra.VOA.threePointCommutator13_eq_opeCoefficient_of_lt_ba_ge_bc
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.bosonField) (b := x) (c := F.bosonField) Oba Obc m k hn1 hn2
+
+/-- Mixed regime (`(b,a)` below order, `(b,c)` at/above order) for bosonic
+    first/third anticommutator extraction. -/
+theorem threePointAnticommutator13_eq_opeCoefficient_of_lt_ba_ge_bc
+    (F : FreeBosonVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.bosonField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : n < Oba.data.order) (hn2 : Obc.data.order ≤ n) :
+    StringAlgebra.VOA.threePointAnticommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.bosonField x F.bosonField m (n : ℤ) k =
+      (ω.toVacuumFunctional hVac).epsilon
+        ((F.bosonField k) (Oba.data.coefficients ⟨n, hn1⟩
+          ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    StringAlgebra.VOA.threePointAnticommutator13_eq_opeCoefficient_of_lt_ba_ge_bc
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.bosonField) (b := x) (c := F.bosonField) Oba Obc m k hn1 hn2
+
 /-- Rigorous free-boson CFT package:
     normalized vacuum data plus finite-order self-OPE for the boson field. -/
 structure CFTData
@@ -2751,6 +2975,230 @@ theorem threePointAnticommutator23_eq_opeCoefficient_of_lt_n_ge_k
     StringAlgebra.VOA.threePointAnticommutator23_eq_opeCoefficient_of_lt_n_ge_k
       (R := R) (ω := ω.toVacuumFunctional hVac)
       (a := x) (b := F.fermionField) (c := F.fermionField) O O m hn hk
+
+/-- Fermionic three-point commutator (first and third insertions) via extended coefficients,
+    with explicit OPE data for the middle-to-first and middle-to-third channels. -/
+theorem threePointCommutator13_eq_coefficientOrZero_sub
+    (F : FreeFermionVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (m : ℤ) (n : ℕ) (k : ℤ) :
+    StringAlgebra.VOA.threePointCommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.fermionField x F.fermionField m (n : ℤ) k =
+      (ω.toVacuumFunctional hVac).epsilon
+        (((F.fermionField k)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := F.Carrier)
+              (a := x) (b := F.fermionField) Oba n)
+              ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) -
+          (F.fermionField m)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := F.Carrier)
+              (a := x) (b := F.fermionField) Obc n)
+              ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+  simpa using
+    StringAlgebra.VOA.threePointCommutator13_eq_coefficientOrZero_sub
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.fermionField) (b := x) (c := F.fermionField) Oba Obc m n k
+
+/-- Fermionic three-point anticommutator (first and third insertions) via extended coefficients,
+    with explicit OPE data for the middle-to-first and middle-to-third channels. -/
+theorem threePointAnticommutator13_eq_coefficientOrZero_add
+    (F : FreeFermionVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (m : ℤ) (n : ℕ) (k : ℤ) :
+    StringAlgebra.VOA.threePointAnticommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.fermionField x F.fermionField m (n : ℤ) k =
+      (ω.toVacuumFunctional hVac).epsilon
+        (((F.fermionField k)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := F.Carrier)
+              (a := x) (b := F.fermionField) Oba n)
+              ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) +
+          (F.fermionField m)
+            ((OPEFiniteOrder.coefficientOrZero (R := R) (V := F.Carrier)
+              (a := x) (b := F.fermionField) Obc n)
+              ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+  simpa using
+    StringAlgebra.VOA.threePointAnticommutator13_eq_coefficientOrZero_add
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.fermionField) (b := x) (c := F.fermionField) Oba Obc m n k
+
+/-- High-middle-mode vanishing for fermionic first/third three-point commutator,
+    with explicit middle-channel OPE assumptions. -/
+theorem threePointCommutator13_eq_zero_of_ge_opeOrders
+    (F : FreeFermionVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : Oba.data.order ≤ n) (hn2 : Obc.data.order ≤ n) :
+    StringAlgebra.VOA.threePointCommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.fermionField x F.fermionField m (n : ℤ) k = 0 := by
+  exact StringAlgebra.VOA.threePointCommutator13_eq_zero_of_ge_opeOrders
+    (R := R) (ω := ω.toVacuumFunctional hVac)
+    (a := F.fermionField) (b := x) (c := F.fermionField) Oba Obc m k hn1 hn2
+
+/-- High-middle-mode vanishing for fermionic first/third three-point anticommutator,
+    with explicit middle-channel OPE assumptions. -/
+theorem threePointAnticommutator13_eq_zero_of_ge_opeOrders
+    (F : FreeFermionVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : Oba.data.order ≤ n) (hn2 : Obc.data.order ≤ n) :
+    StringAlgebra.VOA.threePointAnticommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.fermionField x F.fermionField m (n : ℤ) k = 0 := by
+  exact StringAlgebra.VOA.threePointAnticommutator13_eq_zero_of_ge_opeOrders
+    (R := R) (ω := ω.toVacuumFunctional hVac)
+    (a := F.fermionField) (b := x) (c := F.fermionField) Oba Obc m k hn1 hn2
+
+/-- Strict-below-order extraction for fermionic first/third three-point commutator. -/
+theorem threePointCommutator13_eq_opeCoefficient_sub_of_lt
+    (F : FreeFermionVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : n < Oba.data.order) (hn2 : n < Obc.data.order) :
+    StringAlgebra.VOA.threePointCommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.fermionField x F.fermionField m (n : ℤ) k =
+      (ω.toVacuumFunctional hVac).epsilon
+        (((F.fermionField k)
+            (Oba.data.coefficients ⟨n, hn1⟩ ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) -
+          (F.fermionField m)
+            (Obc.data.coefficients ⟨n, hn2⟩ ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+  simpa using
+    StringAlgebra.VOA.threePointCommutator13_eq_opeCoefficient_sub_of_lt
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.fermionField) (b := x) (c := F.fermionField) Oba Obc m k hn1 hn2
+
+/-- Strict-below-order extraction for fermionic first/third three-point anticommutator. -/
+theorem threePointAnticommutator13_eq_opeCoefficient_add_of_lt
+    (F : FreeFermionVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : n < Oba.data.order) (hn2 : n < Obc.data.order) :
+    StringAlgebra.VOA.threePointAnticommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.fermionField x F.fermionField m (n : ℤ) k =
+      (ω.toVacuumFunctional hVac).epsilon
+        (((F.fermionField k)
+            (Oba.data.coefficients ⟨n, hn1⟩ ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R))) +
+          (F.fermionField m)
+            (Obc.data.coefficients ⟨n, hn2⟩ ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R))))) := by
+  simpa using
+    StringAlgebra.VOA.threePointAnticommutator13_eq_opeCoefficient_add_of_lt
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.fermionField) (b := x) (c := F.fermionField) Oba Obc m k hn1 hn2
+
+/-- Mixed regime (`(b,a)` at/above order, `(b,c)` below order) for fermionic
+    first/third commutator extraction. -/
+theorem threePointCommutator13_eq_neg_opeCoefficient_of_ge_ba_lt_bc
+    (F : FreeFermionVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : Oba.data.order ≤ n) (hn2 : n < Obc.data.order) :
+    StringAlgebra.VOA.threePointCommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.fermionField x F.fermionField m (n : ℤ) k =
+      -(ω.toVacuumFunctional hVac).epsilon
+        ((F.fermionField m) (Obc.data.coefficients ⟨n, hn2⟩
+          ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    StringAlgebra.VOA.threePointCommutator13_eq_neg_opeCoefficient_of_ge_ba_lt_bc
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.fermionField) (b := x) (c := F.fermionField) Oba Obc m k hn1 hn2
+
+/-- Mixed regime (`(b,a)` at/above order, `(b,c)` below order) for fermionic
+    first/third anticommutator extraction. -/
+theorem threePointAnticommutator13_eq_opeCoefficient_of_ge_ba_lt_bc
+    (F : FreeFermionVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : Oba.data.order ≤ n) (hn2 : n < Obc.data.order) :
+    StringAlgebra.VOA.threePointAnticommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.fermionField x F.fermionField m (n : ℤ) k =
+      (ω.toVacuumFunctional hVac).epsilon
+        ((F.fermionField m) (Obc.data.coefficients ⟨n, hn2⟩
+          ((n : ℤ) + k) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    StringAlgebra.VOA.threePointAnticommutator13_eq_opeCoefficient_of_ge_ba_lt_bc
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.fermionField) (b := x) (c := F.fermionField) Oba Obc m k hn1 hn2
+
+/-- Mixed regime (`(b,a)` below order, `(b,c)` at/above order) for fermionic
+    first/third commutator extraction. -/
+theorem threePointCommutator13_eq_opeCoefficient_of_lt_ba_ge_bc
+    (F : FreeFermionVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : n < Oba.data.order) (hn2 : Obc.data.order ≤ n) :
+    StringAlgebra.VOA.threePointCommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.fermionField x F.fermionField m (n : ℤ) k =
+      (ω.toVacuumFunctional hVac).epsilon
+        ((F.fermionField k) (Oba.data.coefficients ⟨n, hn1⟩
+          ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    StringAlgebra.VOA.threePointCommutator13_eq_opeCoefficient_of_lt_ba_ge_bc
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.fermionField) (b := x) (c := F.fermionField) Oba Obc m k hn1 hn2
+
+/-- Mixed regime (`(b,a)` below order, `(b,c)` at/above order) for fermionic
+    first/third anticommutator extraction. -/
+theorem threePointAnticommutator13_eq_opeCoefficient_of_lt_ba_ge_bc
+    (F : FreeFermionVOA R)
+    [VertexAlgebra R F.Carrier]
+    (ω : ModeVacuumData R F.Carrier)
+    (hVac : ω.vacuum = VertexAlgebra.vacuum (R := R))
+    (x : FormalDistribution R F.Carrier)
+    (Oba : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (Obc : OPEFiniteOrder (R := R) (V := F.Carrier) x F.fermionField)
+    (m k : ℤ) {n : ℕ}
+    (hn1 : n < Oba.data.order) (hn2 : Obc.data.order ≤ n) :
+    StringAlgebra.VOA.threePointAnticommutator13 (R := R) (ω.toVacuumFunctional hVac)
+      F.fermionField x F.fermionField m (n : ℤ) k =
+      (ω.toVacuumFunctional hVac).epsilon
+        ((F.fermionField k) (Oba.data.coefficients ⟨n, hn1⟩
+          ((n : ℤ) + m) (VertexAlgebra.vacuum (R := R)))) := by
+  simpa using
+    StringAlgebra.VOA.threePointAnticommutator13_eq_opeCoefficient_of_lt_ba_ge_bc
+      (R := R) (ω := ω.toVacuumFunctional hVac)
+      (a := F.fermionField) (b := x) (c := F.fermionField) Oba Obc m k hn1 hn2
 
 /-- Rigorous free-fermion CFT package:
     normalized vacuum data plus finite-order self-OPE for the fermion field. -/

@@ -1206,6 +1206,39 @@ This file tracks semantic and proof debt for `StringAlgebra/VOA` under `agent.md
      `rg -n "^[[:space:]]*axiom\\b|^[[:space:]]*admit\\b|Classical\\.choose|Classical\\.epsilon" StringAlgebra/VOA --glob '*.lean'`
      returns no matches
 
+## Infrastructure Expansion (2026-02-27, pass 51)
+
+1. Extended `Examples.lean` with pair `(1,3)` theorem wrappers for both free
+   theories, using explicit middle-channel OPE assumptions:
+   - `FreeBosonVOA.*` now exposes:
+     `threePointCommutator13_eq_coefficientOrZero_sub`,
+     `threePointAnticommutator13_eq_coefficientOrZero_add`,
+     `threePointCommutator13_eq_zero_of_ge_opeOrders`,
+     `threePointAnticommutator13_eq_zero_of_ge_opeOrders`,
+     `threePointCommutator13_eq_opeCoefficient_sub_of_lt`,
+     `threePointAnticommutator13_eq_opeCoefficient_add_of_lt`,
+     `threePointCommutator13_eq_neg_opeCoefficient_of_ge_ba_lt_bc`,
+     `threePointAnticommutator13_eq_opeCoefficient_of_ge_ba_lt_bc`,
+     `threePointCommutator13_eq_opeCoefficient_of_lt_ba_ge_bc`,
+     `threePointAnticommutator13_eq_opeCoefficient_of_lt_ba_ge_bc`.
+2. Added the same pair `(1,3)` wrapper family for fermions:
+   - `FreeFermionVOA.*` exposes the corresponding ten theorem names above,
+     replacing `bosonField` with `fermionField`.
+3. Design note:
+   - pair `(1,3)` extraction depends on OPE data for the middle field against
+     the first/third fields, so wrappers are parameterized by explicit
+     middle-channel witnesses (`Oba`, `Obc`) instead of reusing only the
+     packaged self-OPE witness.
+4. Post-expansion check:
+   - `lake build StringAlgebra.VOA.Examples` passes
+   - `lake build StringAlgebra.VOA` passes
+   - theorem-level `sorry` count command
+     `rg -n '^\\s*sorry\\b' StringAlgebra/VOA --glob '*.lean'`
+     returns no matches
+   - strict audit command
+     `rg -n "^[[:space:]]*axiom\\b|^[[:space:]]*admit\\b|Classical\\.choose|Classical\\.epsilon" StringAlgebra/VOA --glob '*.lean'`
+     returns no matches
+
 ## Free CFT Development Plan (2026-02-27)
 
 Goal: full rigorous free-boson and free-fermion CFT formalization at the OPE/correlator layer.
